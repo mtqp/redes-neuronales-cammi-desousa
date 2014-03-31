@@ -23,7 +23,7 @@ class FileParser:
         
         for line in inputFile.readlines():
             setLine = line.lstrip("set").strip()
-            splittedSetLine = line.split("=")
+            splittedSetLine = setLine.split("=")
             
             input = splittedSetLine[0].strip()
             expectedOutput = splittedSetLine[1].strip()
