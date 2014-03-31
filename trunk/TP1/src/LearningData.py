@@ -1,5 +1,6 @@
 
 class LearningData:
 
-    def test(self):
-        return None
+    def __init__(self, input, expectedOuput):
+        self.input = input
+        self.expectedOutput = expectedOuput
