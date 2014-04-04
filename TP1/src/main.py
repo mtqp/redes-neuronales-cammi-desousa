@@ -5,9 +5,9 @@ import sys
 
 def main():
     fileParser = FileParser("C:\Facultad\RedesNeuronales\TP1\src\README_INPUT.TXT", "outputFileName") #open from arguments
-    learningDataSet = fileParser.parseInputFile()
+    parameters = fileParser.parseInputFile()
     
-    neuralAlgorithm = NeuralNetworkAlgorithm(learningDataSet) #deberia ser abstracto, usar la implementacion concreta
+    neuralAlgorithm = NeuralNetworkAlgorithm(parameters) #deberia ser abstracto, usar la implementacion concreta
     
     print 'neural algorithm started training'
     neuralAlgorithm.train()

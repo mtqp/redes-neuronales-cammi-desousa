@@ -1,6 +1,6 @@
 from LearningData import LearningData
 
-class LearningDataSet:
+class NeuralAlgorithmParameters:
 
     def __init__(self, objectiveDescription, epochs, epsilon, etta):
         self.objective = objectiveDescription
