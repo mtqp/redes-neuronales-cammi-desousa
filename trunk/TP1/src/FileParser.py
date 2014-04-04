@@ -1,5 +1,5 @@
 #from LearningData import LearningData
-from LearningDataSet import LearningDataSet
+from NeuralAlgorithmParameters import NeuralAlgorithmParameters
 import sys
 
 class FileParser:
@@ -27,7 +27,7 @@ class FileParser:
         epochs = fourthLine.lstrip("epochs=").strip()
         print "epochs: " + epochs
  
-        learningDataSet = LearningDataSet(objectiveDescription, int(epochs), float(epsilon), float(etta))
+        parameters = NeuralAlgorithmParameters(objectiveDescription, int(epochs), float(epsilon), float(etta))
         
         for line in inputFile.readlines():
             setLine = line.lstrip("set").strip()
@@ -36,10 +36,10 @@ class FileParser:
             input = splittedSetLine[0].strip()
             expectedOutput = splittedSetLine[1].strip()
             
-            learningDataSet.addLearningData(input, expectedOutput)
+            parameters.addLearningData(input, expectedOutput)
         
         inputFile.close()
-        return learningDataSet
+        return parameters
    
     def save(self, learningInformation):
         print 'this should be implemented'
