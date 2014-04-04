@@ -16,10 +16,18 @@ class FileParser:
         print "objective description: " + objectiveDescription
         
         secondLine = inputFile.readline()
-        iterations = secondLine.lstrip("iterations=").strip()
-        print "iterations: " + iterations
+        etta = secondLine.lstrip("etta=").strip()
+        print "etta: " + etta
+        
+        thirdLine = inputFile.readline()
+        epsilon = thirdLine.lstrip("epsilon=").strip()
+        print "epsilon: " + epsilon
+        
+        fourthLine = inputFile.readline()
+        epochs = fourthLine.lstrip("epochs=").strip()
+        print "epochs: " + epochs
  
-        learningDataSet = LearningDataSet(objectiveDescription, int(iterations))
+        learningDataSet = LearningDataSet(objectiveDescription, int(epochs), float(epsilon), float(etta))
         
         for line in inputFile.readlines():
             setLine = line.lstrip("set").strip()
@@ -33,3 +41,5 @@ class FileParser:
         inputFile.close()
         return learningDataSet
    
+    def save(self, learningInformation):
+        print 'this should be implemented'

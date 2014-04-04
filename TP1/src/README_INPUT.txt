@@ -1,5 +1,7 @@
 name=orAndLearningSet
-iterations=10
+etta=0.1
+epsilon=0.1
+epochs=10
 set [0,0] = [0,0]
 set [0,1] = [1,0]
 set [1,0] = [1,0]
