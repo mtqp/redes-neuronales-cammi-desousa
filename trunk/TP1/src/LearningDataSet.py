@@ -2,13 +2,15 @@ from LearningData import LearningData
 
 class LearningDataSet:
 
-    def __init__(self, objectiveDescription, iterations):
+    def __init__(self, objectiveDescription, epochs, epsilon, etta):
         self.objective = objectiveDescription
-        self.iterations = iterations
+        self.epochs = epochs
+        self.epsilon = epsilon
+        self.etta = etta
         self.learningSet = []
         
-    def getIterations(self):
-        return self.iterations
+    def getEpochs(self):
+        return self.epochs
             
     def getSet(self):
         return self.learningSet

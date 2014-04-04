@@ -7,11 +7,16 @@ def main():
     fileParser = FileParser("C:\Facultad\RedesNeuronales\TP1\src\README_INPUT.TXT", "outputFileName") #open from arguments
     learningDataSet = fileParser.parseInputFile()
     
-    neuralAlgorithm = NeuralNetworkAlgorithm() #deberia ser abstracto, usar la implementacion concreta
+    neuralAlgorithm = NeuralNetworkAlgorithm(learningDataSet) #deberia ser abstracto, usar la implementacion concreta
     
-    for iteration in range(0, learningDataSet.getIterations()):
-        for learningData in learningDataSet.getSet():
-            neuralAlgorithm.learnWith(learningData)
+    print 'neural algorithm started training'
+    neuralAlgorithm.train()
+    print 'neural algorithm finished training'
+    
+    learningInformation = neuralAlgorithm.getLearningInformation()
+
+    fileParser.save(learningInformation)
+    print 'learning information saved'
 
 if __name__ == "__main__":
     main()
