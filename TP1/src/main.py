@@ -1,6 +1,6 @@
 from FileParser import FileParser
 from LearningData import LearningData
-from NeuralNetworkAlgorithms import * 
+from NeuralNetworkAlgorithm import * 
 import sys
 
 def main():

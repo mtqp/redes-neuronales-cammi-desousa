@@ -1,3 +1,4 @@
+import random
 from LearningData import LearningData
 
 class NeuralAlgorithmParameters:
@@ -17,3 +18,8 @@ class NeuralAlgorithmParameters:
         
     def addLearningData(self, input, expectedOutput):
         self.learningSet.append(LearningData(input, expectedOutput))
+        
+    def getShuffledData(self):
+        setToShuffle = self.learningSet
+        random.shuffle(setToShuffle)
+        return setToShuffle
