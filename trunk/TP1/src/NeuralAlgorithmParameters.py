@@ -5,9 +5,9 @@ class NeuralAlgorithmParameters:
 
     def __init__(self, objectiveDescription, epochs, epsilon, etta):
         self.objective = objectiveDescription
-        self.epochs = epochs
-        self.epsilon = epsilon
-        self.etta = etta
+        self.epochs = epochs        #cantidad maxima de iteraciones
+        self.epsilon = epsilon      #error minimo
+        self.etta = etta            #coeficiente de aprendizaje
         self.learningSet = []
         
     def getEpochs(self):

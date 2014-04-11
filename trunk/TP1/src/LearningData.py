@@ -1,11 +1,14 @@
+import numpy as np
 
 class LearningData:
 
     def __init__(self, input, expectedOuput):
         cleanInput = input.strip("[]")
         cleanExpectedOutput = expectedOuput.strip("[]")
-        self.input = [int(splittedValue) for splittedValue in cleanInput.split(",")]
+        inputList = [int(splittedValue) for splittedValue in cleanInput.split(",")]
+        self.input = np.array(inputList)
         print "input:           " + str(self.input)
         
-        self.expectedOutput = [int(splittedValue) for splittedValue in cleanExpectedOutput.split(",")]
+        expectedOutputList = [int(splittedValue) for splittedValue in cleanExpectedOutput.split(",")]
+        self.expectedOutput = np.array(expectedOutputList)
         print "expected output: " + str(self.expectedOutput)

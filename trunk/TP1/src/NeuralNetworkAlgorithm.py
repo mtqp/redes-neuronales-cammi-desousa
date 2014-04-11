@@ -7,9 +7,13 @@ class NeuralNetworkAlgorithm: #por ahora va a tener cableado el perceptron simpl
         self.parameters = parameters
         self.createContext() #horrible nombre! cambiarlo!
         
-    def createContext(self):
-        self.layers = [[0,0],[0,0]] #parametrizar, estoy usando esto para ver si aprende or y and.
+    def createContext(self): #parametrizar, estoy usando esto para ver si aprende or y and.
+        self.layers = [[0,0],[0,0]] 
         self.matrixes = [np.matrix('1 1; 1 1')] #inicializar con algo que sea util
+        self.modificationMatrixes = [np.matrix('1 1; 1 1')] #guarda los valores que modifico la iteracion
+        self.evaluationVectors = [[1,1]]
+        self.layerErrors = [0,0]  #error de cada capa
+
         #falta inicializar todo el resto
         
     def train(self):
@@ -28,21 +32,34 @@ class NeuralNetworkAlgorithm: #por ahora va a tener cableado el perceptron simpl
             epsilonOnIteration = self.updateEpsilonOnIteration()
             iteratedEpochs += 1
         
-        print 'this should be implemented!'
-        
     def updateEpsilonOnIteration(self):
         print 'updateEpsilonOnIteration method not implemented'
         
     def updateMatrixes(self):
-        print 'update matrixes method not implemented'
+        for index in range(0,len(self.matrixes)-1):
+            ettaDotModificationMatrix = np.dot(self.parameters.etta, self.modificationMatrixes[index])
+            self.matrixes[index] = self.matrixes[index] + ettaDotModificationMatrix
         
-    def correctWith(self, learningData):
+    def correctWith(self, learningData): #aplica backpropagation
         self.activateWith(learningData)
         
+        networkOutput = self.evaluationVectors[len(self.evaluationVectors)-1]
+        networkError = learningData.expectedOuput - networkOutput
+        
+        for index in range(len(self.layers),1):
+            derivedEvaluationVector = self.applyDerivedG(self.evaluationVectors[index])
+            
+            
         print 'correctWith method not implemented'
         
     def activateWith(self, learningData):
-        print 'activateWith method not implemented'
-        
+        self.evaluationVectors[0] = self.applyG(learningData.input, self.matrixes[0])
+        for index in range(1, len(self.matrixes)-1): # activa el nivel I con el nivel I-1 * el valor de la matrix I
+            previousVector = self.evaluationVectors[index-1]
+            self.evaluationVectors[index] = self.applyG(previousVector, self.matrixes[index])
+    
+    def applyG(self, vector, matrix): #hay que ponerle un mejor nombre!!!
+        print 'applyG method not implemented' 
+    
     def getLearningInformation(self):
         return None
