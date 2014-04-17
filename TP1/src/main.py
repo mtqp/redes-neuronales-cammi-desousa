@@ -16,10 +16,9 @@ def main():
     neuralAlgorithm.train()
     print 'neural algorithm finished training'
     
-    learningInformation = neuralAlgorithm.testWhatWasLearnt()
     #learningInformation = neuralAlgorithm.testWhatWasLearnt()
 
-    fileParser.save(learningInformation)
+    #fileParser.save(learningInformation)
     print 'learning information saved'
 
 if __name__ == "__main__":

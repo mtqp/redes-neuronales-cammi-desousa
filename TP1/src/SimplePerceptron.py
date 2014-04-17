@@ -6,29 +6,33 @@ class SimplePerceptron:
 
     def __init__(self, parameters):
         self.parameters = parameters
-        self.matrix = np.matrix('0.1 0.1 0.1; 0.1 0.1 0.1').transpose() #inicializar con algo que sea util
+        self.matrix = self.createRandomMatrix(3,2)
+        #np.matrix('0.1 0.1 0.1; 0.1 0.1 0.1').transpose() #inicializar con algo que sea util (segun el profe randoms entre -0.1 y 0.1
         print 'whole learning matrix: ' + str(self.matrix)
         self.counter = 0
+        
+    def createRandomMatrix(self, n, m):
+        return np.random.rand(n,m) #normalizar a valores entre -0.1 y 0.1
         
     def train(self): #COMO SE QUE UMBRAL, PARAMETROS DEBO PONER?
         epsilonOnIteration = 1
         iteratedEpochs = 0
         
         while epsilonOnIteration > self.parameters.epsilon and iteratedEpochs < self.parameters.epochs:
-            shuffledLearningDatas = self.parameters.getShuffledData()
+            shuffledLearningDatas = self.parameters.getShuffledData() #ver si no nos conviene hacer las prueba sin el shuffle
             
             iterationErrors = []
             for learningData in shuffledLearningDatas:
                 evaluationVector = self.applySignFunction(learningData.input, self.matrix)
                 iterationError = np.subtract(learningData.expectedOutput, evaluationVector)
-                #'''Used for debugging
+                '''Used for debugging
                 print 'input: ' + str(learningData.input)
                 print 'matrix: ' + str(self.matrix)
                 print 'evaluationVector: ' + str(evaluationVector)
                 print 'expectedOuput: ' + str(learningData.expectedOutput)
                 print 'iteration error: ' + str(iterationError)
                 print '---------------'
-                #'''
+                '''
                 iterationErrors.append(iterationError)
                 
                 #---> Line below does: 
@@ -36,8 +40,19 @@ class SimplePerceptron:
                 transposeInput = np.matrix(learningData.input).transpose()
                 iterationErrorMatrix = np.matrix(iterationError)
                 deltaMatrix = np.dot(self.parameters.etta, np.dot(transposeInput, iterationErrorMatrix)) 
-                
+                '''
+                print 'transpose input: ' + str(transposeInput)
+                print 'iteration error: ' + str(iterationError)
+                print 'delta matrix: ' 
+                print str(deltaMatrix)
+                print 'matrix: '
+                print str(self.matrix)
+                '''
                 self.matrix = np.add(self.matrix,deltaMatrix) #algoritmo incremental
+                '''
+                print 'new matrix (after add):'
+                print str(self.matrix)
+                '''
                 #self.showEvolution()
                 
         
@@ -80,7 +95,7 @@ class SimplePerceptron:
     def testWhatWasLearnt(self, iteratedEpochs):
         print '--------------'
         #print self.matrix
-        ''' Used for debugging
+        #''' Used for debugging
         print 'Epoch: ' + str(iteratedEpochs)
         for learningData in self.parameters.learningSet:
             obtainedVector = np.dot(learningData.input, self.matrix)
@@ -88,7 +103,7 @@ class SimplePerceptron:
             print str(learningData.expectedOutput) + ' --> expected'
             print str(obtainedVector) + ' --> obtained'
             print '--------------'
-        '''    
+        #'''    
         
     def showEvolution(self):
         print 'matrix evolution, counter: ' + str(self.counter)
