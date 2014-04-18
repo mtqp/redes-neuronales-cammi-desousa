@@ -19,8 +19,9 @@ def main():
     
     trainingInformation = neuralAlgorithm.getTrainingInformation()
 
-    plotter = Plotter("errorfile", "validationfile")
-    plotter.plotError(trainingInformation)
+    errorFileName = '.\\..\\graphics\\error - ' + parameters.objective
+    plotter = Plotter(errorFileName, "validationfile")
+    plotter.plotError(trainingInformation.errors)
     
 if __name__ == "__main__":
     main()
