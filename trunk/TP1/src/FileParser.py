@@ -4,9 +4,8 @@ import sys
 
 class FileParser:
 
-    def __init__(self, inputFileName, outputFileName):
+    def __init__(self, inputFileName):
         self.inputFileName  = inputFileName
-        self.outputFileName = outputFileName
  
     def parseInputFile(self):
         inputFile = open(self.inputFileName, 'r')
