@@ -1,17 +1,19 @@
 import sys
 import numpy as np
 import math
+from TrainingInformation import *
 
 class SimplePerceptron: 
 
     def __init__(self, parameters):
         self.parameters = parameters
         self.matrix = self.createRandomMatrix(3,2)
-        #np.matrix('0.1 0.1 0.1; 0.1 0.1 0.1').transpose() #inicializar con algo que sea util (segun el profe randoms entre -0.1 y 0.1
         print 'whole learning matrix: ' + str(self.matrix)
+        self.errorInformation = ErrorInformation([],[], self.parameters.objective)
         self.counter = 0
         
     def createRandomMatrix(self, n, m):
+        #np.matrix('0.1 0.1 0.1; 0.1 0.1 0.1').transpose() #inicializar con algo que sea util (segun el profe randoms entre -0.1 y 0.1
         return np.random.rand(n,m) #normalizar a valores entre -0.1 y 0.1
         
     def train(self): #COMO SE QUE UMBRAL, PARAMETROS DEBO PONER?
@@ -57,11 +59,16 @@ class SimplePerceptron:
                 
         
             epsilonOnIteration = 0.5 * self.sumSquaredNorms(iterationErrors)
+            self.saveIterationError(iteratedEpochs, epsilonOnIteration)
             iteratedEpochs += 1
             self.testWhatWasLearnt(iteratedEpochs)
-        
+
+    def saveIterationError(self, epochs, epsilon):
+        self.errorInformation.add(epochs, epsilon)
+            
     def getTrainingInformation(self):
-        return None
+        validationInformation = ValidationInformation(None, None, 'Completar') #completar
+        return TrainingInformation(self.errorInformation, validationInformation)
         
     def sumSquaredNorms(self, errors):
         return sum([self.squaredNorm(e) for e in errors])
