@@ -3,14 +3,13 @@ from datetime import datetime
 from datetime import time
 
 class Plotter:
-    def __init__(self, errorFileName, validationFileName):
+    def __init__(self, errorFileName, validationFileName, mustSaveToFile):
         self.errorFileName  = errorFileName
         self.validationFileName = validationFileName
+        self.mustSaveToFile = mustSaveToFile
 
         
     def plotError(self, information):
-        fileName = self.errorFileName + ' - ' + self.getNow() + '.png'
-        print 'saving on: ' + fileName
         #self.printOnConsole(information)
         
         plotter.plot(information.x, information.y)
@@ -18,7 +17,10 @@ class Plotter:
         plotter.xlabel(information.xLabel)
         plotter.title(information.title)
         
-        plotter.savefig(fileName)
+        if self.mustSaveToFile:
+            fileName = self.errorFileName + ' - ' + self.getNow() + '.png'
+            print 'saving on: ' + fileName        
+            plotter.savefig(fileName)
         plotter.show()
     
     def getNow(self):

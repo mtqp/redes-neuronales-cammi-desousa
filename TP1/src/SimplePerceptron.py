@@ -1,6 +1,7 @@
 import sys
 import numpy as np
 import math
+import random
 from TrainingInformation import *
 
 class SimplePerceptron: 
@@ -13,10 +14,15 @@ class SimplePerceptron:
         self.counter = 0
         
     def createRandomMatrix(self, n, m):
-        #np.matrix('0.1 0.1 0.1; 0.1 0.1 0.1').transpose() #inicializar con algo que sea util (segun el profe randoms entre -0.1 y 0.1
-        return np.random.rand(n,m) #normalizar a valores entre -0.1 y 0.1
+        matrix = np.zeros((n,m)) 
+        COLUMN = 0
+        ROW = 1
+        for columnIndex in range(0, matrix.shape[COLUMN]):
+            for rowIndex in range(0, matrix.shape[ROW]):
+                matrix[columnIndex][rowIndex] = random.uniform(-0.1, 0.1)
+        return matrix
         
-    def train(self): #COMO SE QUE UMBRAL, PARAMETROS DEBO PONER?
+    def train(self):
         epsilonOnIteration = 1
         iteratedEpochs = 0
         
@@ -41,10 +47,13 @@ class SimplePerceptron:
                 #---- etta * ( learninData.input.transpose() x iterationerror ) *gprima /en nuestro caso no va xq la derivada es 1
                 transposeInput = np.matrix(learningData.input).transpose()
                 iterationErrorMatrix = np.matrix(iterationError)
-                deltaMatrix = np.dot(self.parameters.etta, np.dot(transposeInput, iterationErrorMatrix)) 
                 '''
                 print 'transpose input: ' + str(transposeInput)
                 print 'iteration error: ' + str(iterationError)
+                print 'iteration error matrix: ' + str(iterationErrorMatrix)
+                '''
+                deltaMatrix = np.dot(self.parameters.etta, np.dot(transposeInput, iterationErrorMatrix)) 
+                '''
                 print 'delta matrix: ' 
                 print str(deltaMatrix)
                 print 'matrix: '
@@ -56,25 +65,26 @@ class SimplePerceptron:
                 print str(self.matrix)
                 '''
                 #self.showEvolution()
-                
-        
-            epsilonOnIteration = 0.5 * self.sumSquaredNorms(iterationErrors)
+            
+            epsilonOnIteration = self.sumSquaredNorms(iterationErrors)
             self.saveIterationError(iteratedEpochs, epsilonOnIteration)
             iteratedEpochs += 1
-            self.testWhatWasLearnt(iteratedEpochs)
-
+            
     def saveIterationError(self, epochs, epsilon):
         self.errorInformation.add(epochs, epsilon)
+        #print en pantalla de lo que esta pasando
+        #self.testWhatWasLearnt(epochs, epsilon)
             
     def getTrainingInformation(self):
         validationInformation = ValidationInformation(None, None, 'Completar') #completar
         return TrainingInformation(self.errorInformation, validationInformation)
         
     def sumSquaredNorms(self, errors):
-        return sum([self.squaredNorm(e) for e in errors])
+        return sum([self.squaredNorm(e) for e in errors]) / 2
         
     def squaredNorm(self, vector):
-        return sum([math.pow(v,2) for v in vector])
+        potVector = [math.pow(v,2) for v in vector]
+        return sum(potVector)
         
     def applySignFunction(self, vector, matrix): 
         #el vector se lo multiplica por cada vector columna de la matrix 
@@ -87,26 +97,31 @@ class SimplePerceptron:
             matrixVector = columnsAsRows[columnIndex].transpose()
             vectorialProduct = np.dot(vector, matrixVector)
             vectorDotMatrix.append(vectorialProduct)
-            ''' Used for debugging
-            print '-----> columnIndex : ' + str(columnIndex)
-            print '-----> matrix vector : ' + str(matrixVector)
-            print '-----> vector: ' + str(vector)
-            print '-----> vectorial product: ' + str(vectorialProduct)
+            #''' Used for debugging
+            print 'columnIndex : ' + str(columnIndex)
+            print 'matrix vector : ' + str(matrixVector)
+            print 'vector: ' + str(vector)
+            print 'vectorial product: ' + str(vectorialProduct)
         
-        print '-----> vector dot matrix: ' + str(vectorDotMatrix)
-        '''
-        return [self.sign(acum) for acum in vectorDotMatrix]
+        print 'vector dot matrix: ' + str(vectorDotMatrix)
+        #'''
+        signAppliedVector = [self.sign(acum) for acum in vectorDotMatrix]
+        #print 'vector with sign : ' + str(signAppliedVector)
+        return signAppliedVector
     
     def sign(self, value):
+        #return value
+        #'''
         if value >= 0:
-            return 1
-        return -1
-       
-    def testWhatWasLearnt(self, iteratedEpochs):
+            return 1.0
+        return -1.0
+        #'''
+    def testWhatWasLearnt(self, iteratedEpochs, iterationEpsilon):
         print '--------------'
         #print self.matrix
         #''' Used for debugging
         print 'Epoch: ' + str(iteratedEpochs)
+        print 'Epsilon: '+ str(iterationEpsilon)
         for learningData in self.parameters.learningSet:
             obtainedVector = np.dot(learningData.input, self.matrix)
             print 'input: ' + str(learningData.input)
