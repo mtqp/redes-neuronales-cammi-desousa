@@ -60,6 +60,9 @@ class SimplePerceptron:
             iteratedEpochs += 1
             self.testWhatWasLearnt(iteratedEpochs)
         
+    def getTrainingInformation(self):
+        return None
+        
     def sumSquaredNorms(self, errors):
         return sum([self.squaredNorm(e) for e in errors])
         

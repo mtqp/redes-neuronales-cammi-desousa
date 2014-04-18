@@ -1,5 +1,6 @@
 from FileParser import FileParser
 from LearningData import LearningData
+from Plotter import Plotter
 from NeuralNetworkAlgorithm import * 
 from SimplePerceptron import *
 import sys
@@ -7,7 +8,7 @@ import numpy as np
 import math
 
 def main():
-    fileParser = FileParser("C:\Facultad\RedesNeuronales\TP1\src\README_INPUT.TXT", "outputFileName") #open from arguments
+    fileParser = FileParser("C:\Facultad\RedesNeuronales\TP1\src\README_INPUT.TXT") #open from arguments
     parameters = fileParser.parseInputFile()
     
     neuralAlgorithm = SimplePerceptron(parameters)#NeuralNetworkAlgorithm(parameters) #deberia ser abstracto, usar la implementacion concreta
@@ -16,10 +17,10 @@ def main():
     neuralAlgorithm.train()
     print 'neural algorithm finished training'
     
-    #learningInformation = neuralAlgorithm.testWhatWasLearnt()
+    trainingInformation = neuralAlgorithm.getTrainingInformation()
 
-    #fileParser.save(learningInformation)
-    print 'learning information saved'
-
+    plotter = Plotter("errorfile", "validationfile")
+    plotter.plotError(trainingInformation)
+    
 if __name__ == "__main__":
     main()
