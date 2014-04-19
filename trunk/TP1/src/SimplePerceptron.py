@@ -14,7 +14,7 @@ class SimplePerceptron:
         print 'm: ' + str(m)
         self.matrix = self.createRandomMatrix(n,m)
         print 'whole learning matrix: ' + str(self.matrix)
-        self.errorInformation = ErrorInformation([],[], self.parameters.objective)
+        self.errorInformation = ErrorInformation([],[], self.parameters.objective, parameters.etta)
         self.counter = 0
         
     def createRandomMatrix(self, n, m):
@@ -46,6 +46,10 @@ class SimplePerceptron:
                 deltaMatrix = np.dot(self.parameters.etta, np.dot(transposeInput, iterationErrorMatrix)) 
                 self.matrix = np.add(self.matrix,deltaMatrix) #algoritmo incremental
             
+            '''
+            print 'iteration errors on epoch: ' + str(iteratedEpochs)
+            print iterationErrors
+            '''
             epsilonOnIteration = self.sumSquaredNorms(iterationErrors)
             self.saveIterationError(iteratedEpochs, epsilonOnIteration)
             iteratedEpochs += 1
@@ -76,9 +80,13 @@ class SimplePerceptron:
         for columnIndex in range(0, columnsAsRows.shape[0]):
             matrixVector = columnsAsRows[columnIndex].transpose()
             vectorialProduct = np.dot(vector, matrixVector)
-            vectorDotMatrix.append(vectorialProduct)
+            vectorDotMatrix.append(vectorialProduct.flat[0])
 
-        return [self.sign(acum) for acum in vectorDotMatrix]
+        return [self.identity(acum) for acum in vectorDotMatrix] #cambiar dsp!
+        #return [self.sign(acum) for acum in vectorDotMatrix]
+    
+    def identity(self, value):
+        return value
     
     def sign(self, value):
         if value >= 0:

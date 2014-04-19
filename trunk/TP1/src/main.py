@@ -20,8 +20,8 @@ def main():
     trainingInformation = neuralAlgorithm.getTrainingInformation()
 
     errorFileName = '.\\..\\graphics\\error - ' + parameters.objective
-    DONT_SAVE_TO_FILE = False
-    plotter = Plotter(errorFileName, "validationfile", DONT_SAVE_TO_FILE)
+    SAVE_TO_FILE = True
+    plotter = Plotter(errorFileName, "validationfile", SAVE_TO_FILE)
     plotter.plotError(trainingInformation.errors)
     
     

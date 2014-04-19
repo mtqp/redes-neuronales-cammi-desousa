@@ -5,12 +5,13 @@ class TrainingInformation:
         self.validations = validations
         
 class ErrorInformation: #falta la clase abstracta de esto!
-    def __init__(self, x, y, description):
+    def __init__(self, x, y, description, etta):
         self.x = x
         self.y = y
         self.yLabel = 'Error'
         self.xLabel = 'Epoch'
         self.title = 'Error en funcion del tiempo para aprendizaje de: ' + description 
+        self.etta = etta
         
     def add(self, xValue, yValue):
         self.x.append(xValue)
