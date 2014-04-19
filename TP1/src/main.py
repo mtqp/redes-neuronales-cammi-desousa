@@ -26,7 +26,8 @@ def main():
     fileParser = FileParser('C:\Facultad\RedesNeuronales\TP1\src\OCR\input_test.txt') #open from arguments
     parameters = fileParser.parseInputFile()
     
-    neuralAlgorithm = SimplePerceptron(parameters)#NeuralNetworkAlgorithm(parameters) #deberia ser abstracto, usar la implementacion concreta
+    PRINT_ON_CONSOLE = True
+    neuralAlgorithm = SimplePerceptron(parameters, not PRINT_ON_CONSOLE)#NeuralNetworkAlgorithm(parameters) #deberia ser abstracto, usar la implementacion concreta
     
     print 'neural algorithm started training'
     neuralAlgorithm.train()
