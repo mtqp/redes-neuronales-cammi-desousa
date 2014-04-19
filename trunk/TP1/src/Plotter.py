@@ -25,10 +25,6 @@ class Plotter:
     
     def getNow(self):
         return datetime.now().strftime("%Y%m%d%H%M%S")
-        '''
-        now = datetime.now()
-        return str(time(now.hour, now.minute, now.second))
-        '''
     
     def printOnConsole(self, information):
         print 'Printing error:'

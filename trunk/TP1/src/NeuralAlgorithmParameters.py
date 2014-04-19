@@ -10,6 +10,16 @@ class NeuralAlgorithmParameters:
         self.etta = etta            #coeficiente de aprendizaje
         self.learningSet = []
         
+    def getNDimension(self):
+        if len(self.learningSet) > 0:
+            return len(self.learningSet[0].input)
+        return 0
+        
+    def getMDimension(self):
+        if len(self.learningSet) > 0:
+            return len(self.learningSet[0].expectedOutput)
+        return 0
+        
     def getEpochs(self):
         return self.epochs
             

@@ -1,4 +1,3 @@
-#from LearningData import LearningData
 from NeuralAlgorithmParameters import NeuralAlgorithmParameters
 import sys
 
