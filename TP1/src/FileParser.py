@@ -6,6 +6,7 @@ class FileParser:
     def __init__(self, inputFileName):
         self.inputFileName  = inputFileName
  
+    #deberia tener en cada linea el archivo algo mas representativo, en el caso de OCR por ejemplo la letra que representa
     def parseInputFile(self):
         inputFile = open(self.inputFileName, 'r')
 
@@ -39,5 +40,3 @@ class FileParser:
         inputFile.close()
         return parameters
    
-    def save(self, learningInformation):
-        print 'this should be implemented'
