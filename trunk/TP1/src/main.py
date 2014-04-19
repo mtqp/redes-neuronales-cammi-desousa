@@ -9,6 +9,7 @@ import numpy as np
 import math
 
 def main():
+    '''
     ocrCreator = OCRInputCreator()
     epsilon = 0.1
     etta = 0.07
@@ -18,9 +19,11 @@ def main():
     expectedOutputSource = 'C:\Facultad\RedesNeuronales\TP1\src\OCR\output - test.txt'
     
     ocrCreator.createInput(epsilon, etta, epochs, description, fileNameToCreate, expectedOutputSource)
-    
     '''
-    fileParser = FileParser("C:\Facultad\RedesNeuronales\TP1\src\README_INPUT.TXT") #open from arguments
+    
+    #'''
+    #fileParser = FileParser("C:\Facultad\RedesNeuronales\TP1\src\README_INPUT.TXT") #open from arguments
+    fileParser = FileParser('C:\Facultad\RedesNeuronales\TP1\src\OCR\input_test.txt') #open from arguments
     parameters = fileParser.parseInputFile()
     
     neuralAlgorithm = SimplePerceptron(parameters)#NeuralNetworkAlgorithm(parameters) #deberia ser abstracto, usar la implementacion concreta
@@ -32,10 +35,12 @@ def main():
     trainingInformation = neuralAlgorithm.getTrainingInformation()
 
     errorFileName = '.\\..\\graphics\\error - ' + parameters.objective
+    validationFileName = '.\\..\\graphics\\validation - ' + parameters.objective
     SAVE_TO_FILE = True
-    plotter = Plotter(errorFileName, "validationfile", not SAVE_TO_FILE)
-    plotter.plot(trainingInformation)
-    '''
+    SHOW = True
+    plotter = Plotter(errorFileName, validationFileName, not SAVE_TO_FILE)
+    plotter.plot(trainingInformation, SHOW)
+    #'''
     
     
 if __name__ == "__main__":
