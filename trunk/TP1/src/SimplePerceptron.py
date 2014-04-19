@@ -6,7 +6,7 @@ from TrainingInformation import *
 
 class SimplePerceptron: 
 
-    def __init__(self, parameters):
+    def __init__(self, parameters, printTrainingOnConsole):
         self.parameters = parameters
         m = parameters.getMDimension()
         n = parameters.getNDimension()
@@ -17,6 +17,7 @@ class SimplePerceptron:
         
         self.errorInformation = ErrorInformation([],[], self.parameters.objective, parameters.etta)
         self.trainingInformation = TrainingInformation(self.errorInformation)
+        self.mustPrintTraining = printTrainingOnConsole
         self.counter = 0
         
     def createRandomMatrix(self, n, m):
@@ -63,7 +64,8 @@ class SimplePerceptron:
             validation = ValidationInformation(learningData.expectedOutput, obtainedVector, self.parameters.objective)
             self.trainingInformation.addValidationInformation(validation)
         
-        self.consolePrintEpochInformation(epochs, epsilon)
+        if self.mustPrintTraining:
+            self.consolePrintEpochInformation(epochs, epsilon)
             
     def getTrainingInformation(self):
         return self.trainingInformation
