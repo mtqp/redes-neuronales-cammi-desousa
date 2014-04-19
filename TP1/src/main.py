@@ -1,4 +1,5 @@
 from FileParser import FileParser
+from OCRInputCreator import OCRInputCreator
 from LearningData import LearningData
 from Plotter import Plotter
 from NeuralNetworkAlgorithm import * 
@@ -8,6 +9,17 @@ import numpy as np
 import math
 
 def main():
+    ocrCreator = OCRInputCreator()
+    epsilon = 0.1
+    etta = 0.07
+    epochs = 50
+    description = 'test a ver si anda'
+    fileNameToCreate = 'C:\Facultad\RedesNeuronales\TP1\src\OCR\input_test.txt'
+    expectedOutputSource = 'C:\Facultad\RedesNeuronales\TP1\src\OCR\output - test.txt'
+    
+    ocrCreator.createInput(epsilon, etta, epochs, description, fileNameToCreate, expectedOutputSource)
+    
+    '''
     fileParser = FileParser("C:\Facultad\RedesNeuronales\TP1\src\README_INPUT.TXT") #open from arguments
     parameters = fileParser.parseInputFile()
     
@@ -23,6 +35,7 @@ def main():
     SAVE_TO_FILE = True
     plotter = Plotter(errorFileName, "validationfile", not SAVE_TO_FILE)
     plotter.plot(trainingInformation)
+    '''
     
     
 if __name__ == "__main__":
