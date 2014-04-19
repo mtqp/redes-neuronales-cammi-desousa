@@ -21,8 +21,8 @@ def main():
 
     errorFileName = '.\\..\\graphics\\error - ' + parameters.objective
     SAVE_TO_FILE = True
-    plotter = Plotter(errorFileName, "validationfile", SAVE_TO_FILE)
-    plotter.plotError(trainingInformation.errors)
+    plotter = Plotter(errorFileName, "validationfile", not SAVE_TO_FILE)
+    plotter.plot(trainingInformation)
     
     
 if __name__ == "__main__":

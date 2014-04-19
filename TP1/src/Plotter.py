@@ -8,10 +8,15 @@ class Plotter:
         self.validationFileName = validationFileName
         self.mustSaveToFile = mustSaveToFile
 
+    def plot(self, trainingInformation):
+        self.plotError(trainingInformation.errors)
+        self.plotValidation(trainingInformation.validations)
+        
+    def plotValidation(self, validations):
+        return None #plotter.ylabel(validations, #falta implementar
         
     def plotError(self, information):
-        #self.printOnConsole(information)
-        
+       
         plotter.plot(information.x, information.y)
         plotter.ylabel(information.yLabel)
         plotter.xlabel(information.xLabel)
@@ -25,8 +30,3 @@ class Plotter:
     
     def getNow(self):
         return datetime.now().strftime("%Y%m%d%H%M%S")
-    
-    def printOnConsole(self, information):
-        print 'Printing error:'
-        print 'X: ' + str(information.x)
-        print 'Y: ' + str(information.y)

@@ -14,7 +14,9 @@ class SimplePerceptron:
         print 'm: ' + str(m)
         self.matrix = self.createRandomMatrix(n,m)
         print 'whole learning matrix: ' + str(self.matrix)
+        
         self.errorInformation = ErrorInformation([],[], self.parameters.objective, parameters.etta)
+        self.trainingInformation = TrainingInformation(self.errorInformation)
         self.counter = 0
         
     def createRandomMatrix(self, n, m):
@@ -51,17 +53,20 @@ class SimplePerceptron:
             print iterationErrors
             '''
             epsilonOnIteration = self.sumSquaredNorms(iterationErrors)
-            self.saveIterationError(iteratedEpochs, epsilonOnIteration)
+            self.collectEpochInformation(iteratedEpochs, epsilonOnIteration)
             iteratedEpochs += 1
             
-    def saveIterationError(self, epochs, epsilon):
-        self.errorInformation.add(epochs, epsilon)
-        #print en pantalla de lo que esta pasando
-        self.testWhatWasLearnt(epochs, epsilon)
+    def collectEpochInformation(self, epochs, epsilon):
+        self.errorInformation.add(epochs, epsilon) #esta hecho muy desprolijo esto... tendriamos en enviarle mjes solo a training information
+        for learningData in self.parameters.learningSet:
+            obtainedVector = np.dot(learningData.input, self.matrix)
+            validation = ValidationInformation(learningData.expectedOutput, obtainedVector, self.parameters.objective)
+            self.trainingInformation.addValidationInformation(validation)
+        
+        self.consolePrintEpochInformation(epochs, epsilon)
             
     def getTrainingInformation(self):
-        validationInformation = ValidationInformation(None, None, 'Completar') #completar
-        return TrainingInformation(self.errorInformation, validationInformation)
+        return self.trainingInformation
         
     def sumSquaredNorms(self, errors):
         return sum([self.squaredNorm(e) for e in errors]) / 2
@@ -93,7 +98,7 @@ class SimplePerceptron:
             return 1.0
         return -1.0
         
-    def testWhatWasLearnt(self, iteratedEpochs, iterationEpsilon):
+    def consolePrintEpochInformation(self, iteratedEpochs, iterationEpsilon):
         print '--------------'
         #''' Used for debugging
         print 'Epoch: ' + str(iteratedEpochs)
