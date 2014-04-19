@@ -22,10 +22,7 @@ class NeuralAlgorithmParameters:
         
     def getEpochs(self):
         return self.epochs
-            
-    def getSet(self):
-        return self.learningSet
-        
+
     def addLearningData(self, input, expectedOutput):
         self.learningSet.append(LearningData(input, expectedOutput))
         
