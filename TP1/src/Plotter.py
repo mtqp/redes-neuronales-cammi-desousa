@@ -18,7 +18,7 @@ class Plotter:
         plotter.title(information.title)
         
         if self.mustSaveToFile:
-            fileName = self.errorFileName + ' - ' + self.getNow() + '.png'
+            fileName = self.errorFileName + ' - etta ' + str(information.etta) + ' - ' + self.getNow() + '.png'
             print 'saving on: ' + fileName        
             plotter.savefig(fileName)
         plotter.show()
