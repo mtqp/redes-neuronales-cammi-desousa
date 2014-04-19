@@ -36,7 +36,7 @@ class Plotter:
             
             plotter.ylabel(validation.yLabel)
             plotter.xlabel(validation.xLabel)
-            plotter.title(validation.title + ' Letra: ' + str(expectedYValue))
+            plotter.title(validation.title + ' para valor: ' + str(expectedYValue))
             
             '''
             print 'expected Y: ' + str(expectedYValue)

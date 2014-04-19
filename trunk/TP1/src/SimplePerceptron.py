@@ -89,8 +89,12 @@ class SimplePerceptron:
             vectorialProduct = np.dot(vector, matrixVector)
             vectorDotMatrix.append(vectorialProduct.flat[0])
 
-        return [self.identity(acum) for acum in vectorDotMatrix] #cambiar dsp!
+        return [self.sigmoideal(acum) for acum in vectorDotMatrix]
+        #return [self.identity(acum) for acum in vectorDotMatrix] #cambiar dsp!
         #return [self.sign(acum) for acum in vectorDotMatrix]
+    
+    def sigmoideal(self, x):
+        return 1.0/(1.0+math.exp(-x))
     
     def identity(self, value):
         return value

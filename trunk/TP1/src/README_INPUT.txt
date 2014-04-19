@@ -1,7 +1,7 @@
 name= Or y And
-etta=0.25
-epsilon=0.1
-epochs=500
+etta=0.07
+epsilon=0.01
+epochs=1500
 set [0,0,-1] = [0,0]
 set [0,1,-1] = [1,0]
 set [1,0,-1] = [1,0]
