@@ -10,7 +10,7 @@ import numpy as np
 import math
 
 def main():
-    #'''
+    '''
     ocrCreator = OCRInputCreator()
     epsilon = 0.1
     etta = 0.17

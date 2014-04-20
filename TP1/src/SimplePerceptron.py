@@ -76,7 +76,7 @@ class SimplePerceptron:
             print 'iteration errors on epoch: ' + str(iteratedEpochs)
             print iterationErrors
             '''
-            epsilonOnIteration = self.sumSquaredNorms(iterationErrors)
+            epsilonOnIteration = self.sumVectorsSquaredNorms(iterationErrors)
             self.collectEpochInformation(iteratedEpochs, epsilonOnIteration)
             iteratedEpochs += 1
     
@@ -86,26 +86,36 @@ class SimplePerceptron:
             correctedDelta.append(delta[i] * self.function.derive(h[i]))
         return correctedDelta
 
-    def collectEpochInformation(self, epochs, epsilon):
-        self.errorInformation.add(epochs, epsilon) #esta hecho muy desprolijo esto... tendriamos en enviarle mjes solo a training information
+    def collectEpochInformation(self, epoch, epsilon):
+        self.errorInformation.add(epoch, epsilon) #esta hecho muy desprolijo esto... tendriamos en enviarle mjes solo a training information
+        self.collectValidationInformation()
+        self.collectTestSetInformation(epoch)
+        
+        if self.verbose:
+            self.consolePrintEpochInformation(epoch, epsilon)
+           
+    def collectTestSetInformation(self, epoch):
+        for learningData in self.parameters.testingSet:
+            evaluationOutput = np.dot(learningData.input, self.matrix)
+            iterationError = np.subtract(learningData.expectedOutput, evaluationOutput)
+            cuadraticError = self.sumSquaredNorms(iterationError.flat)
+            self.trainingInformation.addTestSetInformation(epoch, cuadraticError)
+            
+    def collectValidationInformation(self):
         for learningData in self.parameters.testingSet:
             obtainedVector = np.dot(learningData.input, self.matrix)
             validation = ValidationInformation(learningData.expectedOutput, obtainedVector, self.parameters.objective)
             self.trainingInformation.addValidationInformation(validation)
         
-        if self.verbose:
-            self.consolePrintEpochInformation(epochs, epsilon)
-            
     def getTrainingInformation(self):
         return self.trainingInformation
         
-    def sumSquaredNorms(self, errors):
-        return sum([self.squaredNorm(e) for e in errors]) / 2
+    def sumVectorsSquaredNorms(self, errors):
+        return sum([self.sumSquaredNorms(e) for e in errors])
         
-    def squaredNorm(self, vector):
-        potVector = [math.pow(v,2) for v in vector]
-        return sum(potVector)
-        
+    def sumSquaredNorms(self, vector):
+        return sum([math.pow(v,2) for v in vector]) / 2
+
     def evaluateMultiplication(self, vector, matrix): 
         #el vector se lo multiplica por cada vector columna de la matrix 
         #y luego se le aplica la funcion signo
