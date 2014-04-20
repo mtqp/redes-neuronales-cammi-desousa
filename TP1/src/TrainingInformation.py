@@ -38,5 +38,7 @@ class ValidationInformation: #falta la clase abstracta de esto!
         self.title = 'Validacion de aprendizaje de:' + description
         
     def addObtainedOutput(self, validation):
+        print 'apending ' + str(validation.obtainedOutputs)
         self.obtainedOutputs = self.obtainedOutputs + validation.obtainedOutputs 
+        print 'all ' + str(self.obtainedOutputs)
     
