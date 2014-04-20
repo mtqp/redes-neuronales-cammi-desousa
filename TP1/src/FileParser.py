@@ -29,14 +29,30 @@ class FileParser:
         parameters = NeuralAlgorithmParameters(objectiveDescription, int(epochs), float(epsilon), float(etta))
         
         for line in inputFile.readlines():
-            setLine = line.lstrip("set").strip()
+            setLine = ''
+            isTestingData = 'testing' in line
+            if isTestingData:
+                setLine = line.lstrip("testingset").strip()
+            else:
+                setLine = line.lstrip("set").strip()
             splittedSetLine = setLine.split("=")
             
             input = splittedSetLine[0].strip()
             expectedOutput = splittedSetLine[1].strip()
             
-            parameters.addLearningData(input, expectedOutput)
+            if isTestingData:
+                parameters.addTestingData(input, expectedOutput)
+            else:
+                parameters.addLearningData(input, expectedOutput)
         
+        self.addTestsIfNoOneWasProvided(parameters)
+       
         inputFile.close()
         return parameters
-   
+        
+        
+    def addTestsIfNoOneWasProvided(self, parameters):
+        if len(parameters.testingSet) == 0:
+            for learningData in parameters.learningSet:
+                parameters.testingSet.append(learningData)
+  
