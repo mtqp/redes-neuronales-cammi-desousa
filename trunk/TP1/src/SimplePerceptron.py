@@ -3,17 +3,20 @@ import numpy as np
 import math
 import random
 from TrainingInformation import *
+from Functions import *
 
 class SimplePerceptron: 
 
-    def __init__(self, parameters, printTrainingOnConsole):
-        self.parameters = parameters
+    def __init__(self, parameters, function, printTrainingOnConsole):
         m = parameters.getMDimension()
         n = parameters.getNDimension()
-        print 'n: ' + str(n)
-        print 'm: ' + str(m)
+        
+        self.parameters = parameters
+        self.function = function
         self.matrix = self.createRandomMatrix(n,m)
-        print 'whole learning matrix: ' + str(self.matrix)
+        
+        if printTrainingOnConsole:
+            self.consolePrintStartingContext(n, m)
         
         self.errorInformation = ErrorInformation([],[], self.parameters.objective, parameters.etta)
         self.trainingInformation = TrainingInformation(self.errorInformation)
@@ -38,7 +41,7 @@ class SimplePerceptron:
             
             iterationErrors = []
             for learningData in shuffledLearningDatas:
-                evaluationVector = self.applySignFunction(learningData.input, self.matrix)
+                evaluationVector = self.evaluateMultiplication(learningData.input, self.matrix)
                 iterationError = np.subtract(learningData.expectedOutput, evaluationVector)
                 iterationErrors.append(iterationError)
                 
@@ -77,7 +80,7 @@ class SimplePerceptron:
         potVector = [math.pow(v,2) for v in vector]
         return sum(potVector)
         
-    def applySignFunction(self, vector, matrix): 
+    def evaluateMultiplication(self, vector, matrix): 
         #el vector se lo multiplica por cada vector columna de la matrix 
         #y luego se le aplica la funcion signo
         
@@ -89,20 +92,12 @@ class SimplePerceptron:
             vectorialProduct = np.dot(vector, matrixVector)
             vectorDotMatrix.append(vectorialProduct.flat[0])
 
-        return [self.sigmoideal(acum) for acum in vectorDotMatrix]
-        #return [self.identity(acum) for acum in vectorDotMatrix] #cambiar dsp!
-        #return [self.sign(acum) for acum in vectorDotMatrix]
-    
-    def sigmoideal(self, x):
-        return 1.0/(1.0+math.exp(-x))
-    
-    def identity(self, value):
-        return value
-    
-    def sign(self, value):
-        if value >= 0:
-            return 1.0
-        return -1.0
+        return [self.function.value(acum) for acum in vectorDotMatrix]
+        
+    def consolePrintStartingContext(self, n, m):
+        print 'n: ' + str(n)
+        print 'm: ' + str(m)
+        print 'whole learning matrix: ' + str(self.matrix)
         
     def consolePrintEpochInformation(self, iteratedEpochs, iterationEpsilon):
         print '--------------'
