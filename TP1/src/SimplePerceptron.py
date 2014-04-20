@@ -41,10 +41,27 @@ class SimplePerceptron:
             
             iterationErrors = []
             for learningData in shuffledLearningDatas:
-                evaluationVector = self.evaluateMultiplication(learningData.input, self.matrix)
-                iterationError = np.subtract(learningData.expectedOutput, evaluationVector)
-                iterationErrors.append(iterationError)
+                #evaluationOutput = self.evaluateMultiplication(learningData.input, self.matrix)
+                #el vector se lo multiplica por cada vector columna de la matrix 
+                #y luego se le aplica la funcion signo
                 
+                columnsAsRows = self.matrix.transpose() #es un truquito para poder agarrar rapido las columnas, no se si se puede hacer de otra forma mas eficiente
+                vectorDotMatrix = [] #H
+
+                for columnIndex in range(0, columnsAsRows.shape[0]):
+                    matrixVector = columnsAsRows[columnIndex].transpose()
+                    vectorialProduct = np.dot(learningData.input, matrixVector)
+                    vectorDotMatrix.append(vectorialProduct.flat[0])
+
+                evaluationOutput = [self.function.value(acum) for acum in vectorDotMatrix]  #O
+                
+                iterationError = np.subtract(learningData.expectedOutput, evaluationOutput) #delta
+                
+                if self.function.isSigmoid():
+                    iterationError = self.correctIterationError(iterationError, vectorDotMatrix)
+
+                iterationErrors.append(iterationError)
+                    
                 #---> Line below does: 
                 #---- etta * ( learninData.input.transpose() x iterationerror ) *gprima /en nuestro caso no va xq la derivada es 1
                 transposeInput = np.matrix(learningData.input).transpose()
@@ -59,7 +76,13 @@ class SimplePerceptron:
             epsilonOnIteration = self.sumSquaredNorms(iterationErrors)
             self.collectEpochInformation(iteratedEpochs, epsilonOnIteration)
             iteratedEpochs += 1
-            
+    
+    def correctIterationError(self, delta, h):
+        correctedDelta = []
+        for i in range(0,len(delta)):
+            correctedDelta.append(delta[i] * self.function.derive(h[i]))
+        return correctedDelta
+
     def collectEpochInformation(self, epochs, epsilon):
         self.errorInformation.add(epochs, epsilon) #esta hecho muy desprolijo esto... tendriamos en enviarle mjes solo a training information
         for learningData in self.parameters.learningSet:
