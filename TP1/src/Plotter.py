@@ -21,7 +21,7 @@ class Plotter:
                 plotter.close(figure)
         
     def plotValidation(self, validations):
-        print 'plotting validation information'
+        print 'PLOTTER - validation information'
         
         figureIndex = 0
         for validation in validations:
@@ -57,6 +57,16 @@ class Plotter:
             self.saveToFile(self.validationFileName + ' letra ' + str(expectedYValue))
         self.figureCount = figureIndex
     
+    def plotError(self, information):
+        print 'PLOTTER - error information'
+        self.figures.append(figure(0)) #Set error plotting to figure 0
+        plotter.plot(information.x, information.y)
+        plotter.ylabel(information.yLabel)
+        plotter.xlabel(information.xLabel)
+        plotter.title(information.title)
+        
+        self.saveToFile(self.errorFileName)
+    
     def getYValue(self, output):
         output = output.flat
         yValue = 0
@@ -72,17 +82,6 @@ class Plotter:
             completeFileName = fileName + ' - etta ' + str(information.etta) + ' - ' + self.getNow() + '.png'
             print 'saving on: ' + completeFileName        
             plotter.savefig(completeFileName)
-    
-    def plotError(self, information):
-        print 'plotting error information'
-        self.figures.append(figure(0)) #Set error plotting to figure 0
-        plotter.plot(information.x, information.y)
-        plotter.ylabel(information.yLabel)
-        plotter.xlabel(information.xLabel)
-        plotter.title(information.title)
-        
-        self.saveToFile(self.errorFileName)
-      
-    
+
     def getNow(self):
         return datetime.now().strftime("%Y%m%d%H%M%S")

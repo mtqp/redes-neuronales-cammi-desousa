@@ -12,19 +12,19 @@ class FileParser:
 
         firstLine = inputFile.readline()
         objectiveDescription = firstLine.lstrip("name=").strip()
-        print "objective description: " + objectiveDescription
+        print "FP - objective description: " + objectiveDescription
         
         secondLine = inputFile.readline()
         etta = secondLine.lstrip("etta=").strip()
-        print "etta: " + etta
+        print "FP - etta: " + etta
         
         thirdLine = inputFile.readline()
         epsilon = thirdLine.lstrip("epsilon=").strip()
-        print "epsilon: " + epsilon
+        print "FP - epsilon: " + epsilon
         
         fourthLine = inputFile.readline()
         epochs = fourthLine.lstrip("epochs=").strip()
-        print "epochs: " + epochs
+        print "FP - epochs: " + epochs
  
         parameters = NeuralAlgorithmParameters(objectiveDescription, int(epochs), float(epsilon), float(etta))
         

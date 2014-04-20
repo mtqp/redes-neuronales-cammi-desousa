@@ -28,12 +28,12 @@ def main():
     parameters = fileParser.parseInputFile()
     
     function = Exponential(0.5)#Identity()
-    PRINT_ON_CONSOLE = True
-    neuralAlgorithm = SimplePerceptron(parameters, function, not PRINT_ON_CONSOLE)#NeuralNetworkAlgorithm(parameters) #deberia ser abstracto, usar la implementacion concreta
+    VERBOSE = True
+    neuralAlgorithm = SimplePerceptron(parameters, function, not VERBOSE)#NeuralNetworkAlgorithm(parameters) #deberia ser abstracto, usar la implementacion concreta
     
-    print 'neural algorithm started training'
+    print 'ALGORITHM - Start'
     neuralAlgorithm.train()
-    print 'neural algorithm finished training'
+    print 'ALGORITHM - Finish'
     
     trainingInformation = neuralAlgorithm.getTrainingInformation()
 

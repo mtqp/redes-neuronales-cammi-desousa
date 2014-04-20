@@ -7,7 +7,7 @@ from Functions import *
 
 class SimplePerceptron: 
 
-    def __init__(self, parameters, function, printTrainingOnConsole):
+    def __init__(self, parameters, function, verbose):
         m = parameters.getMDimension()
         n = parameters.getNDimension()
         
@@ -15,12 +15,12 @@ class SimplePerceptron:
         self.function = function
         self.matrix = self.createRandomMatrix(n,m)
         
-        if printTrainingOnConsole:
+        if verbose:
             self.consolePrintStartingContext(n, m)
         
         self.errorInformation = ErrorInformation([],[], self.parameters.objective, parameters.etta)
         self.trainingInformation = TrainingInformation(self.errorInformation)
-        self.mustPrintTraining = printTrainingOnConsole
+        self.verbose = verbose
         self.counter = 0
         
     def createRandomMatrix(self, n, m):
@@ -67,7 +67,7 @@ class SimplePerceptron:
             validation = ValidationInformation(learningData.expectedOutput, obtainedVector, self.parameters.objective)
             self.trainingInformation.addValidationInformation(validation)
         
-        if self.mustPrintTraining:
+        if self.verbose:
             self.consolePrintEpochInformation(epochs, epsilon)
             
     def getTrainingInformation(self):
