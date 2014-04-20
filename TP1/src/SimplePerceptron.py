@@ -32,7 +32,7 @@ class SimplePerceptron:
             for rowIndex in range(0, matrix.shape[ROW]):
                 matrix[columnIndex][rowIndex] = random.uniform(-0.1, 0.1)
         return matrix
-        
+
     def train(self):
         epsilonOnIteration = 1000
         iteratedEpochs = 0
@@ -44,25 +44,15 @@ class SimplePerceptron:
             
             iterationErrors = []
             for learningData in trainingSet:
-                #evaluationOutput = self.evaluateMultiplication(learningData.input, self.matrix)
-                #el vector se lo multiplica por cada vector columna de la matrix 
-                #y luego se le aplica la funcion signo
                 
-                columnsAsRows = self.matrix.transpose() #es un truquito para poder agarrar rapido las columnas, no se si se puede hacer de otra forma mas eficiente
-                vectorDotMatrix = [] #H
-
-                for columnIndex in range(0, columnsAsRows.shape[0]):
-                    matrixVector = columnsAsRows[columnIndex].transpose()
-                    vectorialProduct = np.dot(learningData.input, matrixVector)
-                    vectorDotMatrix.append(vectorialProduct.flat[0])
-
-                evaluationOutput = [self.function.value(acum) for acum in vectorDotMatrix]  #O
-                
+                evaluationOutput, vectorDotMatrix = self.multiplyVectorAndMatrixAndApplyFunction(learningData.input, self.matrix)
+                                
                 iterationError = np.subtract(learningData.expectedOutput, evaluationOutput) #delta
-                
+
                 if self.function.isSigmoid():
                     iterationError = self.correctIterationError(iterationError, vectorDotMatrix)
-
+                
+                    
                 iterationErrors.append(iterationError)
                     
                 #---> Line below does: 
@@ -72,13 +62,27 @@ class SimplePerceptron:
                 deltaMatrix = np.dot(self.parameters.etta, np.dot(transposeInput, iterationErrorMatrix)) 
                 self.matrix = np.add(self.matrix,deltaMatrix) #algoritmo incremental
             
-            '''
-            print 'iteration errors on epoch: ' + str(iteratedEpochs)
-            print iterationErrors
-            '''
             epsilonOnIteration = self.sumVectorsSquaredNorms(iterationErrors)
             self.collectEpochInformation(iteratedEpochs, epsilonOnIteration)
             iteratedEpochs += 1
+        self.printReasonToFinish(epsilonOnIteration, iteratedEpochs)
+        
+    def multiplyVectorAndMatrixAndApplyFunction(self, vector, matrix):
+        #el vector se lo multiplica por cada vector columna de la matrix 
+        #y luego se le aplica la funcion signo
+        
+        columnsAsRows = matrix.transpose() #es un truquito para poder agarrar rapido las columnas, no se si se puede hacer de otra forma mas eficiente
+        vectorDotMatrix = [] #H
+
+        for columnIndex in range(0, columnsAsRows.shape[0]):
+            matrixVector = columnsAsRows[columnIndex].transpose()
+            vectorialProduct = np.dot(vector, matrixVector)
+            vectorDotMatrix.append(vectorialProduct.flat[0])
+        
+        evaluationOutput = [self.function.value(acum) for acum in vectorDotMatrix]  #O
+        
+        return evaluationOutput, vectorDotMatrix
+
     
     def correctIterationError(self, delta, h):
         correctedDelta = []
@@ -96,14 +100,15 @@ class SimplePerceptron:
            
     def collectTestSetInformation(self, epoch):
         for learningData in self.parameters.testingSet:
-            evaluationOutput = np.dot(learningData.input, self.matrix)
+            evaluationOutput, notUsefulReturn = self.multiplyVectorAndMatrixAndApplyFunction(learningData.input, self.matrix)
             iterationError = np.subtract(learningData.expectedOutput, evaluationOutput)
+
             cuadraticError = self.sumSquaredNorms(iterationError.flat)
             self.trainingInformation.addTestSetInformation(epoch, cuadraticError)
             
     def collectValidationInformation(self):
         for learningData in self.parameters.testingSet:
-            obtainedVector = np.dot(learningData.input, self.matrix)
+            obtainedVector, notUsefulReturn = self.multiplyVectorAndMatrixAndApplyFunction(learningData.input, self.matrix)
             validation = ValidationInformation(learningData.expectedOutput, obtainedVector, self.parameters.objective)
             self.trainingInformation.addValidationInformation(validation)
         
@@ -141,12 +146,20 @@ class SimplePerceptron:
         print 'Epoch: ' + str(iteratedEpochs)
         print 'Epsilon: '+ str(iterationEpsilon)
         for learningData in self.parameters.learningSet:
-            obtainedVector = np.dot(learningData.input, self.matrix)
+            obtainedVector, notUsefulReturn = self.multiplyVectorAndMatrixAndApplyFunction(learningData.input, self.matrix)
             print 'input: ' + str(learningData.input)
             print str(learningData.expectedOutput) + ' --> expected'
             print str(obtainedVector) + ' --> obtained'
             print '--------------'
         #'''    
+    
+    def printReasonToFinish(self, epsilon, epoch):
+        if epsilon < self.parameters.epsilon:
+            print 'ALGORITHM - Epsilon bound met on epoch: ' + str(epoch) + ' with epsilon value: ' + str(epsilon)
+        elif epoch == self.parameters.epochs:
+            print 'ALGORITHM - Epochs bound met'
+        else:
+            print 'ALGORITHM - It shouldn\'t have stopped'
         
     def showEvolution(self):
         print 'matrix evolution, counter: ' + str(self.counter)
