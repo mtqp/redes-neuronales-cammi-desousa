@@ -13,6 +13,7 @@ class Plotter:
 
     def plot(self, trainingInformation, mustShow):
         self.plotError(trainingInformation.errors)
+        self.plotTestError(trainingInformation.testSetErrors)
         #self.plotValidation(trainingInformation.validations)
         if mustShow:
             plotter.show()
@@ -20,12 +21,33 @@ class Plotter:
             for figure in self.figures:
                 plotter.close(figure)
         
+    def plotTestError(self, information): 
+        figure(1)
+        
+        plotter.ylabel(information.yLabel)
+        plotter.xlabel(information.xLabel)
+        plotter.title(information.title)
+        
+        xAxis = []
+        yAverage = []
+        yMax = []
+        yMin = []
+        for epoch in range(0, information.epochsCount()):
+            xAxis.append(epoch)
+            yMax.append(information.maxForEpoch(epoch))
+            yMin.append(information.minForEpoch(epoch))
+            yAverage.append(information.averageForEpoch(epoch))
+        
+        plotter.plot(xAxis, yMax, label="Error maximo")
+        plotter.plot(xAxis, yMin, label="Error minimo")
+        plotter.plot(xAxis, yAverage, label="Error promedio")
+        
     def plotValidation(self, validations):
         print 'PLOTTER - validation information'
         
-        figureIndex = 0
+        figureIndex = 1
         for validation in validations:
-            figureIndex += 1    #Figure 1 is used to graphics the error
+            figureIndex += 1    #Figure 0 is used to graphics the error and 1 is for test error
             self.figures.append(figure(figureIndex)) #Set error plotting to figure i
             
             xAxis = []
