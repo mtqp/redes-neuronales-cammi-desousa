@@ -24,7 +24,7 @@ class TestSetInformation:
         self.information = {}
         self.yLabel = "Error"
         self.xLabel = "Epoca"
-        self.title = "Error en funcion de epoca (generalizacion)"
+        self.title = "Error en funcion de epoca para generalizacion"
         
     def add(self, epoch, epsilon):
         if epoch in self.information:

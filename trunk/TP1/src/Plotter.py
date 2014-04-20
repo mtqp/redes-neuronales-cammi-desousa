@@ -38,9 +38,15 @@ class Plotter:
             yMin.append(information.minForEpoch(epoch))
             yAverage.append(information.averageForEpoch(epoch))
         
+        '''
+        plotter.plot(xAxis, yMax, color="blue", linewidth=2.5, linestyle="-", label="Error maximo")
+        plotter.plot(xAxis, yMin, color="red", linewidth=2.5, linestyle="-", label="Error minimo")
+        plotter.plot(xAxis, yAverage, color="black", linewidth=2.5, linestyle="-", label="Error promedio")
+        '''
         plotter.plot(xAxis, yMax, label="Error maximo")
         plotter.plot(xAxis, yMin, label="Error minimo")
         plotter.plot(xAxis, yAverage, label="Error promedio")
+        plotter.legend(loc='upper left')
         
     def plotValidation(self, validations):
         print 'PLOTTER - validation information'
