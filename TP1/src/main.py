@@ -4,6 +4,7 @@ from LearningData import LearningData
 from Plotter import Plotter
 from NeuralNetworkAlgorithm import * 
 from SimplePerceptron import *
+from Functions import *
 import sys
 import numpy as np
 import math
@@ -26,8 +27,9 @@ def main():
     #fileParser = FileParser('C:\Facultad\RedesNeuronales\TP1\src\OCR\input_test.txt') #open from arguments
     parameters = fileParser.parseInputFile()
     
+    function = Exponential(0.5)#Identity()
     PRINT_ON_CONSOLE = True
-    neuralAlgorithm = SimplePerceptron(parameters, not PRINT_ON_CONSOLE)#NeuralNetworkAlgorithm(parameters) #deberia ser abstracto, usar la implementacion concreta
+    neuralAlgorithm = SimplePerceptron(parameters, function, not PRINT_ON_CONSOLE)#NeuralNetworkAlgorithm(parameters) #deberia ser abstracto, usar la implementacion concreta
     
     print 'neural algorithm started training'
     neuralAlgorithm.train()
