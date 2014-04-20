@@ -13,9 +13,9 @@ def main():
     '''
     ocrCreator = OCRInputCreator()
     epsilon = 0.1
-    etta = 0.07
-    epochs = 50
-    description = 'test a ver si anda'
+    etta = 0.17
+    epochs = 150
+    description = 'OCR'
     fileNameToCreate = 'C:\Facultad\RedesNeuronales\TP1\src\OCR\input_test.txt'
     expectedOutputSource = 'C:\Facultad\RedesNeuronales\TP1\src\OCR\output - test.txt'
     
@@ -23,8 +23,8 @@ def main():
     '''
     
     #'''
-    fileParser = FileParser("C:\Facultad\RedesNeuronales\TP1\src\README_INPUT.TXT") #open from arguments
-    #fileParser = FileParser('C:\Facultad\RedesNeuronales\TP1\src\OCR\input_test.txt') #open from arguments
+    #fileParser = FileParser("C:\Facultad\RedesNeuronales\TP1\src\README_INPUT.TXT") #open from arguments
+    fileParser = FileParser('C:\Facultad\RedesNeuronales\TP1\src\OCR\input_test.txt') #open from arguments
     parameters = fileParser.parseInputFile()
     
     function = Exponential(0.5)#Identity()
