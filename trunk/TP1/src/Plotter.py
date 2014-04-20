@@ -13,7 +13,7 @@ class Plotter:
 
     def plot(self, trainingInformation, mustShow):
         self.plotError(trainingInformation.errors)
-        self.plotValidation(trainingInformation.validations)
+        #self.plotValidation(trainingInformation.validations)
         if mustShow:
             plotter.show()
         else:
@@ -44,6 +44,7 @@ class Plotter:
             '''
             x = 1
             for obtainedOutput in validation.obtainedOutputs:
+                print obtainedOutput
                 obtainedYValue = self.getYValue(obtainedOutput)
                 xAxis.append(x)
                 yExpectedAxis.append(expectedYValue)
@@ -67,15 +68,21 @@ class Plotter:
         
         self.saveToFile(self.errorFileName)
     
-    def getYValue(self, output):
+    def getYValue(self, output): #esto hace cualquiera
         output = output.flat
         yValue = 0
         for i in range(len(output)-1,-1,-1):
+            sign = self.sign(output[i])
             absIValue = abs(output[i])
             coefficient = 2*absIValue
             coefficient = math.pow(coefficient, i)
-            yValue = yValue + coefficient
+            yValue = yValue + (sign * coefficient)
         return yValue
+        
+    def sign(self, value):
+        if value >= 0:
+            return 1
+        return 0
         
     def saveToFile(self, fileName):
         if self.mustSaveToFile:
