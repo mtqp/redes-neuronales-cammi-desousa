@@ -7,8 +7,8 @@ class LearningData:
         cleanExpectedOutput = expectedOuput.strip("[]")
         inputList = [float(splittedValue) for splittedValue in cleanInput.split(",")]
         self.input = np.array(inputList)
-        print "input:           " + str(self.input)
+        print "FP - input:           " + str(self.input)
         
         expectedOutputList = [float(splittedValue) for splittedValue in cleanExpectedOutput.split(",")]
         self.expectedOutput = np.array(expectedOutputList)
-        print "expected output: " + str(self.expectedOutput)
+        print "FP - expected output: " + str(self.expectedOutput)
