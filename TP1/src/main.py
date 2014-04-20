@@ -1,5 +1,5 @@
 from FileParser import FileParser
-from OCRInputCreator import OCRInputCreator
+from OCRInputCreator import *
 from LearningData import LearningData
 from Plotter import Plotter
 from NeuralNetworkAlgorithm import * 
@@ -10,7 +10,7 @@ import numpy as np
 import math
 
 def main():
-    '''
+    #'''
     ocrCreator = OCRInputCreator()
     epsilon = 0.1
     etta = 0.17
@@ -18,11 +18,13 @@ def main():
     description = 'OCR'
     fileNameToCreate = 'C:\Facultad\RedesNeuronales\TP1\src\OCR\input_test_with_testing_data.txt'
     expectedOutputSource = 'C:\Facultad\RedesNeuronales\TP1\src\OCR\output - test.txt'
+    #allInputLetters = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+    inputLetters = ['a','t','u','v','w','x','y','z']
+    ocrParameters = OCRParameters(inputLetters)
+    ocrCreator.createInput(epsilon, etta, epochs, description, fileNameToCreate, expectedOutputSource, ocrParameters)
     
-    ocrCreator.createInput(epsilon, etta, epochs, description, fileNameToCreate, expectedOutputSource)
     '''
     
-    #'''
     #fileParser = FileParser("C:\Facultad\RedesNeuronales\TP1\src\README_INPUT.TXT") #open from arguments
     #fileParser = FileParser('C:\Facultad\RedesNeuronales\TP1\src\OCR\input_test.txt') #open from arguments
     fileParser = FileParser('C:\Facultad\RedesNeuronales\TP1\src\OCR\input_test_with_testing_data.txt') #open from arguments
