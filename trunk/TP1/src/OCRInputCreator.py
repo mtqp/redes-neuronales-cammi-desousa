@@ -16,8 +16,10 @@ class OCRInputCreator:
         f.write('epsilon=' + str(epsilon) +'\n') 
         f.write('epochs=' + str(epochs) +'\n') 
 
-        for letter in self.getLettersSubSet(): 
+        for letter in self.getLearningSet(): 
             f.write('set ' + letter.binaryIn + ' = ' + letter.binaryOut + '\n')
+        for letter in self.getTestingSet():
+            f.write('testingset ' + letter.binaryIn + ' = ' + letter.binaryOut + '\n')
         
         f.close() 
      
@@ -32,8 +34,11 @@ class OCRInputCreator:
             letter.binaryOut = inputFile.readline().strip() #lee su representacion binaria
                 
         inputFile.close()
-
-    def getLettersSubSet(self):
+    
+    def getTestingSet(self):
+        return self.letters #en realidad hay que devolver un subset, xq el resto es el que vas a usar para testear
+        
+    def getLearningSet(self):
         return self.letters #en realidad hay que devolver un subset, xq el resto es el que vas a usar para testear
         
     def readInputNoNoise(self):

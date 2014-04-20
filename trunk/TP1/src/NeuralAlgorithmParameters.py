@@ -9,6 +9,7 @@ class NeuralAlgorithmParameters:
         self.epsilon = epsilon      #error minimo
         self.etta = etta            #coeficiente de aprendizaje
         self.learningSet = []
+        self.testingSet = []
         
     def getNDimension(self):
         if len(self.learningSet) > 0:
@@ -25,6 +26,9 @@ class NeuralAlgorithmParameters:
 
     def addLearningData(self, input, expectedOutput):
         self.learningSet.append(LearningData(input, expectedOutput))
+
+    def addTestingData(self, input, expectedOutput):
+        self.testingSet.append(LearningData(input, expectedOutput))
         
     def getShuffledData(self):
         setToShuffle = self.learningSet

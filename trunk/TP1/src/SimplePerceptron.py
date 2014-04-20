@@ -7,12 +7,13 @@ from Functions import *
 
 class SimplePerceptron: 
 
-    def __init__(self, parameters, function, verbose):
+    def __init__(self, parameters, function, mustShuffleLearningSet, verbose):
         m = parameters.getMDimension()
         n = parameters.getNDimension()
         
         self.parameters = parameters
         self.function = function
+        self.mustShuffleLearningSet = mustShuffleLearningSet
         self.matrix = self.createRandomMatrix(n,m)
         
         if verbose:
@@ -37,10 +38,12 @@ class SimplePerceptron:
         iteratedEpochs = 0
         
         while epsilonOnIteration > self.parameters.epsilon and iteratedEpochs < self.parameters.epochs:
-            shuffledLearningDatas = self.parameters.getShuffledData() #ver si no nos conviene hacer las prueba sin el shuffle
+            trainingSet = self.parameters.learningSet
+            if self.mustShuffleLearningSet:
+                trainingSet = self.parameters.getShuffledData() #ver si no nos conviene hacer las prueba sin el shuffle
             
             iterationErrors = []
-            for learningData in shuffledLearningDatas:
+            for learningData in trainingSet:
                 #evaluationOutput = self.evaluateMultiplication(learningData.input, self.matrix)
                 #el vector se lo multiplica por cada vector columna de la matrix 
                 #y luego se le aplica la funcion signo
@@ -85,7 +88,7 @@ class SimplePerceptron:
 
     def collectEpochInformation(self, epochs, epsilon):
         self.errorInformation.add(epochs, epsilon) #esta hecho muy desprolijo esto... tendriamos en enviarle mjes solo a training information
-        for learningData in self.parameters.learningSet:
+        for learningData in self.parameters.testingSet:
             obtainedVector = np.dot(learningData.input, self.matrix)
             validation = ValidationInformation(learningData.expectedOutput, obtainedVector, self.parameters.objective)
             self.trainingInformation.addValidationInformation(validation)

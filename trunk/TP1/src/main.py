@@ -16,20 +16,22 @@ def main():
     etta = 0.17
     epochs = 150
     description = 'OCR'
-    fileNameToCreate = 'C:\Facultad\RedesNeuronales\TP1\src\OCR\input_test.txt'
+    fileNameToCreate = 'C:\Facultad\RedesNeuronales\TP1\src\OCR\input_test_with_testing_data.txt'
     expectedOutputSource = 'C:\Facultad\RedesNeuronales\TP1\src\OCR\output - test.txt'
     
     ocrCreator.createInput(epsilon, etta, epochs, description, fileNameToCreate, expectedOutputSource)
     '''
     
     #'''
-    fileParser = FileParser("C:\Facultad\RedesNeuronales\TP1\src\README_INPUT.TXT") #open from arguments
+    #fileParser = FileParser("C:\Facultad\RedesNeuronales\TP1\src\README_INPUT.TXT") #open from arguments
     #fileParser = FileParser('C:\Facultad\RedesNeuronales\TP1\src\OCR\input_test.txt') #open from arguments
+    fileParser = FileParser('C:\Facultad\RedesNeuronales\TP1\src\OCR\input_test_with_testing_data.txt') #open from arguments
     parameters = fileParser.parseInputFile()
     
     function = Exponential(0.5)#Identity()
     VERBOSE = True
-    neuralAlgorithm = SimplePerceptron(parameters, function, not VERBOSE)#NeuralNetworkAlgorithm(parameters) #deberia ser abstracto, usar la implementacion concreta
+    SHUFFLE_TRAINING_SET = True
+    neuralAlgorithm = SimplePerceptron(parameters, function, SHUFFLE_TRAINING_SET, not VERBOSE)#NeuralNetworkAlgorithm(parameters) #deberia ser abstracto, usar la implementacion concreta
     
     print 'ALGORITHM - Start'
     neuralAlgorithm.train()
