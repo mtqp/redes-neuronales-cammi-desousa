@@ -5,9 +5,10 @@ from datetime import datetime
 from datetime import time
 
 class Plotter:
-    def __init__(self, errorFileName, validationFileName, mustSaveToFile):
+    def __init__(self, errorFileName, validationFileName, testingFileName, mustSaveToFile):
         self.errorFileName  = errorFileName
         self.validationFileName = validationFileName
+        self.testingFileName = testingFileName
         self.mustSaveToFile = mustSaveToFile
         self.figures = []
 
@@ -48,6 +49,8 @@ class Plotter:
         plotter.plot(xAxis, yAverage, label="Error promedio")
         plotter.legend(loc='upper left')
         
+        self.saveToFile(self.testingFileName, information)
+        
     def plotValidation(self, validations):
         print 'PLOTTER - validation information'
         
@@ -83,7 +86,7 @@ class Plotter:
             plotter.plot(xAxis, yExpectedAxis)
             plotter.plot(xAxis, yObtainedAxis)
             
-            self.saveToFile(self.validationFileName + ' letra ' + str(expectedYValue))
+            self.saveToFile(self.validationFileName + ' letra ' + str(expectedYValue), validations)
         self.figureCount = figureIndex
     
     def plotError(self, information):
@@ -94,7 +97,7 @@ class Plotter:
         plotter.xlabel(information.xLabel)
         plotter.title(information.title)
         
-        self.saveToFile(self.errorFileName)
+        self.saveToFile(self.errorFileName, information)
     
     def getYValue(self, output): #esto hace cualquiera
         output = output.flat
@@ -112,7 +115,7 @@ class Plotter:
             return 1
         return 0
         
-    def saveToFile(self, fileName):
+    def saveToFile(self, fileName, information):
         if self.mustSaveToFile:
             completeFileName = fileName + ' - etta ' + str(information.etta) + ' - ' + self.getNow() + '.png'
             print 'saving on: ' + completeFileName        

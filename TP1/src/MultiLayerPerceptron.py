@@ -1,7 +1,7 @@
 import sys
 import numpy as np
 
-class NeuralNetworkAlgorithm: #por ahora va a tener cableado el perceptron simple, pero la idea es generalizarlo
+class MultilayerPerceptron: #por ahora va a tener cableado el perceptron simple, pero la idea es generalizarlo
 
     def __init__(self, parameters):
         self.parameters = parameters

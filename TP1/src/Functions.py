@@ -20,7 +20,7 @@ class Identity:
         return value
     
     def isSigmoid(self):
-        return True
+        return False
     
 class Sign:
     
@@ -30,4 +30,4 @@ class Sign:
         return -1.0
         
     def isSigmoid(self):
-        return True
+        return False

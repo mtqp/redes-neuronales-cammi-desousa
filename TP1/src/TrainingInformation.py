@@ -1,10 +1,10 @@
 import numpy as np
 
 class TrainingInformation:
-    def __init__(self, errors):
+    def __init__(self, errors, etta):
         self.errors = errors
         self.validations = []
-        self.testSetErrors = TestSetInformation()
+        self.testSetErrors = TestSetInformation(etta)
 
     def addValidationInformation(self, validation):
         matchingValidation = [val for val in self.validations if (validation.expectedOutput == val.expectedOutput).all()]
@@ -20,8 +20,9 @@ class TrainingInformation:
         self.testSetErrors.add(epoch, epsilon)
 
 class TestSetInformation:
-    def __init__(self):
+    def __init__(self, etta):
         self.information = {}
+        self.etta = etta
         self.yLabel = "Error"
         self.xLabel = "Epoca"
         self.title = "Error en funcion de epoca para generalizacion"
