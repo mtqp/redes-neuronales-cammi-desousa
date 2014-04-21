@@ -20,7 +20,7 @@ class SimplePerceptron:
             self.consolePrintStartingContext(n, m)
         
         self.errorInformation = ErrorInformation([],[], self.parameters.objective, parameters.etta)
-        self.trainingInformation = TrainingInformation(self.errorInformation)
+        self.trainingInformation = TrainingInformation(self.errorInformation, self.parameters.etta)
         self.verbose = verbose
         self.counter = 0
         
@@ -56,7 +56,7 @@ class SimplePerceptron:
                 iterationErrors.append(iterationError)
                     
                 #---> Line below does: 
-                #---- etta * ( learninData.input.transpose() x iterationerror ) *gprima /en nuestro caso no va xq la derivada es 1
+                #---- etta * ( learninData.input.transpose() x iterationerror ) *gprima 
                 transposeInput = np.matrix(learningData.input).transpose()
                 iterationErrorMatrix = np.matrix(iterationError)
                 deltaMatrix = np.dot(self.parameters.etta, np.dot(transposeInput, iterationErrorMatrix)) 
