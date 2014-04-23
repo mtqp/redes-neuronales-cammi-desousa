@@ -62,7 +62,7 @@ class OCRInputCreator:
         inputFile.close()
   
 class OCRParameters:
-    def __init__(self, stringLettersLearningSet=[], noiseCoefficient=0.5):
+    def __init__(self, stringLettersLearningSet=[], noiseCoefficient=0.0):
         self.stringLettersLearningSet = [stringLetter.upper() for stringLetter in stringLettersLearningSet]
         self.noise = noiseCoefficient
         
