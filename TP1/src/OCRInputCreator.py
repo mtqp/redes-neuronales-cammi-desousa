@@ -1,5 +1,6 @@
 import sys
 from pprint import pprint
+import random
 
 class OCRInputCreator:
 
@@ -43,7 +44,7 @@ class OCRInputCreator:
  
     def readInputNoNoise(self):
         print 'OCR - Reading letter representation'
-        inputFile = open('C:\Facultad\RedesNeuronales\TP1\src\OCR\letter_representation.txt', 'r')
+        inputFile = open('/home/martincammi/workspaceFacu/RedesNeuronales-TP1/src/OCR/letter_representation.txt', 'r')
         
         while True:
             letter = inputFile.readline()
@@ -61,13 +62,18 @@ class OCRInputCreator:
         inputFile.close()
   
 class OCRParameters:
-    def __init__(self, stringLettersLearningSet=[], noiseCoefficient=0.0):
+    def __init__(self, stringLettersLearningSet=[], noiseCoefficient=0.5):
         self.stringLettersLearningSet = [stringLetter.upper() for stringLetter in stringLettersLearningSet]
         self.noise = noiseCoefficient
         
     def getTestingSet(self, allLetters):
         if len(self.stringLettersLearningSet) == 0:
-            return allLetters
+	    if self.noise != 0.0:
+	        noisedLetters = self.applyNoise(allLetters)
+		return noisedLetters
+	    else:
+		return allLetters
+
         filteredLetters = [letter for letter in allLetters if letter.stringValue not in self.stringLettersLearningSet]
         filteredLetters = self.applyNoise(filteredLetters)
         return filteredLetters
@@ -80,9 +86,11 @@ class OCRParameters:
 
     def applyNoise(self, letters):
         if self.noise == 0.0:
+	    print 'OCR - No noise is being applied to letter inputs'
             return letters
 
-        print 'OCR - No noise is being applied to letter inputs'
+	print 'OCR - **** Applying Noise with ' + str(self.noise) + ' % ****'
+
         noisedUpLetters = []
         for letter in letters:
             letterWithNoise = self.addNoiseTo(letter)
@@ -90,7 +98,34 @@ class OCRParameters:
         return noisedUpLetters
 
     def addNoiseTo(self, letter):
-        return letter
+	'''letter es un string de 1s y 0s del estilo [1,0,1,...,0,1] '''
+
+	''' Convertir el string en lista '''
+	cleanInput = letter.binaryIn.strip("[]")
+        inputList = [(splittedValue) for splittedValue in cleanInput.split(",")]
+	
+	noiseCount = 0
+	efectiveNoise = 0
+	''' agregar el ruido  (rand(size(x)) < n) '''
+	for i, letterBit in enumerate(inputList):
+		randomValue = random.uniform(0.0, 1.0)
+		if randomValue <= self.noise:
+			if inputList[i] == '0':
+				efectiveNoise = efectiveNoise + 1
+			inputList[i] = str(1)
+			noiseCount = noiseCount + 1	
+			''' print 'noise added' + '\n' '''
+	
+	print 'Letter ' + str(letter) + ' Added ' + str(noiseCount) + ' noises (' + str(efectiveNoise) + ' efective )'
+
+	''' Convertir la lista en string stringList = ', '.join(inputList) '''
+
+	letter.binaryIn = '[' + ','.join(inputList) + ']'
+
+	return letter
+
+
+
         ''' No se me ocurre un buen algoritmo para aplicar ruido y que nos pueda servir
         binaryWithoutBrackets = letter.binaryIn.strip().lstrip('[').rstrip(']')
         splittedBits = binaryWithoutBrackets.split(',')
