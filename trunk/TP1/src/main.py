@@ -14,19 +14,19 @@ def main():
     #createFunctionInput()
    
     createOCR()
-    #executeSimplePerceptron()
+    executeSimplePerceptron()
     
 def createFunctionInput():
-    trainingCount = 5
-    testingCount = 20
-    epsilon = 0.1
+    trainingCount = 100
+    testingCount = 100
+    epsilon = 0.01
     etta = 0.07
     epochs = 1500
     hiddenNodes = 10
     neuralType = StandardBP() 
     #neuralType = AdaptiveWithMomentumBP() 
     #neuralType = MomentumBP() 
-    fileNameStandard = 'C:\Facultad\RedesNeuronales\TP1\src\FuncAprox\StandardBP.m'
+    fileNameStandard = 'C:\Facultad\RedesNeuronales\TP1\src\FuncAprox\StandardBP - 2daPrueba.m'
     fileNameAdaptativeWithMomentum = 'C:\Facultad\RedesNeuronales\TP1\src\FuncAprox\AdaptativeWithMomentumBP.m'
     fileNameMomentum = 'C:\Facultad\RedesNeuronales\TP1\src\FuncAprox\MomentumBP.m'
     fileName = fileNameStandard #modificar aca para el archivo que quieras!

@@ -11,7 +11,7 @@ hiddenNodes = 10;
 epochs = 1500;
 etta = 0.07;
 neuralType = 'traingd';
-epsilon = 0.1;
+epsilon = 0.01;
 
 %Set net
 net = feedforwardnet(hiddenNodes);  %Set neuronal net with N hidden nodes

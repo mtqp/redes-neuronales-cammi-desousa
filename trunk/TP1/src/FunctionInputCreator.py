@@ -74,9 +74,8 @@ class FunctionInputCreator:
         minimalTrainingSet = self.getMinimalTrainingSet()
         
         if len(minimalTrainingSet) <= self.trainingSetCount:
-            for i in range(0,self.trainingSetCount):
-                trainingSet.append(minimalTrainingSet[i])
-        
+            trainingSet += minimalTrainingSet
+       
         if len(trainingSet) < self.trainingSetCount:
             extraCount = self.trainingSetCount - len(trainingSet)
             trainingSet = trainingSet + self.getRandomSets(extraCount)
