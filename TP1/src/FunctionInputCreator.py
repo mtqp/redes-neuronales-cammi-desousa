@@ -62,7 +62,8 @@ class FunctionInputCreator:
         f.write('net.trainParam.goal = epsilon      %Set epsilon\n')
         f.write('net.trainParam.epochs = epochs;    %Set epochs\n')
         f.write('net.trainParam.lr = etta;          %Set etta\n\n')
-
+        f.write('net.trainParam.max_fail = 100;\n')
+        
         f.write('net = train(net,trainingInput,trainingOutput);\n')
         f.write('view(net)\n')
         f.write('netTestingOutput = net(testingInput);\n')

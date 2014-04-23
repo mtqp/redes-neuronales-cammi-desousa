@@ -11,22 +11,22 @@ import numpy as np
 import math
 
 def main():
-    #createFunctionInput()
+    createFunctionInput()
    
-    createOCR()
-    executeSimplePerceptron()
+    #createOCR()
+    #executeSimplePerceptron()
     
 def createFunctionInput():
-    trainingCount = 100
+    trainingCount = 50
     testingCount = 100
     epsilon = 0.01
     etta = 0.07
-    epochs = 1500
+    epochs = 3000
     hiddenNodes = 10
     neuralType = StandardBP() 
     #neuralType = AdaptiveWithMomentumBP() 
     #neuralType = MomentumBP() 
-    fileNameStandard = 'C:\Facultad\RedesNeuronales\TP1\src\FuncAprox\StandardBP - 2daPrueba.m'
+    fileNameStandard = 'C:\Facultad\RedesNeuronales\TP1\src\FuncAprox\StandardBP - 4taPrueba.m'
     fileNameAdaptativeWithMomentum = 'C:\Facultad\RedesNeuronales\TP1\src\FuncAprox\AdaptativeWithMomentumBP.m'
     fileNameMomentum = 'C:\Facultad\RedesNeuronales\TP1\src\FuncAprox\MomentumBP.m'
     fileName = fileNameStandard #modificar aca para el archivo que quieras!
