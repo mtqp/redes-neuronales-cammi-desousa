@@ -11,28 +11,11 @@ import numpy as np
 import math
 
 def main():
-    createFunctionInput()
+    #createFunctionInput()
    
-    #createOCR()
+    createOCR()
     #executeSimplePerceptron()
     
-def createFunctionInput():
-    trainingCount = 50
-    testingCount = 100
-    epsilon = 0.01
-    etta = 0.07
-    epochs = 3000
-    hiddenNodes = 10
-    neuralType = StandardBP() 
-    #neuralType = AdaptiveWithMomentumBP() 
-    #neuralType = MomentumBP() 
-    fileNameStandard = 'C:\Facultad\RedesNeuronales\TP1\src\FuncAprox\StandardBP - 4taPrueba.m'
-    fileNameAdaptativeWithMomentum = 'C:\Facultad\RedesNeuronales\TP1\src\FuncAprox\AdaptativeWithMomentumBP.m'
-    fileNameMomentum = 'C:\Facultad\RedesNeuronales\TP1\src\FuncAprox\MomentumBP.m'
-    fileName = fileNameStandard #modificar aca para el archivo que quieras!
-    functionCreator = FunctionInputCreator(fileName, trainingCount, testingCount, epsilon, etta, epochs, neuralType, hiddenNodes)
-    functionCreator.create()    
-
 def createOCR():
     ocrCreator = OCRInputCreator()
     epsilon = 0.1
@@ -65,12 +48,13 @@ def createOCR():
     #inputLetters = ['a','b','p','r','o','q','u','v','w','c'] Doble Curva.
     #inputLetters = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
     inputLetters = []
-    noisePercentage = 0.2
+    noisePercentage = 0.5
     ocrParameters = OCRParameters(inputLetters,noisePercentage)
-    #ocrParameters = OCRParameters(inputLetters, 0.5) #no filter, same input as testinput
+    #ocrParameters = OCRParameters() #no filter, same input as testinput
     ocrCreator.createInput(epsilon, etta, epochs, description, fileNameToCreate, expectedOutputSource, ocrParameters)
     
 def executeSimplePerceptron():
+    #fileParser = FileParser("/home/martincammi/workspaceFacu/RedesNeuronales-TP1/src/OCR/input_and_or.txt") #open from arguments
     fileParser = FileParser("/home/martincammi/workspaceFacu/RedesNeuronales-TP1/src/OCR/input_ocr.txt") #open from arguments
     #fileParser = FileParser('/home/martincammi/workspaceFacu/RedesNeuronales-TP1/src/OCR/input_test.txt') #open from arguments
     #fileParser = FileParser('/home/martincammi/workspaceFacu/RedesNeuronales-TP1/src/OCR/input_test_with_testing_data.txt') #open from arguments
@@ -84,7 +68,7 @@ def executeSimplePerceptron():
 
     VERBOSE = True
     SHUFFLE_TRAINING_SET = True
-    neuralAlgorithm = SimplePerceptron(parameters, function, not SHUFFLE_TRAINING_SET, not VERBOSE)#NeuralNetworkAlgorithm(parameters) #deberia ser abstracto, usar la implementacion concreta
+    neuralAlgorithm = SimplePerceptron(parameters, function, not SHUFFLE_TRAINING_SET, VERBOSE)#NeuralNetworkAlgorithm(parameters) #deberia ser abstracto, usar la implementacion concreta
     
     print 'ALGORITHM - Start'
     neuralAlgorithm.train()
@@ -97,10 +81,26 @@ def executeSimplePerceptron():
     testingFileName = './/..//graphics//testing - ' + parameters.objective
     SAVE_TO_FILE = True
     SHOW = True
-    plotter = Plotter(errorFileName, validationFileName, testingFileName, not SAVE_TO_FILE)
+    plotter = Plotter(errorFileName, validationFileName, testingFileName, SAVE_TO_FILE)
     plotter.plot(trainingInformation, SHOW)
     #'''
-    
+
+def createFunctionInput():
+    trainingCount = 5
+    testingCount = 20
+    epsilon = 0.1
+    etta = 0.07
+    epochs = 1500
+    hiddenNodes = 10
+    neuralType = StandardBP() 
+    #neuralType = AdaptiveWithMomentumBP() 
+    #neuralType = MomentumBP() 
+    fileNameStandard = 'C:\Facultad\RedesNeuronales\TP1\src\FuncAprox\StandardBP.m'
+    fileNameAdaptativeWithMomentum = 'C:\Facultad\RedesNeuronales\TP1\src\FuncAprox\AdaptativeWithMomentumBP.m'
+    fileNameMomentum = 'C:\Facultad\RedesNeuronales\TP1\src\FuncAprox\MomentumBP.m'
+    fileName = fileNameStandard #modificar aca para el archivo que quieras!
+    functionCreator = FunctionInputCreator(fileName, trainingCount, testingCount, epsilon, etta, epochs, neuralType, hiddenNodes)
+    functionCreator.create() 
     
 if __name__ == "__main__":
     main()
