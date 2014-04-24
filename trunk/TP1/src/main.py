@@ -13,32 +13,15 @@ import math
 def main():
     #createFunctionInput()
    
-    createOCR()
-    #executeSimplePerceptron()
-    
-def createFunctionInput():
-    trainingCount = 1000
-    testingCount = 1000
-    epsilon = 0.025
-    etta = 0.15
-    epochs = 30000
-    hiddenNodes = 10
-    EXTRAPOLATE = True
-    neuralType = StandardBP() 
-    #neuralType = AdaptiveWithMomentumBP() 
-    #neuralType = MomentumBP() 
-    fileNameStandard = 'C:\Facultad\RedesNeuronales\TP1\src\FuncAprox\StandardBP - Fitteo Curva Adaptative Momentum.m'
-    fileNameAdaptativeWithMomentum = 'C:\Facultad\RedesNeuronales\TP1\src\FuncAprox\AdaptativeWithMomentumBP.m'
-    fileNameMomentum = 'C:\Facultad\RedesNeuronales\TP1\src\FuncAprox\Fitteo MomentumBP.m'
-    fileName = fileNameStandard #modificar aca para el archivo que quieras!
-    functionCreator = FunctionInputCreator(fileName, trainingCount, testingCount, EXTRAPOLATE, epsilon, etta, epochs, neuralType, hiddenNodes)
-    functionCreator.create()    
+    #createOCR()
+    executeSimplePerceptron()   
 
 def createOCR():
     ocrCreator = OCRInputCreator()
-    epsilon = 0.1
-    etta = 0.45		
-    epochs = 3000
+    epsilon = 0.85
+    etta = 0.1		
+    epochs = 1500
+    noisePercentage = 0.0
     description = 'OCR'
     #fileNameToCreate = 'C:\Facultad\RedesNeuronales\TP1\src\OCR\input_martin.txt'
     fileNameToCreate = '/home/martincammi/workspaceFacu/RedesNeuronales-TP1/src/OCR/input_ocr.txt'
@@ -66,7 +49,7 @@ def createOCR():
     #inputLetters = ['a','b','p','r','o','q','u','v','w','c'] Doble Curva.
     #inputLetters = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
     inputLetters = []
-    noisePercentage = 0.5
+
     ocrParameters = OCRParameters(inputLetters,noisePercentage)
     #ocrParameters = OCRParameters() #no filter, same input as testinput
     ocrCreator.createInput(epsilon, etta, epochs, description, fileNameToCreate, expectedOutputSource, ocrParameters)
@@ -80,9 +63,9 @@ def executeSimplePerceptron():
     #fileParser = FileParser('/home/martincammi/workspaceFacu/RedesNeuronales-TP1/src/OCR/input_martin.txt') #open from arguments
     parameters = fileParser.parseInputFile()
     
-    function = Exponential(0.5)
+    #function = Exponential(0.5)
     #function = Identity()
-    #function = Sign()
+    function = Sign()
 
     VERBOSE = True
     SHUFFLE_TRAINING_SET = True
@@ -99,7 +82,7 @@ def executeSimplePerceptron():
     testingFileName = './/..//graphics//testing - ' + parameters.objective
     SAVE_TO_FILE = True
     SHOW = True
-    plotter = Plotter(errorFileName, validationFileName, testingFileName, SAVE_TO_FILE)
+    plotter = Plotter(errorFileName, validationFileName, testingFileName, not SAVE_TO_FILE)
     plotter.plot(trainingInformation, SHOW)
     #'''
 
