@@ -21,7 +21,7 @@ class OCRInputCreator:
         f.write('epochs=' + str(epochs) +'\n') 
 
         ''' Generar los diagramas de las letras '''
-        matrixPlotter.printLetter(ocrParameters.getTestingSet(self.letters))	
+        matrixPlotter.printLetters(ocrParameters.getTestingSet(self.letters))	
 
         for letter in ocrParameters.getLearningSet(self.letters): 
             f.write('set ' + letter.binaryIn + ' = ' + letter.binaryOut + '\n')
