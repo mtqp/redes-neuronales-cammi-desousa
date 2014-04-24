@@ -1,6 +1,7 @@
 import sys
 from pprint import pprint
 import random
+import matrixPlotter
 
 class OCRInputCreator:
 
@@ -18,6 +19,9 @@ class OCRInputCreator:
         f.write('etta=' + str(etta) +'\n') 
         f.write('epsilon=' + str(epsilon) +'\n') 
         f.write('epochs=' + str(epochs) +'\n') 
+
+        ''' Generar los diagramas de las letras '''
+        matrixPlotter.printLetter(ocrParameters.getTestingSet(self.letters))	
 
         for letter in ocrParameters.getLearningSet(self.letters): 
             f.write('set ' + letter.binaryIn + ' = ' + letter.binaryOut + '\n')
@@ -105,18 +109,18 @@ class OCRParameters:
         inputList = [(splittedValue) for splittedValue in cleanInput.split(",")]
 	
 	noiseCount = 0
-	efectiveNoise = 0
 	''' agregar el ruido  (rand(size(x)) < n) '''
 	for i, letterBit in enumerate(inputList):
 		randomValue = random.uniform(0.0, 1.0)
 		if randomValue <= self.noise:
 			if inputList[i] == '0':
-				efectiveNoise = efectiveNoise + 1
-			inputList[i] = str(1)
+				inputList[i] = str(1)
+			else:
+				inputList[i] = str(0)
 			noiseCount = noiseCount + 1	
 			''' print 'noise added' + '\n' '''
 	
-	print 'Letter ' + str(letter) + ' Added ' + str(noiseCount) + ' noises (' + str(efectiveNoise) + ' efective )'
+	print 'Letter ' + str(letter) + ' Added ' + str(noiseCount) + ' noises'
 
 	''' Convertir la lista en string stringList = ', '.join(inputList) '''
 
