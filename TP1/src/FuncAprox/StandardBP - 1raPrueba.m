@@ -8,7 +8,7 @@ testingOutput = [-0.867687862261 -0.0207959885509 -0.981129868711 -0.16820201651
 testingInput = transpose(testingInput);
 %Parameters set dynamically
 hiddenNodes = 10;
-epochs = 1500;
+epochs = 3000;
 etta = 0.07;
 neuralType = 'traingd';
 epsilon = 0.01;
@@ -19,6 +19,7 @@ net.trainFcn = neuralType;
 net.trainParam.goal = epsilon      %Set epsilon
 net.trainParam.epochs = epochs;    %Set epochs
 net.trainParam.lr = etta;          %Set etta
+net.trainParam.max_fail = 100;
 
 net = train(net,trainingInput,trainingOutput);
 view(net)
