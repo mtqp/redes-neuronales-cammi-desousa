@@ -7,10 +7,10 @@ testingInput = [1.52023951505 5.34377048481;3.4615159875 5.60174366378;1.2545194
 testingOutput = [-0.867687862261 -0.0207959885509 -0.981129868711 -0.168202016513 -0.390423251924 -0.564094609703 -0.484127034531 -0.956944133233 -0.720242580496 -0.20584923379 -0.784504370754 -0.178080400786 -0.902551740399 -0.355785972387 0.975954558457 -0.947825520035 -0.599771323317 -0.199041560986 -0.939754569471 -0.277292815387 ];
 testingInput = transpose(testingInput);
 %Parameters set dynamically
-hiddenNodes = 25;
-epochs = 3000;
+hiddenNodes = 10;
+epochs = 1500;
 etta = 0.07;
-neuralType = 'traingd';
+neuralType = 'traingdx';
 epsilon = 0.01;
 
 %Set net
@@ -19,7 +19,7 @@ net.trainFcn = neuralType;
 net.trainParam.goal = epsilon      %Set epsilon
 net.trainParam.epochs = epochs;    %Set epochs
 net.trainParam.lr = etta;          %Set etta
-net.trainParam.max_fail = 3000;
+net.trainParam.max_fail = 1000;
 
 net = train(net,trainingInput,trainingOutput);
 view(net)
