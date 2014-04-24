@@ -15,10 +15,11 @@ class MomentumBP:
         return '\'traingdm\''
 
 class FunctionInputCreator:
-    def __init__(self, fileName, trainingSetCount, testingSetCount, epsilon, etta, epochs, neuralType, hiddenNodes):
+    def __init__(self, fileName, trainingSetCount, testingSetCount, extrapolateTestingSet, epsilon, etta, epochs, neuralType, hiddenNodes):
         self.fileName = fileName
         self.trainingSetCount = trainingSetCount
         self.testingSetCount = testingSetCount
+        self.extrapolateTestingSet = extrapolateTestingSet
         self.epsilon = epsilon
         self.etta = etta
         self.epochs = epochs
@@ -62,7 +63,7 @@ class FunctionInputCreator:
         f.write('net.trainParam.goal = epsilon      %Set epsilon\n')
         f.write('net.trainParam.epochs = epochs;    %Set epochs\n')
         f.write('net.trainParam.lr = etta;          %Set etta\n\n')
-        f.write('net.trainParam.max_fail = 100;\n')
+        f.write('net.trainParam.max_fail = 1000;\n')
         
         f.write('net = train(net,trainingInput,trainingOutput);\n')
         f.write('view(net)\n')
@@ -71,6 +72,7 @@ class FunctionInputCreator:
         
     def getTrainingSet(self):
         trainingSet = []
+        EXTRAPOLATE = True
         
         minimalTrainingSet = self.getMinimalTrainingSet()
         
@@ -79,7 +81,7 @@ class FunctionInputCreator:
        
         if len(trainingSet) < self.trainingSetCount:
             extraCount = self.trainingSetCount - len(trainingSet)
-            trainingSet = trainingSet + self.getRandomSets(extraCount)
+            trainingSet = trainingSet + self.getRandomSets(extraCount, not EXTRAPOLATE)
             
         return trainingSet
         
@@ -99,19 +101,26 @@ class FunctionInputCreator:
         
         return minimalTrainingSet
         
-    def getRandomSets(self, count):
+    def getRandomSets(self, count, extrapolate):
         randomSet = []
         for i in range(count):
-            x = random.uniform(0,2*pi)
-            maxPossibleY = 2*(2*pi - x) #valor maximo de y para que sen este definida entre 0 y 2pi
-            y = random.uniform(0, maxPossibleY)
+            xBound = 2*pi
+            if extrapolate:
+                xBound = random.uniform(7,100)
+            x = random.uniform(0,xBound)
+            
+            yBound = 2*(2*pi - x) #valor maximo de y para que sen este definida entre 0 y 2pi
+            if extrapolate:
+                yBound = random.uniform(0,100)
+
+            y = random.uniform(0, yBound)
             result = sin(x+y/2)
             
             randomSet.append([x,y,result])
         return randomSet
         
     def getTestingSet(self):
-        return self.getRandomSets(self.testingSetCount)
+        return self.getRandomSets(self.testingSetCount, self.extrapolateTestingSet)
         
     def writeVector(self, file, vectorName, vectorXYValue):
         inputAsString = '['

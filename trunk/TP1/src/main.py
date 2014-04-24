@@ -16,6 +16,24 @@ def main():
     createOCR()
     #executeSimplePerceptron()
     
+def createFunctionInput():
+    trainingCount = 1000
+    testingCount = 1000
+    epsilon = 0.025
+    etta = 0.15
+    epochs = 30000
+    hiddenNodes = 10
+    EXTRAPOLATE = True
+    neuralType = StandardBP() 
+    #neuralType = AdaptiveWithMomentumBP() 
+    #neuralType = MomentumBP() 
+    fileNameStandard = 'C:\Facultad\RedesNeuronales\TP1\src\FuncAprox\StandardBP - Fitteo Curva Adaptative Momentum.m'
+    fileNameAdaptativeWithMomentum = 'C:\Facultad\RedesNeuronales\TP1\src\FuncAprox\AdaptativeWithMomentumBP.m'
+    fileNameMomentum = 'C:\Facultad\RedesNeuronales\TP1\src\FuncAprox\Fitteo MomentumBP.m'
+    fileName = fileNameStandard #modificar aca para el archivo que quieras!
+    functionCreator = FunctionInputCreator(fileName, trainingCount, testingCount, EXTRAPOLATE, epsilon, etta, epochs, neuralType, hiddenNodes)
+    functionCreator.create()    
+
 def createOCR():
     ocrCreator = OCRInputCreator()
     epsilon = 0.1
