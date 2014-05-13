@@ -30,3 +30,17 @@ class DataSetCreator:
                 i += 1
                 randomVector.append(randomValue)
         return randomVector
+
+    def createBoundVector(self):
+
+        topValue = 1000
+
+        boundVector = []
+        i = 0
+        while i < self.nDimension:
+            randomValue = random.uniform(0, topValue)
+
+            if not randomValue in boundVector:
+                i += 1
+                boundVector.append(randomValue)
+        return boundVector

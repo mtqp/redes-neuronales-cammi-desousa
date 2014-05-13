@@ -1,16 +1,20 @@
 ﻿import sys
 import numpy as np
 import math
-import Da
+from DataSetCreator import DataSetCreator
+from pprint import pprint
 
 def main():
     nDimensionOfWeightMatrix = 6
     mDimensionOfWeightMatrix = 4
     etta = 0.1
-    amountOfRandomSets = 1000
+    amountOfRandomSets = 100
 
-    dataSet = DataSetCreator(nDimensionOfWeightMatrix).getRandomDataSet(amountOfRandomSets)
-    print dataSet
+    dataSetCreator = DataSetCreator(nDimensionOfWeightMatrix)
+    dataSet = dataSetCreator.getRandomDataSet(amountOfRandomSets)
+    pprint(dataSet)
+    pprint('boundVector')
+    pprint(dataSetCreator.boundVector)
     '''
     hebbianLearning = HebbianLearning(nDimensionOfWeightMatrix , mDimensionOfWeightMatrix, etta )
     dataSet = DataSetCreator(nDimensionOfWeightMatrix).getRandomDataSet(amountOfRandomSets)
