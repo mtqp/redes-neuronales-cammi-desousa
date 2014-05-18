@@ -9,8 +9,11 @@ class MatrixVisualizer:
         self.n = nDimension
         self.m = mDimension
         self.boxes = self.createMatrixBoxes(nDimension, mDimension)
+        #self.scene = display(title='Visualizacion de matriz', x=0, y=0, width=600, height=200, center=(5,0,0), background=(0,1,1))
+        #self.scene.select()
 
     def visualize(self, matrix):
+        rate(100)
         for columnIndex in range(0, self.n):
             for rowIndex in range(0, self.m):
                 matrixValue = matrix[columnIndex][rowIndex]
