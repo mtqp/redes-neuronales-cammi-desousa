@@ -11,9 +11,13 @@ def main():
     vTest = Visualizator()
     vTest.printMatrix()
 
-    while True:
-        vTest.printMatrix()
+    vTest.printMatrix()
+    vTest.printMatrix()
+    vTest.printMatrix()
+    #while True:
+    #    vTest.printMatrix()
 
+    '''
     nDimensionOfWeightMatrix = 6
     mDimensionOfWeightMatrix = 4
     etta = 0.1
@@ -28,7 +32,7 @@ def main():
     hebbianLearning = HebbianLearning(nDimensionOfWeightMatrix , mDimensionOfWeightMatrix, etta )
     dataSet = DataSetCreator(nDimensionOfWeightMatrix).getRandomDataSet(amountOfRandomSets)
     runHebb(hebbianLearning, dataSet)
-
+    '''
 
 def runHebb(hebbianLearning, dataSet):
     hebbianLearning.algorithm(dataSet, hebbRule)
