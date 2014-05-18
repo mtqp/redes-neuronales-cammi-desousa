@@ -3,10 +3,12 @@ import numpy as np
 import math
 import random
 
+
 class Visualizator:
     def __init__(self):
-        #nothing yet to do
-        
+        self.ball = sphere(pos=(-5,0,0), radius=0.5, color=color.cyan)
+        self.wallR = box(pos=(6,0,0), size=(0.2,12,12), color=color.green)
+        self.ball.velocity = vector(25,0,0)
+
     def printMatrix(self):#, matrix):
-        redbox=box(pos=vector(4,2,3),size=(8,4,6),color=color.red)
-        ball=sphere(pos=vector(4,7,3),radius=2,color=color.green)
+        self.ball.pos = self.ball.pos + self.ball.velocity*0.0005

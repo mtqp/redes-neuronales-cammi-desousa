@@ -4,8 +4,16 @@ import math
 from DataSetCreator import DataSetCreator
 from pprint import pprint
 from HebbianLearning import HebbianLearning
+from Visualizator import Visualizator
 
 def main():
+
+    vTest = Visualizator()
+    vTest.printMatrix()
+
+    while True:
+        vTest.printMatrix()
+
     nDimensionOfWeightMatrix = 6
     mDimensionOfWeightMatrix = 4
     etta = 0.1
