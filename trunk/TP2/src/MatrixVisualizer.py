@@ -1,7 +1,9 @@
+from numpy.lib.financial import rate
 from visual import *
 import numpy as np
 import math
 import random
+import time
 
 
 class MatrixVisualizer:
@@ -14,11 +16,13 @@ class MatrixVisualizer:
 
     def visualize(self, matrix):
         rate(100)
+        time.sleep(0.1)
         for columnIndex in range(0, self.n):
             for rowIndex in range(0, self.m):
                 matrixValue = matrix[columnIndex][rowIndex]
                 boxItem = self.boxes[columnIndex][rowIndex]
-                boxItem.color = color.rgb_to_hsv(self.createVectorForValue(matrixValue))
+                #boxItem.color = color.rgb_to_hsv(self.createVectorForValue(matrixValue))
+                boxItem.color = color.rgb_to_hsv((0.5,0.5,0.5))
                 boxItem.size = (0.5, 0.5, 10*abs(matrixValue))
 
     def createVectorForValue(self, aValue):
