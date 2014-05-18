@@ -4,16 +4,12 @@ import math
 from DataSetCreator import DataSetCreator
 from pprint import pprint
 from HebbianLearning import HebbianLearning
-from Visualizator import Visualizator
+from MatrixVisualizer import MatrixVisualizer
 
 def main():
 
-    vTest = Visualizator()
-    vTest.printMatrix()
+    vTest = MatrixVisualizer(6,4)
 
-    vTest.printMatrix()
-    vTest.printMatrix()
-    vTest.printMatrix()
     #while True:
     #    vTest.printMatrix()
 
