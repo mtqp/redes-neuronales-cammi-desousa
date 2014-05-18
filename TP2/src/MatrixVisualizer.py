@@ -16,11 +16,14 @@ class MatrixVisualizer:
                 matrixValue = matrix[columnIndex][rowIndex]
                 boxItem = self.boxes[columnIndex][rowIndex]
                 boxItem.color = color.rgb_to_hsv(self.createVectorForValue(matrixValue))
-                boxItem.size = (0.4, 0.4, 10*abs(matrixValue))
+                boxItem.size = (0.5, 0.5, 10*abs(matrixValue))
 
     def createVectorForValue(self, aValue):
-        aValue = 255 - (10*aValue)
-        return (aValue, aValue, aValue)
+        aValue = 0.5 - aValue
+        if aValue < 0:
+            aValue = 0
+        print 'Color: ' + str(aValue)
+        return (aValue, aValue, 0)
 
     def createMatrixBoxes(self, n, m):
         matrix = []
