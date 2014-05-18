@@ -8,8 +8,13 @@ from MatrixVisualizer import MatrixVisualizer
 
 def main():
 
-    vTest = MatrixVisualizer(6,4)
-
+    n = 6
+    m = 4
+    etta = 0.17
+    hebbianLearning = HebbianLearning(n, m, etta)
+    matrix = hebbianLearning.createRandomMatrix(n, m)
+    vTest = MatrixVisualizer(n, m)
+    vTest.visualize(matrix)
     #while True:
     #    vTest.printMatrix()
 
