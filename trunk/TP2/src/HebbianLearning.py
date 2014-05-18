@@ -16,10 +16,11 @@ class HebbianLearning:
         epoch = 0
         while not self.endConditionIsMet(epoch):
             for x in dataSet:
+                print 'Corriendo para dato: ' + str(x)
                 y = self.multiplyVectorAndMatrixAndApplyFunction(x,self.matrix)
                 for j in range(0,self.m):
                     for i in range(0,self.n):
-                        xAcum = np.zeros((self.n,1)).flatten() #Verificar que esto esté funcionando correctamente.
+                        xAcum = np.zeros((self.n,1)).flatten() #Verificar que esto este funcionando correctamente.
                         for k in range(1,rule(j,self.m)):
                             xAcum[i] += y[k] * self.matrix[i][k]
                         self.deltaMatrix[i][j] = self.etta * y[j] * (x[i] - xAcum[i])
@@ -34,7 +35,7 @@ class HebbianLearning:
                 matrix[columnIndex][rowIndex] = random.uniform(-0.1, 0.1)
         return matrix
 
-    def endConditionIsMet(epoch):
+    def endConditionIsMet(self,epoch):
         return epoch > 1000
 
     def multiplyVectorAndMatrixAndApplyFunction(self, vector, matrix):

@@ -3,6 +3,7 @@ import numpy as np
 import math
 from DataSetCreator import DataSetCreator
 from pprint import pprint
+from HebbianLearning import HebbianLearning
 
 def main():
     nDimensionOfWeightMatrix = 6
@@ -15,11 +16,11 @@ def main():
     pprint(dataSet)
     pprint('boundVector')
     pprint(dataSetCreator.boundVector)
-    '''
+
     hebbianLearning = HebbianLearning(nDimensionOfWeightMatrix , mDimensionOfWeightMatrix, etta )
     dataSet = DataSetCreator(nDimensionOfWeightMatrix).getRandomDataSet(amountOfRandomSets)
-    runOja(hebbianLearning, dataSet)
-    '''
+    runHebb(hebbianLearning, dataSet)
+
 
 def runHebb(hebbianLearning, dataSet):
     hebbianLearning.algorithm(dataSet, hebbRule)
