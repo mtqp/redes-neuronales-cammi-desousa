@@ -33,12 +33,13 @@ class DataSetCreator:
 
     def createBoundVector(self):
 
-        topValue = 1000
+        topValue = 10
 
         boundVector = []
         i = 0
         while i < self.nDimension:
             randomValue = random.uniform(0, topValue)
+            randomValue = int(randomValue) #Just to testing with integers
 
             if not randomValue in boundVector:
                 i += 1
