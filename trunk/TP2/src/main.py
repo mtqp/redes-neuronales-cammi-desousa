@@ -3,26 +3,35 @@ import numpy as np
 import math
 from DataSetCreator import DataSetCreator
 from pprint import pprint
+import time
 from HebbianLearning import HebbianLearning
 from conditions.EpochAmountCondition import EpochAmountCondition
 from MatrixVisualizer import MatrixVisualizer
 import time
+from SelfOrganizedMap import SelfOrganizedMap
 
 def main():
+    map = SelfOrganizedMap(1,1,1,1,10,7)
+    gaussMatrix = map.proxy((4,4))
+    visualizer = MatrixVisualizer(10,7)
+    visualizer.visualize(gaussMatrix)
 
     '''
     n = 6
     m = 4
     etta = 0.17
     hebbianLearning = HebbianLearning(n, m, etta)
-    matrix = hebbianLearning.createRandomMatrix(n, m)
     vTest = MatrixVisualizer(n, m)
-    vTest.visualize(matrix)
-    #while True:
+    while True:
+        print '---'
+        matrix = hebbianLearning.createRandomMatrix(n, m)
+        vTest.visualize(matrix)
+        #time.sleep(2)
+
     #    vTest.printMatrix()
     '''
 
-
+    '''
     #Algorithm parameters
     n = 6
     m = 4
@@ -44,6 +53,7 @@ def main():
     #runOja1(hebbianLearning, dataSet)
     #runOjaM(hebbianLearning, dataSet)
     runSanger(hebbianLearning, dataSet)
+    '''
 
 def runHebb(hebbianLearning, dataSet):
     pprint('---Hebb---')
