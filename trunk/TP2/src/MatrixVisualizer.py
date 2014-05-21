@@ -15,14 +15,16 @@ class MatrixVisualizer:
         #self.scene.select()
 
     def visualize(self, matrix):
+        scene.center = vector(3,2,-1)
+        scene.forward =  vector(0,20,10)
         rate(100)
         time.sleep(0.1)
         for columnIndex in range(0, self.n):
             for rowIndex in range(0, self.m):
                 matrixValue = matrix[columnIndex][rowIndex]
                 boxItem = self.boxes[columnIndex][rowIndex]
-                #boxItem.color = color.rgb_to_hsv(self.createVectorForValue(matrixValue))
-                boxItem.color = color.rgb_to_hsv((0.5,0.5,0.5))
+                boxItem.color = color.rgb_to_hsv(self.createVectorForValue2(matrixValue))
+                #boxItem.color = color.rgb_to_hsv((1,0,0))
                 boxItem.size = (0.5, 0.5, 10*abs(matrixValue))
 
     def createVectorForValue(self, aValue):
@@ -31,6 +33,22 @@ class MatrixVisualizer:
             aValue = 0
         print 'Color: ' + str(aValue)
         return (aValue, aValue, 0)
+
+    #red= (1,0,0)
+    #green= (0,1,0)
+    def createVectorForValue2(self, aValue):
+        posAValue = abs(aValue)
+        topValue = 10
+
+        if(posAValue > topValue):
+            firstComponent = 1
+            secondComponent = 0
+        else:
+            firstComponent = posAValue/topValue
+            secondComponent = (topValue - posAValue)/topValue
+
+        print 'Color: ' + str((firstComponent, secondComponent, 0))
+        return (firstComponent,secondComponent, 0)
 
     def createMatrixBoxes(self, n, m):
         matrix = []
