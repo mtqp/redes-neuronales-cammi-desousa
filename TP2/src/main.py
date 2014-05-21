@@ -35,7 +35,7 @@ def main():
     #Algorithm parameters
     n = 6
     m = 4
-    etta = 0.0017
+    etta = 0.017
     amountOfRandomSets = 100
     endCondition = EpochAmountCondition()
 
@@ -47,7 +47,7 @@ def main():
 
     hebbianLearning = HebbianLearning(n , m, etta, endCondition )
     dataSet = DataSetCreator(n).getRandomDataSet(amountOfRandomSets)
-    time.sleep(5)
+    #time.sleep(2)
 
     #runHebb(hebbianLearning, dataSet)
     #runOja1(hebbianLearning, dataSet)
