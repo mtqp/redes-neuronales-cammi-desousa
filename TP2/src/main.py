@@ -11,12 +11,17 @@ import time
 from SelfOrganizedMap import SelfOrganizedMap
 
 def main():
+
     map = SelfOrganizedMap(1,1,1,1,10,7)
+    map.matrix = np.matrix('1.0 2.0; 3.0 4.0; 5.0 6.0')
+    map.activate((2,2,2))
+
+
+    '''    map = SelfOrganizedMap(1,1,1,1,10,7)
     gaussMatrix = map.proxy((4,4))
     visualizer = MatrixVisualizer(10,7)
     visualizer.visualize(gaussMatrix)
 
-    '''
     n = 6
     m = 4
     etta = 0.17
@@ -29,9 +34,7 @@ def main():
         #time.sleep(2)
 
     #    vTest.printMatrix()
-    '''
 
-    '''
     #Algorithm parameters
     n = 6
     m = 4
