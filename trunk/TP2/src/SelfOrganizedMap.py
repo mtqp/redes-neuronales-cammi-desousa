@@ -44,9 +44,12 @@ class SelfOrganizedMap:
     def activate(self, x):
 
         matrixDifference = Utils().subtractVectorToEachColumnOf(self.matrix, x)
+        #print 'MatrixDifference: ' + str(matrixDifference)
         vectorOfNorms = Utils().applyNormToEachColumn(matrixDifference)
+        #print 'vectorOfNorms: ' + str(vectorOfNorms)
 
         maskedVector = Utils().applyMaskForMinimumOn(vectorOfNorms)
+        #print 'maskedVector: ' + str(maskedVector)
 
         return maskedVector
 
@@ -66,11 +69,18 @@ class SelfOrganizedMap:
         coefficient = (-squaredNorm)/squaredSigma
         return math.pow(math.e, coefficient)
 
-
+    # y: 1,m1 x m2
     def winner(self, y):
+        for j in range(0, self.m1):
+            for i in range(0, self.m2):
+                if y[(self.m2*j)+i] == 1:
+                    return (i, j)
+    '''
+    def winnerOriginal(self, y):
         for j in range(0, self.m2):
             for i in range(0, self.m1):
                 if y[(self.m1*j)+i] == 1:
                     return (i, j)
+    '''
 
 

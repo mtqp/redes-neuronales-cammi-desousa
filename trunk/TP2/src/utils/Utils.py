@@ -6,6 +6,9 @@ import math
 class Utils:
 
     def createRandomMatrix(self, n, m):
+        return self.createRandomMatrixBetween(n,m,-0.1, 0.1)
+
+    def createRandomMatrixBetween(self, n, m, initRandom, endRandom):
 
         ROW = 0
         COLUMN = 1
@@ -14,7 +17,7 @@ class Utils:
 
         for rowIndex in range(0, matrix.shape[ROW]):
             for columnIndex in range(0, matrix.shape[COLUMN]):
-                matrix[rowIndex][columnIndex] = random.uniform(-0.1, 0.1)
+                matrix[rowIndex][columnIndex] = random.uniform(initRandom, endRandom)
 
         return matrix
 
