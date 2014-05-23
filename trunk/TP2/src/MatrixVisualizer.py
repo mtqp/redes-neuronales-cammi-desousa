@@ -18,7 +18,7 @@ class MatrixVisualizer:
         scene.center = vector(3,2,-1)
         scene.forward =  vector(0,20,10)
         rate(100)
-        time.sleep(0.1)
+        time.sleep(0.01)
         for columnIndex in range(0, self.n):
             for rowIndex in range(0, self.m):
                 matrixValue = matrix[columnIndex][rowIndex]

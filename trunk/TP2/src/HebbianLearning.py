@@ -43,6 +43,7 @@ class HebbianLearning:
         matrix = np.zeros((n,m))
         COLUMN = 0
         ROW = 1
+
         for columnIndex in range(0, matrix.shape[COLUMN]):
             for rowIndex in range(0, matrix.shape[ROW]):
                 matrix[columnIndex][rowIndex] = random.uniform(-0.1, 0.1)

@@ -1,6 +1,7 @@
 import numpy as np
 import random
 import math
+from utils.Utils import Utils
 
 class SelfOrganizedMap:
 
@@ -13,16 +14,7 @@ class SelfOrganizedMap:
         self.n = n
         self.m1 = m1
         self.m2 = m2
-        self.TRANSPOSED_COLUMN = 0
-        self.TRANSPOSED_ROW = 1
-        self.matrix = self.createRandomMatrix(n, (m1*m2))
-
-    def createRandomMatrix(self, n, m):
-        matrix = np.zeros((n,m))
-        for columnIndex in range(0, matrix.shape[self.TRANSPOSED_COLUMN]):
-            for rowIndex in range(0, matrix.shape[self.TRANSPOSED_ROW]):
-                matrix[columnIndex][rowIndex] = random.uniform(-0.1, 0.1)
-        return matrix
+        self.matrix = Utils().createRandomMatrix(n, (m1*m2))
 
     def algorithm(self, dataSet):
         runningEpoch = 1
@@ -50,36 +42,13 @@ class SelfOrganizedMap:
         self.matrix += deltaMatrix
 
     def activate(self, x):
-        matrixDifference = self.subtractVectorToEachColumnOf(self.matrix, x)
-        vectorOfNorms = self.applyNormToEachColumn(matrixDifference)
-        maskedVector = self.applyMaskForMinimumOn(vectorOfNorms)
-        print 'the mask is: '  + str(maskedVector)
+
+        matrixDifference = Utils().subtractVectorToEachColumnOf(self.matrix, x)
+        vectorOfNorms = Utils().applyNormToEachColumn(matrixDifference)
+
+        maskedVector = Utils().applyMaskForMinimumOn(vectorOfNorms)
+
         return maskedVector
-
-    def subtractVectorToEachColumnOf(self, matrix, vector):
-        matrixDifference = []
-        trasposeVector = np.transpose(vector)
-        print 'transpose vector: ' + str(trasposeVector)
-        print 'vector: ' + str(vector)
-        trasposeMatrix = np.transpose(matrix)
-        for columnIndex in range(0, matrix.shape[self.TRANSPOSED_COLUMN]):
-            matrixVector = trasposeMatrix[columnIndex]
-            print 'matrixVector: ' + str(matrixVector)
-            matrixDifference.append(np.subtract(matrixVector, trasposeVector))
-        print 'the difference is: ' + str(matrixDifference)
-        return matrixDifference
-
-    def applyNormToEachColumn(self, matrix):
-        norms = []
-        trasposeMatrix = np.transpose(matrix)
-        for columnIndex in range(0, matrix.shape[self.TRANSPOSED_COLUMN]):
-            matrixVector = trasposeMatrix[columnIndex]
-            norms.append(self.sumSquaredNorm(matrixVector))
-        print 'the norms are: ' + str(norms)
-        return norms
-
-    def applyMaskForMinimumOn(self, vector):
-        return [1 if min(vector) == item else 0 for item in vector]
 
     def proxy(self, winnerPoint): #TODO: correct/check positions!
         gaussMatrix = np.zeros((self.m1, self.m2))
@@ -96,9 +65,6 @@ class SelfOrganizedMap:
         squaredSigma = math.pow(self.sigma, 2)
         coefficient = (-squaredNorm)/squaredSigma
         return math.pow(math.e, coefficient)
-
-    def sumSquaredNorm(self, vector):
-        return sum([math.pow(v,2) for v in vector]) / 2
 
 
     def winner(self, y):
