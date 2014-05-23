@@ -22,6 +22,7 @@ def main():
     subtractVectorToEachColumnOfTest()
     applyNormToEachColumnTest()
     activateTest()
+    winnerTest()
     endTests()
 
 def beginTests():
@@ -96,6 +97,33 @@ def activateTest():
 
     #Print result
     print 'activateTest: ' + str(result)
+
+def winnerTest():
+    #Parameters
+    epochs = 1
+    alphaEtta = 1
+    alphaSigma = 1
+    n = 1
+    m1 = 4
+    m2 = 5
+
+    map = SelfOrganizedMap(epochs,alphaEtta,alphaSigma,n,m1,m2)
+    #map.matrix = Utils().createRandomMatrixBetween(n, (m1*m2),0,0)
+    #print "MatrixRandom: " + str(map.matrix.shape)
+    map.matrix = np.matrix('41 72 43 42 25 69 97 18 92 10 11 22 13 14 15 16 17 18 19 20')
+
+    vector = [2,2,2]
+    yVector = map.activate(vector)
+    #print 'Vector: ' + str(yVector)
+
+    #Function call
+    position = map.winner(yVector)
+    #print 'Position: ' + str(position)
+
+    #Validation
+    result = position == (4,1)
+    #Print result
+    print 'winnerTest: ' + str(result)
 
 def demoTest():
     #Parameters
