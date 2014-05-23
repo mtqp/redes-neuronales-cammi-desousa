@@ -62,8 +62,11 @@ class Utils:
 
     '''
     def sumSquaredNorm(self, vector):
-        return sum([math.pow(v,2) for v in vector]) / 2
+        linalg.norm(vector)
     '''
+
+    def sumSquaredNorm(self, vector):
+        return sum([math.pow(v,2) for v in vector]) / 2
 
     def applyMaskForMinimumOn(self, vector):
         return [1 if min(vector) == item else 0 for item in vector]

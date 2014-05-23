@@ -37,8 +37,8 @@ class SelfOrganizedMap:
     def correctWeightMatrix(self, x):
         y = self.activate(x)
         point = self.winner(y)
-        D = self.proxy(point, self.sigma)
-        deltaMatrix = self.etta * (x.transpose - w). flatten(D) #se supone que tiene que dar una matrix
+        propagationMatrix = self.proxy(point, self.sigma)
+        deltaMatrix = self.etta * (x.transpose - w). flatten(propagationMatrix) #se supone que tiene que dar una matrix
         self.matrix += deltaMatrix
 
     def activate(self, x):
@@ -54,33 +54,40 @@ class SelfOrganizedMap:
         return maskedVector
 
     def proxy(self, winnerPoint): #TODO: correct/check positions!
+
         gaussMatrix = np.zeros((self.m1, self.m2))
+        #print gaussMatrix.shape
+        #print 'winnerPoint[0]: ' + str(winnerPoint[0])
+        #print 'winnerPoint[1]: ' + str(winnerPoint[1])
+
         gaussMatrix[winnerPoint[0]][winnerPoint[1]] = 1
 
         for columnIndex in range(0, gaussMatrix.shape[1]):
             for rowIndex in range(0, gaussMatrix.shape[0]):
-                gaussMatrix[columnIndex][rowIndex] = self.gaussianFormula((columnIndex, rowIndex), winnerPoint)
+                gaussMatrix[rowIndex][columnIndex] = self.gaussianFormula((rowIndex,columnIndex), winnerPoint)
         return gaussMatrix
 
     def gaussianFormula(self, point, winnerPoint):
         pointDifference = np.subtract(point, winnerPoint)
-        squaredNorm = self.sumSquaredNorm(pointDifference)
+        squaredNorm = Utils().sumSquaredNorm(pointDifference)
         squaredSigma = math.pow(self.sigma, 2)
         coefficient = (-squaredNorm)/squaredSigma
         return math.pow(math.e, coefficient)
 
+
     # y: 1,m1 x m2
     def winner(self, y):
-        for j in range(0, self.m1):
-            for i in range(0, self.m2):
-                if y[(self.m2*j)+i] == 1:
-                    return (i, j)
-    '''
-    def winnerOriginal(self, y):
         for j in range(0, self.m2):
             for i in range(0, self.m1):
                 if y[(self.m1*j)+i] == 1:
                     return (i, j)
-    '''
+
+
+    def winnerINverted(self, y):
+        for j in range(0, self.m1):
+            for i in range(0, self.m2):
+                if y[(self.m2*j)+i] == 1:
+                    return (i, j)
+
 
 
