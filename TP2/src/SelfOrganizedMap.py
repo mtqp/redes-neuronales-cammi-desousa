@@ -37,9 +37,15 @@ class SelfOrganizedMap:
     def correctWeightMatrix(self, x):
         y = self.activate(x)
         point = self.winner(y)
-        propagationMatrix = self.proxy(point, self.sigma)
-        deltaMatrix = self.etta * (x.transpose - w). flatten(propagationMatrix) #se supone que tiene que dar una matrix
-        self.matrix += deltaMatrix
+        propagationMatrix = self.proxy(point)
+        matrixDifference = Utils().subtractVectorToEachColumnOf(self.matrix, x)
+        print matrixDifference.shape
+        print matrixDifference
+        print propagationMatrix.shape
+        print propagationMatrix
+
+        deltaMatrix = self.etta * matrixDifference #* propagationMatrix #se supone que tiene que dar una matrix
+        self.matrix = self.matrix + deltaMatrix
 
     def activate(self, x):
 

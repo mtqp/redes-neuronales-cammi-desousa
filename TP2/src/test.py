@@ -18,13 +18,15 @@ def main():
     #vector = vector.reshape((2, 3))
 
     beginTests()
-
+    '''
     subtractMatricesTest()
     subtractVectorToEachColumnOfTest()
     applyNormToEachColumnTest()
     activateTest()
     winnerTest()
     proxyTest()
+    '''
+    correctWeightMatrix()
     endTests()
 
 def beginTests():
@@ -157,7 +159,25 @@ def proxyTest():
 
 def correctWeightMatrix():
     #Parameters
+     #Parameters
+    epochs = 1
+    alphaEtta = 1
+    alphaSigma = 1
+    n = 1
+    m1 = 4
+    m2 = 5
+
+    map = SelfOrganizedMap(epochs,alphaEtta,alphaSigma,n,m1,m2)
+    map.matrix = np.matrix('41 72 43 42 25 69 97 18 92 10 11 22 13 14 15 16 17 18 19 20')
+    vector = [2,2,2]
+
     #Function call
+
+    map.correctWeightMatrix(vector)
+    print map.matrix
+
+
+
     #Validation
     result = "OK"
     #Print result
