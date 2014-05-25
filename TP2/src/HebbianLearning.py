@@ -31,15 +31,33 @@ class HebbianLearning:
                             xAcum[i] += y[k] * self.matrix[i][k]
                         #print "(" + str(i) + "," + str(j) + ") y: " + str(y[j]) + "---- x[i] - xAcum[i]: " + str(x[i] - xAcum[i])
                         self.deltaMatrix[i][j] = self.etta * y[j] * (abs(x[i]) - abs(xAcum[i]))
-                self.matrix = np.add(self.matrix,self.deltaMatrix)
 
-                #pprint (self.matrix)
+                #self.visualizer.visualize(self.deltaMatrix)
+                self.matrix = np.add(self.matrix, self.deltaMatrix)
+
                 self.visualizer.visualize(self.matrix)
 
             epoch = epoch + 1
+
+            self.printOrthogonalVectorCheck(self.matrix)
             #self.etta = 1.0/epoch
             #print 'Epoch: ' + str(epoch)
             #print 'Etta: ' + str(self.etta)
+
+    def printOrthogonalVectorCheck(self, matrix):
+        columnsAsRows = matrix.transpose() #es un truquito para poder agarrar rapido las columnas, no se si se puede hacer de otra forma mas eficiente
+        pairCheck = []
+        vectorCount = columnsAsRows.shape[0]
+        pairingIndexes = [ (i, (i+1)%vectorCount) for i in range(0, vectorCount)]
+
+        for pairIndex in pairingIndexes:
+            vector = columnsAsRows[pairIndex[0]].transpose()
+            vectorToMultiply = columnsAsRows[pairIndex[1]].transpose()
+            pairCheck.append(np.dot(vector, vectorToMultiply))
+
+        print 'Ortogonalidad:'
+        print str(pairCheck)
+
 
     def createRandomMatrix(self, n, m):
         matrix = np.zeros((n,m))
