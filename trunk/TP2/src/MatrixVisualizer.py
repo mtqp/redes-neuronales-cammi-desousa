@@ -47,7 +47,7 @@ class MatrixVisualizer:
             firstComponent = posAValue/topValue
             secondComponent = (topValue - posAValue)/topValue
 
-        print 'Color: ' + str((firstComponent, secondComponent, 0))
+        #print 'Color: ' + str((firstComponent, secondComponent, 0))
         return (firstComponent,secondComponent, 0)
 
     def createMatrixBoxes(self, n, m):

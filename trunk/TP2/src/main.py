@@ -11,7 +11,7 @@ import time
 from SelfOrganizedMap import SelfOrganizedMap
 
 def main():
-
+    '''
     epochs = 1
     alphaEtta = 1
     alphaSigma = 1
@@ -25,31 +25,20 @@ def main():
     map.activate(vector)
 
 
-    '''    map = SelfOrganizedMap(1,1,1,1,10,7)
+    '''
+
+    '''
+    map = SelfOrganizedMap(1,1,1,1,10,7)
     gaussMatrix = map.proxy((4,4))
     visualizer = MatrixVisualizer(10,7)
     visualizer.visualize(gaussMatrix)
-
-
-    n = 6
-    m = 4
-    etta = 0.17
-    hebbianLearning = HebbianLearning(n, m, etta)
-    vTest = MatrixVisualizer(n, m)
-    while True:
-        print '---'
-        matrix = hebbianLearning.createRandomMatrix(n, m)
-        vTest.visualize(matrix)
-        #time.sleep(2)
-
-    #    vTest.printMatrix()
     '''
 
-    '''
+
     #Algorithm parameters
     n = 6
     m = 4
-    etta = 0.017
+    etta = 0.0017
     amountOfRandomSets = 100
     endCondition = EpochAmountCondition()
 
@@ -65,9 +54,8 @@ def main():
 
     #runHebb(hebbianLearning, dataSet)
     #runOja1(hebbianLearning, dataSet)
-    #runOjaM(hebbianLearning, dataSet)
-    runSanger(hebbianLearning, dataSet)
-    '''
+    runOjaM(hebbianLearning, dataSet)
+    #runSanger(hebbianLearning, dataSet)
 
 def runHebb(hebbianLearning, dataSet):
     pprint('---Hebb---')
