@@ -25,9 +25,14 @@ def main():
     activateTest()
     winnerTest()
     proxyTest()
+    correctWeightMatrixTest()
     '''
-    correctWeightMatrix()
+    algorithmTest()
+
+    #testingMatrix()
     endTests()
+
+
 
 def beginTests():
     print ''
@@ -55,14 +60,26 @@ def subtractMatricesTest():
 
 def subtractVectorToEachColumnOfTest():
      #Parameters
-    matrix = np.matrix('2 4; 2 4; 2 4')
+    matrix = np.matrix('2 4 5 6 7 8; 2 4 5 6 7 8; 2 4 5 6 7 8') # dimensions 3,3.2
+    #matrix = np.matrix('41 72 43 42 25 69 97 18 92 10 11 22 13 14 15 16 17 18 19 20')
     vector = [2,2,2]
+
+    #matrix = np.matrix('2 4 3; 2 4 3; 2 4 3')
+    #vector = [2,2,2]
+
+    #print 'vector : ' + str(vector)
+    #print 'matrix : ' + str(matrix)
+    #print 'matrix shape: ' + str(matrix.shape)
+
 
     #Function call
     matrixDifference = Utils().subtractVectorToEachColumnOf(matrix, vector)
+    #print matrixDifference
+    #print 'matrixDifference : ' + str(matrixDifference)
+    #print 'matrixDifference shape: ' + str(matrixDifference.shape)
 
     #Validation
-    result = (matrixDifference == np.matrix('0 2; 0 2; 0 2')).all()
+    result = (matrixDifference == np.matrix('0 2 3 4 5 6; 0 2 3 4 5 6; 0 2 3 4 5 6')).all()
 
     #Print result
     print 'subtractVectorToEachColumnOfTest: ' + str(result)
@@ -70,9 +87,12 @@ def subtractVectorToEachColumnOfTest():
 def applyNormToEachColumnTest():
     #Parameters
     matrix = np.matrix('3 4; 3 4; 3 4')
+    #matrix = np.matrix('2 4 3; 2 4 3; 2 4 3; 2 4 3; 2 4 7')
+    #print matrix
 
     #Function call
     matrixWithNorm = Utils().applyNormToEachColumn(matrix)
+    #print matrixWithNorm
 
     #Validation
     result = (matrixWithNorm == [5.196152422706632, 6.9282032302755088])
@@ -95,6 +115,7 @@ def activateTest():
     #Function call
     vector = [2,2,2]
     yVector = map.activate(vector)
+    #print 'yVector: ' + str(yVector)
 
     #Validation
     result = len(yVector) and (yVector.count(1) == 1)
@@ -157,7 +178,7 @@ def proxyTest():
     print 'proxyTest: ' + 'Not ran'
 
 
-def correctWeightMatrix():
+def correctWeightMatrixTest():
     #Parameters
      #Parameters
     epochs = 1
@@ -169,19 +190,48 @@ def correctWeightMatrix():
 
     map = SelfOrganizedMap(epochs,alphaEtta,alphaSigma,n,m1,m2)
     map.matrix = np.matrix('41 72 43 42 25 69 97 18 92 10 11 22 13 14 15 16 17 18 19 20')
-    vector = [2,2,2]
+    vector = [2] #Debe matchear con la dimension del n.
 
     #Function call
-
     map.correctWeightMatrix(vector)
-    print map.matrix
+    #print map.matrix
+
+    #Validation
+    result = (map.matrix == np.matrix('821 1472  863  842  485 1409 1997  338 1892  170  191  422  233  254 275  296  317  338  359  380')).all()
+
+    #Print result
+    print 'correctWeightMatrix: ' + str(result)
 
 
+def algorithmTest():
+    #Parameters
+    epochs = 10
+    alphaEtta = 3
+    alphaSigma = 5
+    n = 2     #debe coincidir con la longitud del vector x
+    m1 = 4
+    m2 = 5
 
+    vectorDimension = 5
+    amountOfVectors = 10
+    randomIntegerFromZeroTo = 2
+
+    #dataSetCreator = DataSetCreator(vectorDimension)
+    #vectorsDataSet = dataSetCreator.getRandomDataSetOfVectors(amountOfVectors, randomIntegerFromZeroTo)
+
+    vectorsDataSet = [[1,2],[1,2],[1,2]]
+
+
+    print "Vector data set " + str(vectorsDataSet)
+
+    map = SelfOrganizedMap(epochs,alphaEtta,alphaSigma,n,m1,m2)
+    map.algorithm(vectorsDataSet)
+
+    #Function call
     #Validation
     result = "OK"
     #Print result
-    print 'correctWeightMatrix: ' + str(result)
+    print 'demoTest: ' + str(result)
 
 def demoTest():
     #Parameters
@@ -190,6 +240,23 @@ def demoTest():
     result = "OK"
     #Print result
     print 'demoTest: ' + str(result)
+
+def testingMatrix():
+
+    matrix = np.matrix('1 2 3; 4 5 6; 7 8 9; 3 4 5; 7 8 9')
+    matrix2 = np.matrix('1 2; 3 4; 5 6')
+
+    print 'matrix: ' + str(matrix.shape)
+    print matrix
+
+    print 'matrix2: ' + str(matrix2.shape)
+    print matrix2
+
+    matrix3 = matrix * matrix2
+
+    print 'matrix3: ' + str(matrix3.shape)
+    print matrix3
+
 
 if __name__ == "__main__":
     main()

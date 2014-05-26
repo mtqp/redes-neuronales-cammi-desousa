@@ -31,7 +31,7 @@ class MatrixVisualizer:
         aValue = 0.5 - aValue
         if aValue < 0:
             aValue = 0
-        print 'Color: ' + str(aValue)
+        #print 'Color: ' + str(aValue)
         return (aValue, aValue, 0)
 
     #red= (1,0,0)
