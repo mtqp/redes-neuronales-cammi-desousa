@@ -31,6 +31,7 @@ class DataSetCreator:
                 randomVector.append(randomValue)
         return randomVector
 
+
     def createBoundVector(self):
 
         topValue = 10
@@ -45,3 +46,27 @@ class DataSetCreator:
                 i += 1
                 boundVector.append(randomValue)
         return boundVector
+
+    #Para el ejercicio 2
+    def getRandomDataSetOfVectors(self, amountOfRandomSets, endBound):
+        randomDataSet = []
+
+        i = 0
+        while i < amountOfRandomSets:
+            randomVector = self.createRandomVectorWithBounds(0,endBound)
+
+            #if not randomVector in randomDataSet:
+            i += 1
+            randomDataSet.append(randomVector)
+        return randomDataSet
+
+    def createRandomVectorWithBounds(self, firstBound, endBound):
+        randomVector = []
+        i = 0
+        while i < self.nDimension:
+            randomValue = random.randint(firstBound, endBound)
+            #print randomValue
+            #if not randomValue in randomVector:
+            i += 1
+            randomVector.append(randomValue)
+        return randomVector

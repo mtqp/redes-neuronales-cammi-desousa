@@ -21,11 +21,18 @@ class Utils:
 
         return matrix
 
+    # matrix: (n, m1.m2) -> (1,n) -> (n,m1.m2)
     def subtractVectorToEachColumnOf(self, matrix, vector):
         matrixVector = np.mat(vector)
         matrixVectorTransposed = np.transpose(matrixVector)
         matrixVectorTransposed2 = np.mat(matrixVectorTransposed)
         return np.subtract(matrix, matrixVectorTransposed2)
+
+    def subtractMatrixFromVector(self, matrix, vector):
+        matrixVector = np.mat(vector)
+        matrixVectorTransposed = np.transpose(matrixVector)
+        matrixVectorTransposed2 = np.mat(matrixVectorTransposed)
+        return np.subtract(matrixVectorTransposed2,matrix)
 
     '''
     def subtractVectorToEachColumnOf2(self, matrix, vector):
@@ -70,3 +77,16 @@ class Utils:
 
     def applyMaskForMinimumOn(self, vector):
         return [1 if min(vector) == item else 0 for item in vector]
+
+    def multiplyVectorAndMatrix(self, vector, matrix):
+        #el vector se lo multiplica por cada vector columna de la matrix
+
+        columnsAsRows = matrix.transpose() #es un truquito para poder agarrar rapido las columnas, no se si se puede hacer de otra forma mas eficiente
+        vectorDotMatrix = [] #H
+
+        for columnIndex in range(0, columnsAsRows.shape[0]):
+            matrixVector = columnsAsRows[columnIndex].transpose()
+            vectorialProduct = np.dot(vector, matrixVector)
+            vectorDotMatrix.append(vectorialProduct.flat[0])
+
+        return vectorDotMatrix

@@ -2,6 +2,9 @@ import numpy as np
 import random
 import math
 from utils.Utils import Utils
+from MatrixVisualizer import MatrixVisualizer
+import time
+from copy import copy, deepcopy
 
 class SelfOrganizedMap:
 
@@ -9,22 +12,40 @@ class SelfOrganizedMap:
         self.epochs = epochs
         self.alphaEtta = alphaEtta
         self.alphaSigma = alphaSigma
-        self.etta = 1 #es correcto inicializarlo con frula?
-        self.sigma = 2 #es correcto inicializarlo con frula?
+        self.etta = 0.001 #es correcto inicializarlo con frula?
+        self.sigma = 0.01 #es correcto inicializarlo con frula?
         self.n = n
         self.m1 = m1
         self.m2 = m2
         self.matrix = Utils().createRandomMatrix(n, (m1*m2))
 
     def algorithm(self, dataSet):
+        vTest = MatrixVisualizer(self.n, self.m1*self.m2)
         runningEpoch = 1
 
         while runningEpoch < self.epochs:
             self.updateEtta(runningEpoch)
             self.updateSigma(runningEpoch)
 
+            counter = 0
             for x in dataSet:
+                #print counter
+                print 'Etta :' + str(self.etta)
+                print 'Sigma:' + str(self.sigma)
+                counter = counter+1
+                visualMatrix  = deepcopy(self.matrix)
+                print "learning matrix: " + str(visualMatrix.shape)
+                print str(visualMatrix)
+                #vTest.visualize(visualMatrix.reshape((self.n,self.m1*self.m2,)))
+                vTest.visualize(visualMatrix)
+
                 self.correctWeightMatrix(x)
+
+
+
+
+                time.sleep(0.5)
+
 
             runningEpoch += 1
 
@@ -35,18 +56,38 @@ class SelfOrganizedMap:
         self.sigma = pow(epoch, -(self.alphaSigma))
 
     def correctWeightMatrix(self, x):
+
+        print 'x vector: ' + str(x)
         y = self.activate(x)
+        print 'y vector: ' + str(y)
         point = self.winner(y)
+        print 'winner: ' + str(point)
         propagationMatrix = self.proxy(point)
-        matrixDifference = Utils().subtractVectorToEachColumnOf(self.matrix, x)
-        print matrixDifference.shape
-        print matrixDifference
-        print propagationMatrix.shape
+        print 'propagationMatrix: ' + str(propagationMatrix.shape)
         print propagationMatrix
 
-        deltaMatrix = self.etta * matrixDifference #* propagationMatrix #se supone que tiene que dar una matrix
+        #matrixDifference = Utils().subtractVectorToEachColumnOf(self.matrix, x)
+        matrixDifference = Utils().subtractMatrixFromVector(self.matrix, x)
+
+
+        #flattenPropagationMatrix = propagationMatrix.flatten()
+        print 'reshaping propagation matrix to (' + str(self.m1) + '*' + str(self.m2) + ',' + str(1) + ')'
+        flattenPropagationMatrix = propagationMatrix.reshape((self.m1*self.m2,1)) # es 1 porque es el vector de propagacion que ira multiplicando a cada fila de la matrix (cada una de las n matrices de m1.m2)
+        #flattenPropagationMatrix = propagationMatrix.reshape((self.n, self.m1*self.m2))
+
+        print 'matrixDifference: ' + str(matrixDifference.shape)
+        print matrixDifference
+
+        #print 'flattenPropagationMatrix: ' + str(flattenPropagationMatrix.shape)
+        #print flattenPropagationMatrix
+
+        deltaMatrix = Utils().multiplyVectorAndMatrix(self.etta * matrixDifference, flattenPropagationMatrix)
+        #matrixDifference * flattenPropagationMatrix
         self.matrix = self.matrix + deltaMatrix
 
+        #print self.matrix
+
+    #Devuelve  y (1, m1.m2)
     def activate(self, x):
 
         matrixDifference = Utils().subtractVectorToEachColumnOf(self.matrix, x)
