@@ -257,6 +257,12 @@ def testingMatrix():
     print 'matrix3: ' + str(matrix3.shape)
     print matrix3
 
+def  multiplyPositionToPositionTest():
+
+    matrix1 = np.matrix('2 2.5 3.33')
+    matrix2 = np.matrix('0.5 0.4 0.3')
+
+    matrixResult = Utils().multiplyPositionToPosition()
 
 if __name__ == "__main__":
     main()

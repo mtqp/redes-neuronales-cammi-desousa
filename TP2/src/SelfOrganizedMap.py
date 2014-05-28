@@ -20,7 +20,7 @@ class SelfOrganizedMap:
         self.matrix = Utils().createRandomMatrix(n, (m1*m2))
 
     def algorithm(self, dataSet):
-        vTest = MatrixVisualizer(self.n, self.m1*self.m2)
+        #vTest = MatrixVisualizer(self.n, self.m1*self.m2)
         runningEpoch = 1
 
         while runningEpoch < self.epochs:
@@ -36,18 +36,33 @@ class SelfOrganizedMap:
                 visualMatrix  = deepcopy(self.matrix)
                 print "learning matrix: " + str(visualMatrix.shape)
                 print str(visualMatrix)
-                #vTest.visualize(visualMatrix.reshape((self.n,self.m1*self.m2,)))
-                vTest.visualize(visualMatrix)
-
+                    #vTest.visualize(visualMatrix.reshape((self.n,self.m1*self.m2,)))
+                #vTest.visualize(visualMatrix)
                 self.correctWeightMatrix(x)
-
-
-
-
                 time.sleep(0.5)
-
-
             runningEpoch += 1
+
+    def test(self, dataSet):
+        print '--------------- testing step ---------------- '
+        vTest = MatrixVisualizer(self.m1,self.m2)
+        for x in dataSet:
+            #Utils.multiplyVectorAndMatrix(x,self.matrix)
+            print 'Point: ' + str(x)
+            y = self.activate(x)
+            print 'Y: ' + str(y)
+            winnerPoint = self.winner(y)
+            print 'Winner Point: ' + str(winnerPoint)
+            winnerMatrix = self.proxy(winnerPoint)
+            print 'winnerMatrix: ' + str(winnerMatrix.shape)
+            print winnerMatrix
+
+            #print 'reshape: ' + str(self.n) + ',' + str(self.m1*self.m2)
+            #winnerMatrix.reshape(self.n,self.m1*self.m2)
+
+            vTest.visualizeWinnerMatrix(winnerMatrix)
+            print "visualizada"
+            time.sleep(0.5)
+            print "sleep paso"
 
     def updateEtta(self, epoch):
         self.etta = pow(epoch, -(self.alphaEtta))
@@ -71,8 +86,9 @@ class SelfOrganizedMap:
 
 
         #flattenPropagationMatrix = propagationMatrix.flatten()
-        print 'reshaping propagation matrix to (' + str(self.m1) + '*' + str(self.m2) + ',' + str(1) + ')'
-        flattenPropagationMatrix = propagationMatrix.reshape((self.m1*self.m2,1)) # es 1 porque es el vector de propagacion que ira multiplicando a cada fila de la matrix (cada una de las n matrices de m1.m2)
+        #print 'reshaping propagation matrix to (' + str(self.m1) + '*' + str(self.m2) + ',' + str(1) + ')'
+        print 'reshaping propagation matrix to (' + str(self.m1*self.m2) + ',' + str(self.n) + ')'
+        flattenPropagationMatrix = propagationMatrix.reshape((self.m1*self.m2,self.n)) # es 1 porque es el vector de propagacion que ira multiplicando a cada fila de la matrix (cada una de las n matrices de m1.m2)
         #flattenPropagationMatrix = propagationMatrix.reshape((self.n, self.m1*self.m2))
 
         print 'matrixDifference: ' + str(matrixDifference.shape)
