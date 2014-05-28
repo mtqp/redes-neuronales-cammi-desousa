@@ -18,16 +18,18 @@ def main():
     #vector = vector.reshape((2, 3))
 
     beginTests()
+    #datosTesteoNormal()
+    #multiplyPositionToPositionTest()
     '''
     subtractMatricesTest()
     subtractVectorToEachColumnOfTest()
     applyNormToEachColumnTest()
-    activateTest()
     winnerTest()
     proxyTest()
     correctWeightMatrixTest()
     '''
-    algorithmTest()
+    activateTest()
+    #algorithmTest()
 
     #testingMatrix()
     endTests()
@@ -259,10 +261,28 @@ def testingMatrix():
 
 def  multiplyPositionToPositionTest():
 
-    matrix1 = np.matrix('2 2.5 3.33')
-    matrix2 = np.matrix('0.5 0.4 0.3')
+    matrix1 = np.matrix('2 2.5 3.33; 2 4 8')
+    print 'matrix1: ' + str(matrix1.shape)
+    print matrix1
 
-    matrixResult = Utils().multiplyPositionToPosition()
+    matrix2 = np.matrix('0.5 0.4 0.3; 4 2 1')
+    print 'matrix2: ' + str(matrix2.shape)
+    print matrix2
+
+    matrixResult = Utils().multiplyPositionToPosition(matrix1, matrix2)
+
+    print matrixResult
+
+def datosTesteoNormal():
+
+    vectorDimension = 1
+    amountOfVectors = 7
+    randomIntegerFromZeroTo = 0.1
+
+    dataSetCreator = DataSetCreator(vectorDimension)
+    vectorsDataSet = dataSetCreator.getRandomDataSetOfVectors(amountOfVectors, -randomIntegerFromZeroTo, randomIntegerFromZeroTo,
+                                                              DataSetCreator.NORMAL)
+    print "Vector data set " + str(vectorsDataSet)
 
 if __name__ == "__main__":
     main()
