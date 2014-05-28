@@ -30,10 +30,10 @@ class SelfOrganizedMap:
 
             counter = 0
             for x in dataSet:
-                print 'iteration ' + str(counter)
+                #print 'iteration ' + str(counter)
                 #print counter
-                print 'Etta :' + str(self.etta)
-                print 'Sigma:' + str(self.sigma)
+                #print 'Etta :' + str(self.etta)
+                #print 'Sigma:' + str(self.sigma)
                 counter = counter+1
                 visualMatrix  = deepcopy(self.matrix)
                 #print "learning matrix: " + str(visualMatrix.shape)
@@ -51,18 +51,30 @@ class SelfOrganizedMap:
         acumWinnerMatrix = np.zeros((self.m1,self.m2))
 
         counter = 0
+        neuralAcumVector = []
         for x in dataSet:
             counter = counter + 1
             #GET WINNER MATRIX
-            print 'Point: ' + str(x)
+            #print 'Point: ' + str(x)
             y = self.activate(x)
-            print 'Y: ' + str(y)
+            #print 'Y: ' + str(y)
             winnerPoint = self.winner(y)
-            print 'Winner Point: ' + str(winnerPoint)
+
+            #print 'Winner Point: ' + str(winnerPoint)
             winnerMatrix = self.proxy(winnerPoint)
-            print 'counter: ' + str(counter)
-            print 'winnerMatrix: ' + str(winnerMatrix.shape)
-            print winnerMatrix
+
+            #print 'counter: ' + str(counter)
+            #print 'winnerMatrix: ' + str(winnerMatrix.shape)
+            #print winnerMatrix
+
+
+            winnerId = (winnerPoint[0]*winnerMatrix.shape[1]) + winnerPoint[1]
+            #print 'winnerMatrix.shape[0]' + str(winnerMatrix.shape[0])
+            #print 'winnerMatrix.shape[1]' + str(winnerMatrix.shape[1])
+
+            #print 'winnerId: (' + str(winnerPoint[0]) + ',' + str(winnerPoint[1]) + ') ' + str(winnerId)
+
+            neuralAcumVector.append(winnerId)
             #vTest.visualizeWinnerMatrix(winnerMatrix, winnerMatrix.shape[0], winnerMatrix.shape[1],(5,5))
 
             #print 'reshape: ' + str(self.n) + ',' + str(self.m1*self.m2)
@@ -85,15 +97,11 @@ class SelfOrganizedMap:
             #time.sleep(1)
             #print "sleep paso"
 
-        acumWinnerMatrix = acumWinnerMatrix.reshape(1,acumWinnerMatrix.shape[0]*acumWinnerMatrix.shape[1])
-        #matrixHistogram = Utils().createHistogram(acumWinnerMatrix)
-        #print 'matrixHistogram: ' + str(matrixHistogram.shape[0]) + ',' + str(matrixHistogram.shape[1])
-        #print matrixHistogram
+        #acumWinnerMatrixToDisplay  = deepcopy(acumWinnerMatrix.reshape(1,acumWinnerMatrix.shape[0]*acumWinnerMatrix.shape[1]))
+        vTest.visualizeWithParams(acumWinnerMatrix, acumWinnerMatrix.shape[0], acumWinnerMatrix.shape[1], (6,0))
 
-        #P.hist(acumWinnerMatrix, 50, normed=1, histtype='stepfilled')
-
-        x = [1,2,3,4]
-        vTest.plotHistogram(x)
+        print 'vector: ' + str(neuralAcumVector)
+        vTest.plotHistogram(neuralAcumVector)
 
         #P.hist(anArray, 50, normed=1, histtype='stepfilled')
         #P.plot

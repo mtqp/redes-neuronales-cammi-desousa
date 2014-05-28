@@ -119,12 +119,12 @@ class MatrixVisualizer:
         plt.show()
         plt.ylim([20,0])
 
-    def plotHistogram(self, x):
+    def plotHistogram(self, vector):
 
-        mu, sigma = 100, 15
+        #mu, sigma = 100, 15
         #x = mu + sigma * np.random.randn(10000)
-        print x
-        hist, bins = np.histogram(x, bins=50)
+        #print x
+        hist, bins = np.histogram(vector, bins=20)
         width = 0.7 * (bins[1] - bins[0])
         center = (bins[:-1] + bins[1:]) / 2
         plt.bar(center, hist, align='center', width=width)

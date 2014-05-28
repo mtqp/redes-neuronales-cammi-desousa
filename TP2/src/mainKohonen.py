@@ -13,7 +13,7 @@ from SelfOrganizedMap import SelfOrganizedMap
 def main():
 
     #Parameters
-    epochs = 10
+    epochs = 100
     alphaEtta = 3
     alphaSigma = 5
     n = 1     #debe coincidir con la longitud del vector x
@@ -21,7 +21,7 @@ def main():
     m2 = 5
 
     vectorDimension = n
-    amountOfVectors = 20
+    amountOfVectors = 30
     randomIntegerFromZeroTo = 0.1
 
     #1) Generar los datos aleatorios Uniformes
@@ -40,8 +40,8 @@ def main():
 
     #4) Generar datos aleatorios normales
     #vectorsDataSetTesteo = [[1],[2],[3],[4],[5],[6],[7],[8],[9],[0]]
-    vectorsDataSetTesteo = dataSetCreator.getRandomDataSetOfVectors(10, -randomIntegerFromZeroTo, randomIntegerFromZeroTo,
-                                                              DataSetCreator.NORMAL)
+    vectorsDataSetTesteo = dataSetCreator.getRandomDataSetOfVectors(100, -randomIntegerFromZeroTo, randomIntegerFromZeroTo,
+                                                              DataSetCreator.UNIFORM)
 
     print 'vectorsDataSetTesteo: ' + str(vectorsDataSetTesteo)
 
