@@ -86,7 +86,27 @@ class Utils:
 
         for columnIndex in range(0, columnsAsRows.shape[0]):
             matrixVector = columnsAsRows[columnIndex].transpose()
+            print 'vector: ' + str(vector)
+            print 'matrixVector: ' + str(matrixVector)
+
             vectorialProduct = np.dot(vector, matrixVector)
+            print 'resultado: ' + str(vectorialProduct)
+
             vectorDotMatrix.append(vectorialProduct.flat[0])
 
         return vectorDotMatrix
+
+    def multiplyPositionToPosition(self, matrix1, matrix2):
+        ROW = 0
+        COLUMN = 1
+
+        n = matrix1.shape[ROW]
+        m = matrix1.shape[COLUMN]
+
+        matrixResult = np.zeros((n,m))
+
+        for i in range(0, n):
+            for j in range(0, m):
+                matrixResult[i][j] = matrix1[i][j] * matrix2[i][j]
+
+        return matrixResult

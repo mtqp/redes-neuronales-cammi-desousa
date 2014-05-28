@@ -15,8 +15,8 @@ class MatrixVisualizer:
         #self.scene.select()
 
     def visualize(self, matrix):
-        scene.center = vector(3,2,-1)
-        scene.forward =  vector(0,20,10)
+        #scene.center = vector(3,2,-1)
+        #scene.forward =  vector(0,20,10)
         rate(100)
         time.sleep(0.01)
         for columnIndex in range(0, self.n):
@@ -25,7 +25,24 @@ class MatrixVisualizer:
                 boxItem = self.boxes[columnIndex][rowIndex]
                 boxItem.color = color.rgb_to_hsv(self.createVectorForValue2(matrixValue))
                 #boxItem.color = color.rgb_to_hsv((1,0,0))
-                boxItem.size = (0.5, 0.5, 10*abs(matrixValue))
+                boxItem.size = (0.5, 0.5, 1*abs(matrixValue))
+
+    def visualizeWinnerMatrix(self, matrix):
+        #scene.center = vector(3,2,-1)
+        #scene.forward =  vector(0,20,10)
+        rate(100)
+        time.sleep(0.01)
+        for columnIndex in range(0, self.n):
+            for rowIndex in range(0, self.m):
+                matrixValue = matrix[columnIndex][rowIndex]
+                boxItem = self.boxes[columnIndex][rowIndex]
+
+                if(matrixValue == 1):
+                    boxItem.color = color.red
+                else:
+                    boxItem.color = color.green
+
+                boxItem.size = (0.5, 0.5, 1*abs(matrixValue))
 
     def createVectorForValue(self, aValue):
         aValue = 0.5 - aValue
