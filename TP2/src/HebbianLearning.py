@@ -40,10 +40,11 @@ class HebbianLearning:
 
             #self.printOrthogonalVectorCheck(self.matrix)
 
-        #self.visualizer.visualize(self.matrix)
-        self.visualizer.visualizeCovariance(self.matrix)
-        #self.visualizer.plot2d(self.matrix)
-        self.visualizer.plot2d(np.cov(self.matrix))
+        self.visualizer.visualize(self.matrix)
+        self.visualizer.plot2d(self.matrix)
+
+        #self.visualizer.visualizeCovariance(self.matrix)
+        #self.visualizer.plot2d(np.cov(self.matrix))
 
         #self.etta = 1.0/epoch
         #print 'Epoch: ' + str(epoch)
