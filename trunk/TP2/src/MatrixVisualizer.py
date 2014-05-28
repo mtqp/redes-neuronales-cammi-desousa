@@ -79,3 +79,7 @@ class MatrixVisualizer:
         plt.imshow(matrix, interpolation="none", cmap=cm.gray )
         plt.colorbar()
         plt.show()
+
+    def visualizeCovariance(self, matrix):
+        covarianceMatrix = np.cov(matrix)
+        self.visualize(covarianceMatrix)

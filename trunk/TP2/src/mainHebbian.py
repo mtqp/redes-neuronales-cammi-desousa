@@ -15,7 +15,7 @@ def main():
     n = 6
     m = 4
     etta = 0.00017 #--> funciono para sanger
-    #etta = 0.017
+    #etta = 0.000016
     amountOfRandomSets = 50
     endCondition = EpochAmountCondition()
 
@@ -31,8 +31,8 @@ def main():
 
     #runHebb(hebbianLearning, dataSet)
     #runOja1(hebbianLearning, dataSet)
-    #runOjaM(hebbianLearning, dataSet)
-    runSanger(hebbianLearning, dataSet)
+    runOjaM(hebbianLearning, dataSet)
+    #runSanger(hebbianLearning, dataSet)
 
 
 def runHebb(hebbianLearning, dataSet):
