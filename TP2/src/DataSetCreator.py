@@ -33,6 +33,7 @@ class DataSetCreator:
 
 
     def createBoundVector(self):
+        return [6,5,4,3,2,1]
 
         topValue = 10
 
