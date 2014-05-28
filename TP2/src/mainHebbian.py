@@ -7,11 +7,13 @@ import time
 from HebbianLearning import HebbianLearning
 from conditions.EpochAmountCondition import EpochAmountCondition
 from MatrixVisualizer import MatrixVisualizer
+from HebbianTrainingAnalyzer import HebbianTrainingAnalyzer
 import time
 from SelfOrganizedMap import SelfOrganizedMap
 
 def main():
-        #Algorithm parameters
+    '''
+    #Algorithm parameters
     n = 6
     m = 4
     etta = 0.00017 #--> funciono para sanger
@@ -27,13 +29,20 @@ def main():
 
     hebbianLearning = HebbianLearning(n , m, etta, endCondition )
     dataSet = DataSetCreator(n).getRandomDataSet(amountOfRandomSets)
-    #time.sleep(2)
 
     #runHebb(hebbianLearning, dataSet)
     #runOja1(hebbianLearning, dataSet)
     runOjaM(hebbianLearning, dataSet)
     #runSanger(hebbianLearning, dataSet)
 
+
+    trainingAnalyzer = HebbianTrainingAnalyzer(hebbianLearning.matrix, dataSet)
+    '''
+    matrix = np.array([[1,0,0], [0,1,0],[0,0,1]])
+    matrix = np.asmatrix(matrix)
+    x = [[1,2,3]]
+    trainingAnalyzer = HebbianTrainingAnalyzer(matrix, x)
+    trainingAnalyzer.results()
 
 def runHebb(hebbianLearning, dataSet):
     pprint('---Hebb---')
