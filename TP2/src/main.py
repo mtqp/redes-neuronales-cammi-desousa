@@ -32,7 +32,7 @@ def main():
     visualizer.visualize(gaussMatrix)
     '''
 
-
+    '''
     #Algorithm parameters
     n = 6
     m = 4
@@ -55,7 +55,7 @@ def main():
     #runOja1(hebbianLearning, dataSet)
     runOjaM(hebbianLearning, dataSet)
     #runSanger(hebbianLearning, dataSet)
-
+    '''
 
 def runHebb(hebbianLearning, dataSet):
     pprint('---Hebb---')

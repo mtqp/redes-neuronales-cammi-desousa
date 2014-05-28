@@ -3,6 +3,7 @@ import math
 import random
 import time
 import matplotlib.pyplot as plt
+import matplotlib.cm as cm
 from MatrixVisualizer import MatrixVisualizer
 from pprint import pprint
 
@@ -18,33 +19,31 @@ class HebbianLearning:
         self.visualizer = MatrixVisualizer(n, m)
 
     def algorithm(self, dataSet, rule): # n vector de R6: (a1,a2,a3,a4,a5,a6):
-
         epoch = 0
 
         while not self.endCondition.endConditionIsMet(epoch, self.etta):
             print 'Epoch: ' + str(epoch)
             for x in dataSet:
-                y = np.dot(x,self.matrix) #self.multiplyVectorAndMatrix(x,self.matrix)
+                y = np.dot(x,self.matrix)
                 for j in range(0, self.m):
                     for i in range(0, self.n):
-                        xAcum = 0 #np.zeros((self.n, 1)).flatten()
+                        xAcum = 0
                         for k in range(0, rule(j, self.m)): #j+1 == sanger
                             xAcum += (y[k] * self.matrix[i][k])
                         self.deltaMatrix[i][j] = self.etta * y[j] * (x[i] - xAcum)
 
                 self.matrix += self.deltaMatrix
-                #self.matrix = np.add(self.matrix, self.deltaMatrix)
-                #self.visualizer.visualize(self.matrix)
+
             epoch = epoch + 1
 
             #self.printOrthogonalVectorCheck(self.matrix)
 
-        plt.imshow(self.matrix, interpolation="none", cmap=cm.gray )
-        plt.colorbar()
-        plt.show()
-            #self.etta = 1.0/epoch
-            #print 'Epoch: ' + str(epoch)
-            #print 'Etta: ' + str(self.etta)
+        self.visualizer.visualize(self.matrix)
+        self.visualizer.plot2d(self.matrix)
+
+        #self.etta = 1.0/epoch
+        #print 'Epoch: ' + str(epoch)
+        #print 'Etta: ' + str(self.etta)
 
     def printOrthogonalVectorCheck(self, matrix):
         columnsAsRows = matrix.transpose() #es un truquito para poder agarrar rapido las columnas, no se si se puede hacer de otra forma mas eficiente
