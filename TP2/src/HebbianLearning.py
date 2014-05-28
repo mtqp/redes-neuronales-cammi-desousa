@@ -20,9 +20,11 @@ class HebbianLearning:
 
     def algorithm(self, dataSet, rule): # n vector de R6: (a1,a2,a3,a4,a5,a6):
         epoch = 0
+        epochsModuleToNotify = 50
 
         while not self.endCondition.endConditionIsMet(epoch, self.etta):
-            print 'Epoch: ' + str(epoch)
+            if epoch % epochsModuleToNotify == 0:
+                print 'Epoch: ' + str(epoch)
             for x in dataSet:
                 y = np.dot(x,self.matrix)
                 for j in range(0, self.m):
@@ -38,8 +40,10 @@ class HebbianLearning:
 
             #self.printOrthogonalVectorCheck(self.matrix)
 
-        self.visualizer.visualize(self.matrix)
-        self.visualizer.plot2d(self.matrix)
+        #self.visualizer.visualize(self.matrix)
+        self.visualizer.visualizeCovariance(self.matrix)
+        #self.visualizer.plot2d(self.matrix)
+        self.visualizer.plot2d(np.cov(self.matrix))
 
         #self.etta = 1.0/epoch
         #print 'Epoch: ' + str(epoch)
