@@ -21,14 +21,15 @@ def main():
     m2 = 5
 
     vectorDimension = n
-    amountOfVectors = 7
-    randomIntegerFromZeroTo = 9
+    amountOfVectors = 20
+    randomIntegerFromZeroTo = 0.1
 
     #1) Generar los datos aleatorios Uniformes
     dataSetCreator = DataSetCreator(vectorDimension)
 
     #2) Guardarlos
-    vectorsDataSet = dataSetCreator.getRandomDataSetOfVectors(amountOfVectors, randomIntegerFromZeroTo)
+    vectorsDataSet = dataSetCreator.getRandomDataSetOfVectors(amountOfVectors, -randomIntegerFromZeroTo, randomIntegerFromZeroTo,
+                                                              DataSetCreator.UNIFORM)
 
     #vectorsDataSet = [[1,2],[1,2],[1,2]]
     print "Vector data set " + str(vectorsDataSet)
@@ -38,10 +39,14 @@ def main():
     map.algorithm(vectorsDataSet)
 
     #4) Generar datos aleatorios normales
-    vectorsDataSetTesteo = [[1],[2],[3],[4],[5],[6],[7],[8],[9],[0]]
+    #vectorsDataSetTesteo = [[1],[2],[3],[4],[5],[6],[7],[8],[9],[0]]
+    vectorsDataSetTesteo = dataSetCreator.getRandomDataSetOfVectors(10, -randomIntegerFromZeroTo, randomIntegerFromZeroTo,
+                                                              DataSetCreator.NORMAL)
+
+    print 'vectorsDataSetTesteo: ' + str(vectorsDataSetTesteo)
 
     #5) Invocar la aproximacion con la matriz
-    #map.test(vectorsDataSetTesteo)
+    map.test(vectorsDataSetTesteo)
 
 
 

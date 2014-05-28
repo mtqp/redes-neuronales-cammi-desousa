@@ -2,8 +2,8 @@ import numpy as np
 import math
 import random
 import time
-import matplotlib.pyplot as plt
-import matplotlib.cm as cm
+#import matplotlib.pyplot as plt
+#import matplotlib.cm as cm
 from MatrixVisualizer import MatrixVisualizer
 from pprint import pprint
 

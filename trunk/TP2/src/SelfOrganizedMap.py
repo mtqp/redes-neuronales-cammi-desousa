@@ -5,6 +5,7 @@ from utils.Utils import Utils
 from MatrixVisualizer import MatrixVisualizer
 import time
 from copy import copy, deepcopy
+import pylab as P
 
 class SelfOrganizedMap:
 
@@ -29,40 +30,74 @@ class SelfOrganizedMap:
 
             counter = 0
             for x in dataSet:
+                print 'iteration ' + str(counter)
                 #print counter
                 print 'Etta :' + str(self.etta)
                 print 'Sigma:' + str(self.sigma)
                 counter = counter+1
                 visualMatrix  = deepcopy(self.matrix)
-                print "learning matrix: " + str(visualMatrix.shape)
-                print str(visualMatrix)
+                #print "learning matrix: " + str(visualMatrix.shape)
+                #print str(visualMatrix)
                     #vTest.visualize(visualMatrix.reshape((self.n,self.m1*self.m2,)))
                 #vTest.visualize(visualMatrix)
                 self.correctWeightMatrix(x)
-                time.sleep(0.5)
+                #time.sleep(0.5)
             runningEpoch += 1
 
     def test(self, dataSet):
         print '--------------- testing step ---------------- '
-        vTest = MatrixVisualizer(self.m1,self.m2)
+        vTest = MatrixVisualizer(self.m1*5,self.m2*5)
+
+        acumWinnerMatrix = np.zeros((self.m1,self.m2))
+
+        counter = 0
         for x in dataSet:
-            #Utils.multiplyVectorAndMatrix(x,self.matrix)
+            counter = counter + 1
+            #GET WINNER MATRIX
             print 'Point: ' + str(x)
             y = self.activate(x)
             print 'Y: ' + str(y)
             winnerPoint = self.winner(y)
             print 'Winner Point: ' + str(winnerPoint)
             winnerMatrix = self.proxy(winnerPoint)
+            print 'counter: ' + str(counter)
             print 'winnerMatrix: ' + str(winnerMatrix.shape)
             print winnerMatrix
+            #vTest.visualizeWinnerMatrix(winnerMatrix, winnerMatrix.shape[0], winnerMatrix.shape[1],(5,5))
 
             #print 'reshape: ' + str(self.n) + ',' + str(self.m1*self.m2)
             #winnerMatrix.reshape(self.n,self.m1*self.m2)
 
-            vTest.visualizeWinnerMatrix(winnerMatrix)
-            print "visualizada"
-            time.sleep(0.5)
-            print "sleep paso"
+            #GET matrix result
+            #matrixResult = Utils().subtractVectorToEachColumnOf(self.matrix, x)
+            #vTest.visualizeWithParams(matrixResult, matrixResult.shape[0], matrixResult.shape[1],(1,1))
+
+            #GET matrix histogram
+            acumWinnerMatrix += winnerMatrix
+
+
+            #acumWinnerMatrixToDisplay  = deepcopy(acumWinnerMatrix.reshape(1,acumWinnerMatrix.shape[0]*acumWinnerMatrix.shape[1]))
+            #vTest.visualizeWithParams(acumWinnerMatrixToDisplay, acumWinnerMatrixToDisplay.shape[0], acumWinnerMatrixToDisplay.shape[1], (6,0))
+
+
+
+            #print "visualizada"
+            #time.sleep(1)
+            #print "sleep paso"
+
+        acumWinnerMatrix = acumWinnerMatrix.reshape(1,acumWinnerMatrix.shape[0]*acumWinnerMatrix.shape[1])
+        #matrixHistogram = Utils().createHistogram(acumWinnerMatrix)
+        #print 'matrixHistogram: ' + str(matrixHistogram.shape[0]) + ',' + str(matrixHistogram.shape[1])
+        #print matrixHistogram
+
+        #P.hist(acumWinnerMatrix, 50, normed=1, histtype='stepfilled')
+
+        x = [1,2,3,4]
+        vTest.plotHistogram(x)
+
+        #P.hist(anArray, 50, normed=1, histtype='stepfilled')
+        #P.plot
+        #vTest.plot2d(matrixHistogram)
 
     def updateEtta(self, epoch):
         self.etta = pow(epoch, -(self.alphaEtta))
@@ -72,32 +107,31 @@ class SelfOrganizedMap:
 
     def correctWeightMatrix(self, x):
 
-        print 'x vector: ' + str(x)
+        #print 'x vector: ' + str(x)
         y = self.activate(x)
-        print 'y vector: ' + str(y)
+        #print 'y vector: ' + str(y)
         point = self.winner(y)
-        print 'winner: ' + str(point)
+        #print 'winner: ' + str(point)
         propagationMatrix = self.proxy(point)
-        print 'propagationMatrix: ' + str(propagationMatrix.shape)
-        print propagationMatrix
+        #print 'propagationMatrix: ' + str(propagationMatrix.shape)
+        #print propagationMatrix
 
         #matrixDifference = Utils().subtractVectorToEachColumnOf(self.matrix, x)
         matrixDifference = Utils().subtractMatrixFromVector(self.matrix, x)
+        #print 'matrixDifference: ' + str(matrixDifference.shape)
+        #print matrixDifference
 
 
         #flattenPropagationMatrix = propagationMatrix.flatten()
         #print 'reshaping propagation matrix to (' + str(self.m1) + '*' + str(self.m2) + ',' + str(1) + ')'
-        print 'reshaping propagation matrix to (' + str(self.m1*self.m2) + ',' + str(self.n) + ')'
-        flattenPropagationMatrix = propagationMatrix.reshape((self.m1*self.m2,self.n)) # es 1 porque es el vector de propagacion que ira multiplicando a cada fila de la matrix (cada una de las n matrices de m1.m2)
-        #flattenPropagationMatrix = propagationMatrix.reshape((self.n, self.m1*self.m2))
-
-        print 'matrixDifference: ' + str(matrixDifference.shape)
-        print matrixDifference
+        #print 'reshaping propagation matrix to (' + str(self.m1*self.m2) + ',' + str(self.n) + ')'
+        flattenPropagationMatrix = propagationMatrix.reshape((self.n,self.m1*self.m2)) # es n porque es el vector de propagacion que ira multiplicando a cada fila de la matrix (cada una de las n matrices de m1.m2)
+        #print 'flattenPropagationMatrix: ' + str(flattenPropagationMatrix.shape)
 
         #print 'flattenPropagationMatrix: ' + str(flattenPropagationMatrix.shape)
         #print flattenPropagationMatrix
 
-        deltaMatrix = Utils().multiplyVectorAndMatrix(self.etta * matrixDifference, flattenPropagationMatrix)
+        deltaMatrix = Utils().multiplyPositionToPosition(self.etta * matrixDifference, flattenPropagationMatrix)
         #matrixDifference * flattenPropagationMatrix
         self.matrix = self.matrix + deltaMatrix
 

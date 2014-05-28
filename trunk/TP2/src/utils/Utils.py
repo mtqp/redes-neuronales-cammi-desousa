@@ -107,6 +107,58 @@ class Utils:
 
         for i in range(0, n):
             for j in range(0, m):
-                matrixResult[i][j] = matrix1[i][j] * matrix2[i][j]
+                value1 = matrix1[i,j]
+                value2 = matrix2[i,j]
+
+                matrixResult[i][j] = value1 * value2
 
         return matrixResult
+
+    def createHistogram(self, matrix):
+
+        matrixRows = matrix.shape[0]
+        matrixColumns = matrix.shape[1]
+        print 'matrixAcumWinner: ' + '(' + str(matrix.shape[0]) + ',' + str(matrix.shape[1]) + ')'
+        print matrix
+
+        #matrixHistogram = np.zeros((matrixRows*matrixColumns,matrixRows*5)) #si, es matrix rows porque quedemos armar una matriz mas grande para el histograma
+        matrixHistogram = self.unos((matrixRows*matrixColumns,matrixRows*matrixColumns)) #si, es matrix rows porque quedemos armar una matriz mas grande para el histograma
+        print 'matrixHistogram: ' + '(' + str(matrixHistogram.shape[0]) + ',' + str(matrixHistogram.shape[0]) + ')'
+
+        for i in range(0, matrixRows):
+            for j in range(0, matrixRows):
+                acumulated = int(np.asscalar(matrix[i][j]))
+                for k in range(0, acumulated):
+                    matrixHistogram[j*(i+1)][k] = 0
+                    #print '(' + str(j) + ',' + str(k) + ')'
+
+        #matrixHistogram = self.rotateMatrix(matrixHistogram, 1)
+        #matrixHistogram = self.rotateMatrix(matrixHistogram, 1)
+        #matrixHistogram = self.rotateMatrix(matrixHistogram, 1)
+
+        return matrixHistogram
+
+
+    def unos(self, pair):
+
+        n = pair[0]
+        m = pair[1]
+
+        matrixResult = np.zeros((n, m))
+
+        for i in range(0, n):
+            for j in range(0, m):
+                matrixResult[i][j] = 1
+
+        return matrixResult
+
+    def rotateMatrix(self, matrix, n):
+        n = matrix.shape[0]
+        m = matrix.shape[1]
+        matrixResult = np.zeros((n, m))
+
+        for i in range(0, n):
+            for j in range(0, n):
+                matrixResult[i][j] = matrix[n - j -1][i];
+
+        return matrixResult;
