@@ -3,6 +3,8 @@ from visual import *
 import numpy as np
 import math
 import random
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
 import time
 
 
@@ -11,20 +13,19 @@ class MatrixVisualizer:
         self.n = nDimension
         self.m = mDimension
         self.boxes = self.createMatrixBoxes(nDimension, mDimension)
-        #self.scene = display(title='Visualizacion de matriz', x=0, y=0, width=600, height=200, center=(5,0,0), background=(0,1,1))
-        #self.scene.select()
+        currentDisplay = display.get_selected()
+        currentDisplay.background = color.white
 
     def visualize(self, matrix):
-        #scene.center = vector(3,2,-1)
-        #scene.forward =  vector(0,20,10)
+        scene.center = vector(3,2,-1)
+        #scene.forward = vector(0,20,10)
         rate(100)
         time.sleep(0.01)
         for columnIndex in range(0, self.n):
             for rowIndex in range(0, self.m):
                 matrixValue = matrix[columnIndex][rowIndex]
                 boxItem = self.boxes[columnIndex][rowIndex]
-                boxItem.color = color.rgb_to_hsv(self.createVectorForValue2(matrixValue))
-                #boxItem.color = color.rgb_to_hsv((1,0,0))
+                boxItem.color =  color.rgb_to_hsv(self.createVectorForValue(matrixValue))
                 boxItem.size = (0.5, 0.5, 1*abs(matrixValue))
 
     def visualizeWinnerMatrix(self, matrix):
@@ -44,12 +45,9 @@ class MatrixVisualizer:
 
                 boxItem.size = (0.5, 0.5, 1*abs(matrixValue))
 
-    def createVectorForValue(self, aValue):
-        aValue = 0.5 - aValue
-        if aValue < 0:
-            aValue = 0
-        #print 'Color: ' + str(aValue)
-        return (aValue, aValue, 0)
+    def createVectorForValue(self, aValue): #por precondicion se supone que los valores estan en [0,1]
+        aValue = abs(aValue)
+        return (aValue, aValue, aValue)
 
     #red= (1,0,0)
     #green= (0,1,0)
@@ -76,3 +74,8 @@ class MatrixVisualizer:
                 row.append(box(pos=(columnIndex, rowIndex, 0), size=(0.4, 0.4, 0.4), color=color.rgb_to_hsv((columnIndex*3, rowIndex*5, 10))))
             matrix.append(row)
         return matrix
+
+    def plot2d(self, matrix):
+        plt.imshow(matrix, interpolation="none", cmap=cm.gray )
+        plt.colorbar()
+        plt.show()
