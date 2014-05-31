@@ -163,6 +163,6 @@ class MatrixVisualizer:
         #box(pos=(posX, posY, posZ), size=(0.4, 0.4, 0.4), color=color.red)
         #box(pos=(posX, posY, posZ), size=(0.4, 0.4, 0.4), color=color.rgb_to_hsv(colorRGB))
         box(pos=(posX, posY, posZ), size=(0.4, 0.4, 0.4), color=color.hsv_to_rgb(colorRGB))
-        #label(pos=(posX,posY + 10,posZ), text=str(inputValue[0]))
+        label(pos=(posX+0.25,posY,posZ), text=str(inputValue[0]))
 
         self.matrixAcumBoxes[posX, posY] = self.matrixAcumBoxes[posX, posY] + 1
