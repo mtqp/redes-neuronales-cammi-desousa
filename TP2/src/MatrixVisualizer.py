@@ -16,6 +16,7 @@ class MatrixVisualizer:
         currentDisplay = display.get_selected()
         currentDisplay.background = color.white
         self.backgroundColor = currentDisplay.background
+        self.matrixAcumBoxes = np.zeros((nDimension,mDimension))
 
     def initializeMatrixBoxesWithBackgroundColor(self):
         self.initializeMatrixBoxesWithColor(self.n,self.m, color.white)
@@ -133,3 +134,35 @@ class MatrixVisualizer:
     def visualizeCovariance(self, matrix):
         covarianceMatrix = np.cov(matrix)
         self.visualize(covarianceMatrix)
+
+    def visualizeNeuralPoints(self, winnerPoint, inputValue):
+
+        scene.center = vector(3,2,-1)
+        #scene.forward =  vector(0,0,1)
+
+        posX = winnerPoint[0]
+        posY = winnerPoint[1]
+
+
+        desvio = self.matrixAcumBoxes[posX, posY]
+        posZ = desvio
+
+        print 'graficando box (' + str(posX) + ',' + str(posY) + ',' + str(posZ) + ')';
+
+        valueAbs = abs(inputValue[0])
+
+        valueZeroOne = 0
+        if(valueAbs == inputValue[0]):
+            valueZeroOne = valueAbs/10.0
+        else:
+            valueZeroOne = valueAbs*2/10.0
+
+        #colorRGB = (random.uniform(0,1),random.uniform(0,1) ,random.uniform(0,1) )
+        colorRGB = (valueZeroOne,valueZeroOne,valueZeroOne)
+
+        #box(pos=(posX, posY, posZ), size=(0.4, 0.4, 0.4), color=color.red)
+        #box(pos=(posX, posY, posZ), size=(0.4, 0.4, 0.4), color=color.rgb_to_hsv(colorRGB))
+        box(pos=(posX, posY, posZ), size=(0.4, 0.4, 0.4), color=color.hsv_to_rgb(colorRGB))
+        #label(pos=(posX,posY + 10,posZ), text=str(inputValue[0]))
+
+        self.matrixAcumBoxes[posX, posY] = self.matrixAcumBoxes[posX, posY] + 1
