@@ -13,9 +13,11 @@ class HebbianTrainingAnalyzer:
             y = self.activate(x,self.matrix)
             average = np.average(y)
             variance = np.var(y)
-            print 'Item: ' + str(itemNumber) + ' - Avg: ' + str(average) + ' - Var: ' + str(variance)
-            print '     Input: ' + str(x)
-            print '     Output: ' + str(y)
+            if itemNumber < 100:
+                print 'Item: ' + str(itemNumber) + ' - Avg: ' + str(average) + ' - Var: ' + str(variance)
+                print '     Input: ' + str(x)
+                print '     Output: ' + str(y)
+                print '  '
             '''if itemNumber == 0:
                 plotter = MatrixVisualizer(-1,-1) #malisimo! ya no es un matrix visualizer
                 plotter.plotHistogram(self.getAbsolute(x))
