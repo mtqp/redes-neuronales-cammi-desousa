@@ -76,7 +76,7 @@ class Utils:
         return sum([math.pow(v,2) for v in vector]) / 2
 
     def applyMaskForMinimumOn(self, vector):
-        return [1 if min(vector) == item else 0 for item in vector]
+        return [1 if min(vector) == item else 0 for item in vector] #Falla si hay dos que dan igual.
 
     def multiplyVectorAndMatrix(self, vector, matrix):
         #el vector se lo multiplica por cada vector columna de la matrix
