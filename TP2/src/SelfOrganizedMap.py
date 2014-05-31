@@ -48,7 +48,7 @@ class SelfOrganizedMap:
     def test(self, dataSet):
         print '--------------- testing step ---------------- '
         #vTest = MatrixVisualizer(self.m1*5,self.m2*5)
-        vTest = MatrixVisualizer(3,3)
+        vTest = MatrixVisualizer(5,5)
 
         acumWinnerMatrix = np.zeros((self.m1,self.m2))
 
