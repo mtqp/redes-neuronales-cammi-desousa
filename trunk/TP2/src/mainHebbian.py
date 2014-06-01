@@ -12,33 +12,33 @@ import time
 from SelfOrganizedMap import SelfOrganizedMap
 
 def main():
-    '''
-    nTest = 10
-    nRandomTest = 10000
-    print 'Varianza de proyecciones'
+
+    nTest = 2
+    nRandomTest = 25000
+    #print 'Varianza de proyecciones'
     #Check variance of proyections
     dataSetCreator = DataSetCreator(nTest)
     dataSet = dataSetCreator.getRandomDataSet(nRandomTest)
-    print 'cree los data sets'
 
+    '''
     proyectionVariance = []
     for i in range(0, nTest):
         print 'i: ' + str(i)
         iExpectedVariance = (dataSetCreator.boundVector[i]**2)/3.0
-        print str(iExpectedVariance) + ' --> expected'
+        print str(iExpectedVariance) + ' --> a_i ^ 2 / 3'
         proyectionVariance.append(iExpectedVariance)
 
         iComponents = np.array([ x[i] for x in dataSet ])
         iComponentVariance = (iComponents**2).sum()/nRandomTest
         print str(iComponentVariance) + ' --> dataSetVariance'
 
+    '''
     #Check covariance matrix is orthogonal
     print 'Ortogonalidad matrix'
-    first5Sets = [ dataSet[0], dataSet[1], dataSet[2], dataSet[3], dataSet[4]]
-    for i in range(0,4):
-        x_i = np.array(first5Sets[i])
-        x_i_mas_1 = np.array(first5Sets[i+1])
-        print (x_i * x_i_mas_1).sum()/5
+    firstValueOfEachVector = np.array([ x[0] for x in dataSet])
+    secondValueOfEachVector = np.array([ x[1] for x in dataSet])
+    print (firstValueOfEachVector * secondValueOfEachVector).sum()/nRandomTest
+
 
     '''
     n = 6
@@ -65,6 +65,7 @@ def main():
 
     trainingAnalyzer = HebbianTrainingAnalyzer(hebbianLearning.matrix, dataSet)
     trainingAnalyzer.results()
+    '''
 
     '''
     matrix = np.array([[1,2], [3,4], [5,6]])

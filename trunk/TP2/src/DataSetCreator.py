@@ -36,7 +36,7 @@ class DataSetCreator:
 
 
     def createBoundVector(self):
-        return [6,5,4,3,2,1]
+        #return [6,5,4,3,2,1]
         #return [6,5,4,3,5,1]
         #return [6,5,1,4,3,1]
 
@@ -46,7 +46,7 @@ class DataSetCreator:
         i = 0
         while i < self.nDimension:
             randomValue = random.uniform(0, topValue)
-            randomValue = int(randomValue) #Just to testing with integers
+            #randomValue = int(randomValue) #Just to testing with integers
 
             if not randomValue in boundVector:
                 i += 1
