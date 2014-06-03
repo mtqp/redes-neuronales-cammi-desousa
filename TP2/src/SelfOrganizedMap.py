@@ -19,6 +19,7 @@ class SelfOrganizedMap:
         self.m1 = m1
         self.m2 = m2
         self.matrix = Utils().createRandomMatrixBetween(n, (m1*m2),random1, random2)
+        self.seeResultBool = False
 
     def algorithm(self, dataSet):
         #vTest = MatrixVisualizer(self.n, self.m1*self.m2)
@@ -45,15 +46,19 @@ class SelfOrganizedMap:
                 #time.sleep(0.5)
             runningEpoch += 1
 
-    def test(self, dataSet):
+    def test(self, dataSet,  m1, m2, firstBoundX1, endBoundX1, firstBoundX2, endBoundX2):
         print '--------------- testing step ---------------- '
         #vTest = MatrixVisualizer(self.m1*5,self.m2*5)
-        vTest = MatrixVisualizer(5,5)
+        vTest = MatrixVisualizer(m1,m2)
+        #vTest.plotAxis(dataSet)
+        #vTest.createReferenceBoxes(1,5*5, intervalInit, intervalEnd)
 
-        acumWinnerMatrix = np.zeros((self.m1,self.m2))
+        acumWinnerMatrix = np.zeros((self.n,self.m1*self.m2))
+        acumMaximumPerNeuron = np.zeros((self.m1,self.m2))
 
         counter = 0
         neuralAcumVector = []
+
         for x in dataSet:
             counter = counter + 1
             #GET WINNER MATRIX
@@ -62,12 +67,12 @@ class SelfOrganizedMap:
             #print 'Y: ' + str(y)
             winnerPoint = self.winner(y)
 
-            print 'Winner Point: ' + str(winnerPoint)
+            #print 'Winner Point: ' + str(winnerPoint)
             winnerMatrix = self.proxy(winnerPoint)
 
             print 'Testing iteration: ' + str(counter)
-            print 'winnerMatrix: ' + str(winnerMatrix.shape)
-            print winnerMatrix
+            #print 'winnerMatrix: ' + str(winnerMatrix.shape)
+            #print winnerMatrix
 
 
             winnerId = (winnerPoint[0]*winnerMatrix.shape[1]) + winnerPoint[1]
@@ -93,7 +98,24 @@ class SelfOrganizedMap:
             #acumWinnerMatrixToDisplay  = deepcopy(acumWinnerMatrix.reshape(1,acumWinnerMatrix.shape[0]*acumWinnerMatrix.shape[1]))
             #vTest.visualizeWithParams(acumWinnerMatrixToDisplay, acumWinnerMatrixToDisplay.shape[0], acumWinnerMatrixToDisplay.shape[1], (6,0))
 
-            vTest.visualizeNeuralPoints(winnerPoint, x)
+            #VISUALIZE THE winners in the neurons
+            #vTest.visualizeNeuralPoints(winnerPoint, x)
+            vTest.visualizeNeuralPointsBidimensional(winnerPoint, x, firstBoundX1, endBoundX1, firstBoundX2, endBoundX2)
+
+
+            if(acumMaximumPerNeuron[winnerPoint[0]][winnerPoint[1]] == 0):
+                acumMaximumPerNeuron[winnerPoint[0]][winnerPoint[1]] == x[0]
+
+            #print 'acumMaximumPerNeuron prev: ' + str(acumMaximumPerNeuron[winnerPoint[0]][winnerPoint[1]])
+            if(x[0] >= 0):
+                if(acumMaximumPerNeuron[winnerPoint[0]][winnerPoint[1]] < x[0]):
+                    print 'x:' + str(x)
+                    acumMaximumPerNeuron[winnerPoint[0]][winnerPoint[1]] = x[0]
+            else:
+                if(abs(acumMaximumPerNeuron[winnerPoint[0]][winnerPoint[1]]) <= abs(x[0])):
+                    print '-x:' + str(x)
+                    acumMaximumPerNeuron[winnerPoint[0]][winnerPoint[1]] = x[0]
+            #print 'acumMaximumPerNeuron post: ' + str(acumMaximumPerNeuron[winnerPoint[0]][winnerPoint[1]])
 
             #print "visualizada"
             #time.sleep(1)
@@ -102,12 +124,20 @@ class SelfOrganizedMap:
         #acumWinnerMatrixToDisplay  = deepcopy(acumWinnerMatrix.reshape(1,acumWinnerMatrix.shape[0]*acumWinnerMatrix.shape[1]))
         #vTest.visualizeWithParams(acumWinnerMatrix, acumWinnerMatrix.shape[0], acumWinnerMatrix.shape[1], (6,0))
 
-        print 'vector: ' + str(neuralAcumVector)
-        vTest.plotHistogram(neuralAcumVector)
+        #print 'vector: ' + str(neuralAcumVector)
+        #vTest.plotHistogram(neuralAcumVector)
+
+
+        #VISUALIZE MAXIMUMS IN THE NEURONS
+        #vTest.visualizeNeuralMaximums(acumMaximumPerNeuron)
+
 
         #P.hist(anArray, 50, normed=1, histtype='stepfilled')
         #P.plot
         #vTest.plot2d(matrixHistogram)
+        vTest.waitForKey()
+
+
 
     def updateEtta(self, epoch):
         self.etta = pow(epoch, -(self.alphaEtta))
@@ -133,7 +163,7 @@ class SelfOrganizedMap:
 
 
         #flattenPropagationMatrix = propagationMatrix.flatten()
-        #print 'reshaping propagation matrix to (' + str(self.m1) + '*' + str(self.m2) + ',' + str(1) + ')'
+        #print 'reshaping propagation matrix to (' + str(self.m1) + '*' + str(self.m2) + ',' + str(self.n) + ')'
         #print 'reshaping propagation matrix to (' + str(self.m1*self.m2) + ',' + str(self.n) + ')'
         flattenPropagationMatrix = propagationMatrix.reshape((self.n,self.m1*self.m2)) # es n porque es el vector de propagacion que ira multiplicando a cada fila de la matrix (cada una de las n matrices de m1.m2)
 
@@ -153,31 +183,38 @@ class SelfOrganizedMap:
         #print 'matrix: ' + str(self.matrix.shape)
         #print self.matrix
 
+    def seeResult(self):
+        self.seeResultBool = True
+
     #Devuelve  y (1, m1.m2)
     def activate(self, x):
 
         matrixDifference = Utils().subtractVectorToEachColumnOf(self.matrix, x)
-        #print 'MatrixDifference: ' + str(matrixDifference)
+        #print 'MatrixDifference: (' + str(matrixDifference.shape[0]) + "," + str(matrixDifference.shape[1]) + ")"
+        #print matrixDifference
         vectorOfNorms = Utils().applyNormToEachColumn(matrixDifference)
-        #print 'vectorOfNorms: ' + str(vectorOfNorms)
+        if(self.seeResultBool):
+            print 'Result: ' + str(vectorOfNorms)
 
         maskedVector = Utils().applyMaskForMinimumOn(vectorOfNorms)
-        #print 'maskedVector: ' + str(maskedVector)
+        #print 'maskedVector: ' + str(len(maskedVector))
+        #print str(maskedVector)
 
         return maskedVector
 
     def proxy(self, winnerPoint): #TODO: correct/check positions!
 
-        gaussMatrix = np.zeros((self.m1, self.m2))
+        gaussMatrix = np.zeros((self.n,self.m1*self.m2))
         #print gaussMatrix.shape
         #print 'winnerPoint[0]: ' + str(winnerPoint[0])
         #print 'winnerPoint[1]: ' + str(winnerPoint[1])
 
-        gaussMatrix[winnerPoint[0]][winnerPoint[1]] = 1
+        for i in range (0,self.n):
+            gaussMatrix[i][self.m1*winnerPoint[1]+winnerPoint[0]] = 1
 
-        for columnIndex in range(0, gaussMatrix.shape[1]):
-            for rowIndex in range(0, gaussMatrix.shape[0]):
-                gaussMatrix[rowIndex][columnIndex] = self.gaussianFormula((rowIndex,columnIndex), winnerPoint)
+            for columnIndex in range(0, gaussMatrix.shape[1]):
+                for rowIndex in range(0, gaussMatrix.shape[0]):
+                    gaussMatrix[rowIndex][columnIndex] = self.gaussianFormula((rowIndex,columnIndex), winnerPoint)
         return gaussMatrix
 
     def gaussianFormula(self, point, winnerPoint):
@@ -190,8 +227,9 @@ class SelfOrganizedMap:
 
     # y: 1,m1 x m2
     def winner(self, y):
-        for j in range(0, self.m2):
-            for i in range(0, self.m1):
+        #print 'len(y):' + str(len(y))
+        for j in range(0, self.m1):
+            for i in range(0, self.m2):
                 if y[(self.m1*j)+i] == 1:
                     return (i, j)
 
