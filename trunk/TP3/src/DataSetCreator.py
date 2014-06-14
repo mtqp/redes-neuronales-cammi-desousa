@@ -171,7 +171,9 @@ class DataSetCreator:
         return randomVector
 
     def createRandomVectorWithBounds(self, firstBound, endBound, randomMethod):
-        randomVector = []
+        randomVector = np.zeros((1,self.nDimension))
+        #print 'matrix dimensions ' + str(randomVector.shape)
+        #print randomVector
         i = 0
         while i < self.nDimension:
 
@@ -179,6 +181,12 @@ class DataSetCreator:
 
             if(randomMethod == self.UNIFORM):
                 randomValue = random.uniform(firstBound, endBound)
+
+                if randomValue >= 0:
+                    randomValue = 1
+                else:
+                    randomValue = -1
+
 
             if(randomMethod == self.NORMAL):
 
@@ -198,6 +206,8 @@ class DataSetCreator:
 
             #print randomValue
             #if not randomValue in randomVector:
+            #print '[0][i]' + str(i)
+            randomVector[0][i] = randomValue
             i += 1
-            randomVector.append(randomValue)
+
         return randomVector
