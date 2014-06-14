@@ -23,3 +23,8 @@ def activate(self, x, synch):
 
     while previousS != s:
         previousS[:] = s
+
+        if synch:
+            s = sign()
+
+def sign(self)
