@@ -1,7 +1,7 @@
 import numpy as np
 
 #todo: make it work!!
-class HopfieldStochastic:
+class HopefieldStochastic:
 
     #s vector de activacion
     #x vectores de aprendizaje (1 sola iteracion) son los patrones que se quieren memorizar
