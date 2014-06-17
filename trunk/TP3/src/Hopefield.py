@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class Hopfield:
+class Hopefield:
 
     #s vector de activacion
     #x vectores de aprendizaje (1 sola iteracion) son los patrones que se quieren memorizar
@@ -22,11 +22,19 @@ class Hopfield:
 
     def activate(self, x, synch):
 
-        s = x
+        s = np.zeros((1,self.n))
+        #s = x
+
+        for i in range(0, len(x)):
+            s[i] = x[i]
+
         previousS = np.zeros((1,self.n))
 
         while not (s == previousS).all():
-            previousS[:] = s
+            #previousS[:] = s
+
+            for i in range(0, len(s)):
+                previousS[i] = s[i]
 
             if synch:
                 s = self.vectorSign( s * self.matrix)
@@ -50,7 +58,10 @@ class Hopfield:
         return s
 
     def vectorSign(self, vector):
-        return [self.sign(x) for x in vector]
+        print 'vector: ' + str(vector)
+        signs = [self.sign(x) for x in vector]
+        print 'signs: ' + str(signs)
+        return signs
 
     def sign(self, item):
         if item >= 0:
