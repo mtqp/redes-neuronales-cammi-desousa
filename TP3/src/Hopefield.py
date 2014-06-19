@@ -12,9 +12,10 @@ class Hopefield:
 
     def training(self, dataSet):
         for x in dataSet:
-            self.matrix += np.transpose(x)*x
+            #self.matrix += np.dot(np.transpose(x),x)
+            self.matrix += np.transpose(x) * x
         self.matrix /= self.n
-        self.matrix -= self.matrix.diagonal(0)
+        #self.matrix -= self.matrix.diagonal(0)
         return self.matrix
 
     def energy(self, s, matrix):
