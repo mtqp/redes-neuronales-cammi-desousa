@@ -5,27 +5,31 @@ from DataSetCreator import DataSetCreator
 def main():
 
     #Initialize
-    #n = 20
-    n = 6
+    n = 20
+    #n = 6
     amountOfVectors = 3
     firstBound = -1
     endBound = 1
     method = DataSetCreator.UNIFORM
     hopfield = Hopefield(n)
 
+    #DataSet learning
+    dataSetVectors = []
+    vector1 = np.matrix([ 1.,-1,  1.,  1, -1, -1,  1,  1,  1, -1,  1,  1, -1,  1,  1,  1,  1,  1, -1,  1])
+    vector2 = np.matrix([ 1., 1, -1.,  1,  1,  1,  1,  1, -1,  1,  1, -1,  1, -1,  1,  1,  1,  1,  1,  1])
+    vector3 = np.matrix([ 1., -1, 1., -1, -1,  1,  1, -1, -1,  1,  1,  1, -1, -1, -1,  1, -1,  1,  1, -1])
+
     #DataSet Generation
     #dataSetCreator = DataSetCreator(n)
     #dataSetVectors = dataSetCreator.getRandomDataSetOfVectors(amountOfVectors, firstBound, endBound, method)
 
-    dataSetVectors = []
 
-    vector1 = np.matrix([ -1.,  1,  1,  1,  1,  1])
-    vector2 = np.matrix([ -1.,  1, -1,  1,  -1, 1])
-    vector3 = np.matrix([  1.,  1,  -1, -1,  1, 1])
 
-    #vector1 = np.matrix([ 1.,-1,  1.,  1, -1, -1,  1,  1,  1, -1,  1,  1, -1,  1,  1,  1,  1,  1, -1,  1])
-    #vector2 = np.matrix([ 1., 1, -1.,  1,  1,  1,  1,  1, -1,  1,  1, -1,  1, -1,  1,  1,  1,  1,  1,  1])
-    #vector3 = np.matrix([ 1., -1, 1., -1, -1,  1,  1, -1, -1,  1,  1,  1, -1, -1, -1,  1, -1,  1,  1, -1])
+    #vector1 = np.matrix([ -1.,  1,  1,  1,  1,  1])
+    #vector2 = np.matrix([ -1.,  1, -1,  1,  -1, 1])
+    #vector3 = np.matrix([  1.,  1,  -1, -1,  1, 1])
+
+
 
     dataSetVectors.append(vector1)
     dataSetVectors.append(vector2)

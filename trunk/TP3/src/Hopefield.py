@@ -16,6 +16,7 @@ class Hopefield:
             self.matrix += np.transpose(x) * x
         self.matrix /= self.n
         #self.matrix -= self.matrix.diagonal(0)
+        self.matrix -= np.diag(np.diag(self.matrix))
         return self.matrix
 
     def energy(self, s, matrix):
