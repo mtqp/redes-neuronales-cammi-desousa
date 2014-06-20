@@ -8,14 +8,20 @@ class Hopefield:
 
     def __init__(self, n):
         self.n = n
-        self.matrix = np.zeros((self.n,self.n))
+        self.matrix = np.zeros((self.n, self.n))
 
     def training(self, dataSet):
         for x in dataSet:
-            #self.matrix += np.dot(np.transpose(x),x)
-            self.matrix += np.transpose(x) * x
+            print 'matrix shape: ' + str(self.matrix.shape)
+            transposedX = np.transpose(x)
+            print 'transposed shape: ' + str(transposedX.shape)
+            print 'x shape: ' + str(x.shape)
+            '''print 'transposed:'
+            print transposedX
+            print 'x:'
+            print x'''
+            self.matrix += transposedX * x
         self.matrix /= self.n
-        #self.matrix -= self.matrix.diagonal(0)
         self.matrix -= np.diag(np.diag(self.matrix))
         return self.matrix
 
