@@ -5,7 +5,7 @@ from Letter import Letter
 
 def main():
     SYNCH = True
-    dim = 15
+    dim = 20
     bitReshapedToSquareDimension = dim / 5
     n = dim * dim
     hopfield = Hopefield(n)

@@ -12,14 +12,7 @@ class Hopefield:
 
     def training(self, dataSet):
         for x in dataSet:
-            print 'matrix shape: ' + str(self.matrix.shape)
             transposedX = np.transpose(x)
-            print 'transposed shape: ' + str(transposedX.shape)
-            print 'x shape: ' + str(x.shape)
-            '''print 'transposed:'
-            print transposedX
-            print 'x:'
-            print x'''
             self.matrix += transposedX * x
         self.matrix /= self.n
         self.matrix -= np.diag(np.diag(self.matrix))
