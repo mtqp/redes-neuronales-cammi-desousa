@@ -70,7 +70,6 @@ class DataSetCreator:
 
             if mustBeUnique and not self.alreadyInDataset(randomVector, randomDataSet):
                 i += 1
-                print 'adding vector: ' + str(randomVector)
                 randomDataSet.append(randomVector)
         return randomDataSet
 

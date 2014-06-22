@@ -5,7 +5,7 @@ from Letter import Letter
 
 def main():
     SYNCH = True
-    dim = 25
+    dim = 50
     bitReshapedToSquareDimension = dim / 5
     n = dim * dim
     hopfield = Hopefield(n)
@@ -28,10 +28,11 @@ def main():
         if not equalityReached:
             description += ' - ERROR!'
         print description
+        '''
         if not equalityReached:
             printLetterWithDimension("DataSet", dim, letters[i].reshapeEachBitIntoSquareOf(bitReshapedToSquareDimension))
             printLetterWithDimension("Result", dim, hopfieldActivation.flatten())
-
+        '''
         i += 1
 
 def printLetterWithDimension(header, dim, vector):

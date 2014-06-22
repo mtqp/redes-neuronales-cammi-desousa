@@ -4,8 +4,14 @@ from DataSetCreator import *
 from Letter import Letter
 import Hamming
 
+''''
+    todo: GENERAR LOS 10 VECTORES,
+    GENERAR LAS INSTANCIAS DE TEST
+    LOOPEAR TODO PARA DISTINTAS TEMPERATURAS
+''''
 
 def main():
+
     dim = 15
     bitReshapedToSquareDimension = dim / 5
     n = dim * dim
@@ -13,6 +19,7 @@ def main():
     hammingPercentage = 0.1
     randomSetsCount = 10
     MUST_BE_UNIQUE = True
+    PRINT_DETAIL = False
     hopfieldStochastic = HopefieldStochastic(n, temperature, hammingPercentage)
 
     #DataSet
@@ -38,13 +45,13 @@ def main():
         if not equalityReached:
             description += ' - ERROR!'
         print description
-        if not equalityReached:
-            printLetterWithDimension("DataSet", dim, dataSetVectors[i].flatten())
-            printLetterWithDimension("Result", dim, hopfieldActivation.flatten())
+        if PRINT_DETAIL and not equalityReached:
+            printVectorWithDimension("DataSet", dim, dataSetVectors[i].flatten())
+            printVectorWithDimension("Result", dim, hopfieldActivation.flatten())
 
         i += 1
 
-def printLetterWithDimension(header, dim, vector):
+def printVectorWithDimension(header, dim, vector):
     print header
 
     for i in range(0, len(vector), dim):
