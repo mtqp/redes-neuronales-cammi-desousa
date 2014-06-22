@@ -1,6 +1,6 @@
 import numpy as np
 from HopefieldStochastic import HopefieldStochastic
-from DataSetCreator import DataSetCreator
+from DataSetCreator import *
 from Letter import Letter
 import Hamming
 
@@ -11,12 +11,19 @@ def main():
     n = dim * dim
     temperature = 0.2
     hammingPercentage = 0.1
+    randomSetsCount = 10
+    MUST_BE_UNIQUE = True
     hopfieldStochastic = HopefieldStochastic(n, temperature, hammingPercentage)
 
     #DataSet
+    dataSetCreator = DataSetCreator(n)
+    dataSetVectors = dataSetCreator.getRandomDataSetOfVectors(randomSetsCount, -1, 1, DataSetCreator.UNIFORM, MUST_BE_UNIQUE)
+
+    '''
     letters = allLetters()
     letters = [Letter("A", [0,1,1,1,0,1,0,0,0,1,1,1,1,1,1,1,0,0,0,1,1,0,0,0,1])]
     dataSetVectors = [ np.matrix(letter.reshapeEachBitIntoSquareOf(bitReshapedToSquareDimension)) for letter in letters ]
+    '''
 
     #Learning
     hopfieldStochastic.training(dataSetVectors)
@@ -27,12 +34,12 @@ def main():
     for inputVector in dataSetVectors:
         hopfieldActivation = hopfieldStochastic.activate(inputVector)
         equalityReached = (inputVector == hopfieldActivation).all()
-        description = 'Letter: ' + letters[i].stringValue + '. Are equal? ' + str(equalityReached)
+        description = 'Vector: ' + str(i) + '. Are equal? ' + str(equalityReached)
         if not equalityReached:
             description += ' - ERROR!'
         print description
         if not equalityReached:
-            printLetterWithDimension("DataSet", dim, letters[i].reshapeEachBitIntoSquareOf(bitReshapedToSquareDimension))
+            printLetterWithDimension("DataSet", dim, dataSetVectors[i].flatten())
             printLetterWithDimension("Result", dim, hopfieldActivation.flatten())
 
         i += 1

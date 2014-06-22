@@ -55,6 +55,9 @@ class DataSetCreator:
 
     #Para el ejercicio 2
     def getRandomDataSetOfVectors(self, amountOfRandomSets, firstBound, endBound, randomMethod):
+        return self.getRandomDataSetOfVectors(self, amountOfRandomSets, firstBound, endBound, randomMethod, False)
+
+    def getRandomDataSetOfVectors(self, amountOfRandomSets, firstBound, endBound, randomMethod, mustBeUnique):
         randomDataSet = []
 
         #print 'amountOfRandomSets: ' + str(amountOfRandomSets)
@@ -65,10 +68,19 @@ class DataSetCreator:
         while i < amountOfRandomSets:
             randomVector = self.createRandomVectorWithBounds(firstBound, endBound, randomMethod)
 
-            #if not randomVector in randomDataSet:
-            i += 1
-            randomDataSet.append(randomVector)
+            if mustBeUnique and not self.alreadyInDataset(randomVector, randomDataSet):
+                i += 1
+                print 'adding vector: ' + str(randomVector)
+                randomDataSet.append(randomVector)
         return randomDataSet
+
+    def alreadyInDataset(self, vector, set):
+        #return np.array([ (setItem == vector).all() for setItem in set ]).any()
+
+        for setItem in set:
+            if (vector == setItem).all():
+                return True
+        return False
 
     def getRandomDataSetOfVectorsBidimensional(self, amountOfRandomSets, firstBoundX1, endBoundX1, firstBoundX2, endBoundX2):
         randomDataSet = []
