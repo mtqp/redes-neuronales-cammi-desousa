@@ -7,9 +7,12 @@ class HopefieldStochastic:
     #s vector de activacion
     #x vectores de aprendizaje (1 sola iteracion) son los patrones que se quieren memorizar
 
-    def __init__(self, n, temperature):
+    def __init__(self, n, temperature, hammingPercentageDifference):
         self.n = n
         self.matrix = np.zeros((self.n, self.n))
+        self.hammingPercentageDifference = hammingPercentageDifference
+        if temperature == 0:
+            temperature = 0.01
         self.temperature = temperature
 
     def training(self, dataSet):
@@ -56,7 +59,8 @@ class HopefieldStochastic:
         return 1.0 / (1.0 + (math.pow(math.e,exponent)))
 
     def shouldStop(self, s, previousS):
-        return Hamming.distance(s, previousS) <= 2
+        maxDifference = int(self.n * self.hammingPercentageDifference)
+        return Hamming.distance(s.flatten(), previousS.flatten()) <= maxDifference
 
     def vectorSign(self, vector):
         print 'vector: ' + str(vector)
