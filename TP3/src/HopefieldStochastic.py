@@ -1,56 +1,68 @@
 import numpy as np
+import math
+import Hamming
 
 #todo: make it work!!
 class HopefieldStochastic:
-
     #s vector de activacion
     #x vectores de aprendizaje (1 sola iteracion) son los patrones que se quieren memorizar
 
-    def __init__(self, n):
+    def __init__(self, n, temperature):
         self.n = n
-        self.matrix = np.zeros((self.n,self.n))
+        self.matrix = np.zeros((self.n, self.n))
+        self.temperature = temperature
 
     def training(self, dataSet):
         for x in dataSet:
-            self.matrix += np.transpose(x)*x
+            transposedX = np.transpose(x)
+            self.matrix += transposedX * x
         self.matrix /= self.n
-        self.matrix -= self.matrix.diagonal(0)
+        self.matrix -= np.diag(np.diag(self.matrix))
         return self.matrix
 
     def energy(self, s, matrix):
         return -0.5 * ((s * matrix) * np.transpose(s))
 
-    def activate(self, x, synch):
+    def activate(self, x):
+        #s = x
+        s = np.zeros((1,self.n))
+        for i in range(0, len(x)):
+            s[i] = x[i]
 
-        s = x
         previousS = np.zeros((1,self.n))
 
-        while not (s == previousS).all():
-            previousS[:] = s
+        while not self.shouldStop(s, previousS):
+            for i in range(0, len(s)):
+                previousS[i] = s[i]
 
-            if synch:
-                s = self.vectorSign( s * self.matrix)
-            else:
-                permIndexes = np.random.permutation(self.n)
+            permIndexes = np.random.permutation(self.n)
 
-                for i in permIndexes:
-                    #print 'permIndexes: ' + str(permIndexes)
-                    #print 'i: ' + str(i)
-                    #print 'self.matrix[:,' + str(i) + ']: ' + str(self.matrix[:,i])
-                    #print 'result: ' + str(np.dot(s,self.matrix[:,i]))
-                    #print 's lengh' + str(s.shape)
-                    #print 's:' + str(s)
-                    #print 'matrix lengh' + str(self.matrix.shape)
-                    #print 'matrix:' + str(self.matrix)
-                    s[0, i] = self.sign( np.dot(s,self.matrix[:,i]))
+            for i in permIndexes:
+                s[0, i] = self.stochasticActivation(s, self.matrix[:,i])
 
             energyValue = self.energy(s,self.matrix)
             self.visualizeEnergy(energyValue,s)
 
         return s
 
+    def stochasticActivation(self, s, matrix_i):
+        h_i = np.dot(s,matrix_i)
+        mu = np.random.uniform(0,1)
+        probability_i  = self.temperatureProbability(h_i)
+        return self.sign(probability_i - mu)
+
+    def temperatureProbability(self, value):
+        exponent = (-1.0) * value / self.temperature
+        return 1.0 / (1.0 + (math.pow(math.e,exponent)))
+
+    def shouldStop(self, s, previousS):
+        return Hamming.distance(s, previousS) <= 2
+
     def vectorSign(self, vector):
-        return [self.sign(x) for x in vector]
+        print 'vector: ' + str(vector)
+        signs = [self.sign(x) for x in vector]
+        print 'signs: ' + str(signs)
+        return signs
 
     def sign(self, item):
         if item >= 0:
