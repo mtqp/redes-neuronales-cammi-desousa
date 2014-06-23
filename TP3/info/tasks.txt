@@ -1,5 +1,7 @@
 Memoria Asociativa de Hopfield
 
+Generar patrones con diferentes grados de ortogonalidad.
+
 Consultar:
 
 Ortogonalidad 2-1: [[1]]

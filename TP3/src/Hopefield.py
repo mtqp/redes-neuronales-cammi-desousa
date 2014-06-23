@@ -38,7 +38,7 @@ class Hopefield:
                 previousS[i] = s[i]
 
             if synch:
-                s = self.vectorSign( s * self.matrix)
+                s = self.vectorSign( np.dot(s, self.matrix))
             else:
                 permIndexes = np.random.permutation(self.n)
 
