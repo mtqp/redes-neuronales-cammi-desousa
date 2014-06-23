@@ -222,3 +222,67 @@ class DataSetCreator:
             i += 1
 
         return randomVector
+
+    #Ejercicio 3 vectores de valores bipolares -1 y 1
+    def getLearningVectorsHopfield(self, amountOfVectors, ortogonalPercentage):
+
+        resultVectors =  []
+
+        #print 'matrix dimensions ' + str(randomVector.shape)
+        #print randomVector
+
+        ortogonalityCalculated = 0
+
+        while(ortogonalityCalculated < ortogonalPercentage):
+
+            a = 0
+            resultVectors = []
+            while a < amountOfVectors:
+
+                randomVector = np.zeros((1,self.nDimension))
+                i = 0
+                randomValue = 0
+                while i < self.nDimension:
+                    #print 'generating randomValue: ' + str(i)
+
+                    randomValue = random.uniform(-1, 1)
+
+                    if randomValue >= 0:
+                        randomValue = 1
+                    else:
+                        randomValue = -1
+
+                    randomVector[0][i] = randomValue
+                    i += 1
+
+                resultVectors.append(randomVector)
+                a += 1
+
+            ortogonalityCalculated = calculateOrtogonalityPercentage(resultVectors)
+            #print 'ortogonalityCalculated: ' + str(ortogonalityCalculated )
+
+        return resultVectors
+
+def calculateOrtogonalityPercentage(dataSetVectors):
+    dimension = len(dataSetVectors[0][0])
+    #print 'dimension: ' + str(dimension)
+    vectorOrtogonality = []
+    vectorOrtogonalityPercentage = []
+    ortogonalityAcum = 0
+    for i in range(0, len(dataSetVectors)):
+        for j in range(0, len(dataSetVectors)):
+            if i < j :
+                ortogonalValueInMatrix = np.dot(dataSetVectors[i], np.transpose(dataSetVectors[j]));
+                ortogonalValue = ortogonalValueInMatrix[0][0]
+                vectorOrtogonality.append(ortogonalValue)
+                ortogonalityPercentage = 100.0 - (100.0 / (dimension) * abs(ortogonalValue))
+
+                #print 'ortogonalityPercentageVector: ' + str(ortogonalityPercentage)
+                vectorOrtogonalityPercentage.append(ortogonalityPercentage)
+                ortogonalityAcum += ortogonalityPercentage
+                #print 'Ortogonalidad: ' + str(i+1) + '-' + str(j+1) + ': ' + str(np.dot(dataSetVectors[i], np.transpose(dataSetVectors[j])))
+
+    if ortogonalityAcum == 0:
+        return 0
+
+    return ortogonalityAcum / len(vectorOrtogonalityPercentage)
