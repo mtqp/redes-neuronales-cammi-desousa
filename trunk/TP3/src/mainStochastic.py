@@ -8,48 +8,128 @@ import Hamming
     todo: GENERAR LOS 10 VECTORES,
     GENERAR LAS INSTANCIAS DE TEST
     LOOPEAR TODO PARA DISTINTAS TEMPERATURAS
-''''
+'''
 
 def main():
 
-    dim = 15
-    bitReshapedToSquareDimension = dim / 5
+    dim = 10
     n = dim * dim
-    temperature = 0.2
-    hammingPercentage = 0.1
-    randomSetsCount = 10
+    temperature = 0
+    hammingPercentage = 0.05
+    trainingSetCount = 10
+    noiseFactor = 0.01
     MUST_BE_UNIQUE = True
-    PRINT_DETAIL = False
     hopfieldStochastic = HopefieldStochastic(n, temperature, hammingPercentage)
 
     #DataSet
     dataSetCreator = DataSetCreator(n)
-    dataSetVectors = dataSetCreator.getRandomDataSetOfVectors(randomSetsCount, -1, 1, DataSetCreator.UNIFORM, MUST_BE_UNIQUE)
-
-    '''
-    letters = allLetters()
-    letters = [Letter("A", [0,1,1,1,0,1,0,0,0,1,1,1,1,1,1,1,0,0,0,1,1,0,0,0,1])]
-    dataSetVectors = [ np.matrix(letter.reshapeEachBitIntoSquareOf(bitReshapedToSquareDimension)) for letter in letters ]
-    '''
+    print 'Creating training set'
+    trainingSet = dataSetCreator.getRandomDataSetOfVectors(trainingSetCount, -1, 1, DataSetCreator.UNIFORM, MUST_BE_UNIQUE)
+    print 'Ready!'
 
     #Learning
-    hopfieldStochastic.training(dataSetVectors)
+    hopfieldStochastic.training(trainingSet)
 
-    #Activation
-    print 'Activation step:'
-    i = 0
-    for inputVector in dataSetVectors:
-        hopfieldActivation = hopfieldStochastic.activate(inputVector)
-        equalityReached = (inputVector == hopfieldActivation).all()
+    while temperature <= 0.7:
+        checks = []
+        print 'Temperature: ' + str(temperature)
+        print 'Memory'
+        memoryCheck(hopfieldStochastic, trainingSet, trainingSet, dim, temperature, 0).results()
+
+        if temperature > 0:
+            print 'Memory with noise'
+        while noiseFactor <= 0.7 and temperature > 0:
+            trainingSetWithNoise = noiseUp(trainingSet, noiseFactor)
+            checks.append(memoryCheck(hopfieldStochastic, trainingSetWithNoise, trainingSet, dim, temperature, noiseFactor))
+            noiseFactor += 0.1
+
+        for check in checks:
+            check.results()
+
+        noiseFactor = 0.01
+        temperature += 0.05
+
+
+def hammingDistances(set, setWithNoise):
+    distances = []
+    for i in range(0, len(set)):
+        distances.append(Hamming.distance(set[i].flatten(), setWithNoise[i].flatten()))
+    return distances
+
+def noiseUp(set, noiseFactor):
+    noisedUpSet = []
+    for item in set:
+        copiedItem = copyItem(item)
+        for i in range(0,len(copiedItem.flatten())):
+            randomValue = np.random.uniform(0,1)
+            if randomValue <= noiseFactor:
+                copiedItem[0,i] = -1 * copiedItem[0,i] #reverse item
+
+        noisedUpSet.append(copiedItem)
+    return noisedUpSet
+
+def copyItem(item):
+    copiedItem = np.zeros((1,len(item.flatten())))
+    for i in range(0, len(item.flatten())):
+        copiedItem[0, i] = item[0, i]
+    return copiedItem
+
+class MemoryCheck:
+    def __init__(self, temperature, noise, trainingSet, checkingSet):
+        self.temperature = temperature
+        self.noise = noise
+        self.distances = hammingDistances(trainingSet, checkingSet)
+
+        self.activationResults = []
+
+    def addActivationResult(self, i, equalityReached, hammingDist):
+        self.activationResults.append((i, equalityReached, hammingDist))
+        '''
         description = 'Vector: ' + str(i) + '. Are equal? ' + str(equalityReached)
         if not equalityReached:
-            description += ' - ERROR!'
+            description += ' - ERROR! - Hamming distance: ' + str(hammingDist)
         print description
+        '''
+
+    def results(self):
+        maxHammingDist = max(self.distances)
+        minHammingDist = min(self.distances)
+        avgHammingDist = sum(self.distances) / len(self.distances)
+        successFactor = sum([ float(activationResult[1]) for activationResult in self.activationResults ])/len(self.activationResults)
+        failFactor = 1.0 - successFactor
+        hammingImprovements = [ abs((self.distances[i] - self.iActivationResult(i)[2])) for i in range(0, len(self.distances))]
+        '''
+        if self.noise > 0:
+            print 'With noise: ' + str(self.noise) + ' maxHam: ' + str(maxHammingDist) + ' minHam: ' + str(minHammingDist) + ' avgHam: ' + str(avgHammingDist)
+        print ' Success: ' + str(successFactor) + ' - Fail: ' + str(failFactor)
+        print ' Hamming dists improvement: Max: ' + str(min(hammingImprovements)) +  ' Min: ' + str(max(hammingImprovements)) + ' Avg: ' + str(sum(hammingImprovements)/len(hammingImprovements))
+        '''
+        print 'N: ' + str(self.noise) + ' MH: ' + str(maxHammingDist) + ' mH: ' + str(minHammingDist) + ' A: ' + str(avgHammingDist) + ' S: ' + str(successFactor) + ' F: ' + str(failFactor) + ' HImprove: M: ' + str(min(hammingImprovements)) +  ' m: ' + str(max(hammingImprovements)) + ' A: ' + str(sum(hammingImprovements)/len(hammingImprovements))
+
+    def iActivationResult(self, i):
+        for activationResult in self.activationResults:
+            if activationResult[0] == i:
+                return activationResult
+
+def memoryCheck(hopfieldStochastic, trainingSet, checkingSet, dim, temperature, noiseFactor):
+    check = MemoryCheck(temperature, noiseFactor, trainingSet, checkingSet)
+
+    PRINT_DETAIL = False
+    #Activation
+    for i in range(0, len(trainingSet)):
+        trainingVector = trainingSet[i]
+        checkingVector = checkingSet[i].flatten()
+        hopfieldStochastic.temperature = temperature
+        hopfieldActivation = hopfieldStochastic.activate(trainingVector)
+        equalityReached = (checkingVector == hopfieldActivation).all()
+        hammingDist = Hamming.distance(hopfieldActivation.flatten(), checkingVector)
+        check.addActivationResult(i, equalityReached, hammingDist)
+
         if PRINT_DETAIL and not equalityReached:
-            printVectorWithDimension("DataSet", dim, dataSetVectors[i].flatten())
+            printVectorWithDimension("DataSet", dim, trainingSet[i].flatten())
             printVectorWithDimension("Result", dim, hopfieldActivation.flatten())
 
-        i += 1
+    return check
 
 def printVectorWithDimension(header, dim, vector):
     print header
