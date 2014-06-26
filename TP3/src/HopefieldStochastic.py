@@ -6,14 +6,18 @@ import Hamming
 class HopefieldStochastic:
     #s vector de activacion
     #x vectores de aprendizaje (1 sola iteracion) son los patrones que se quieren memorizar
+    ACTIVATION_STOP_BY_HAMMING_CONDITION = 0
+    ACTIVATION_STOP_BY_PROBABILITY_CONDITION = 1
 
-    def __init__(self, n, temperature, hammingPercentageDifference):
+    def __init__(self, n, temperature, hammingPercentageDifference, stopCondition):
         self.n = n
         self.matrix = np.zeros((self.n, self.n))
         self.hammingPercentageDifference = hammingPercentageDifference
         if temperature == 0:
             temperature = 0.01
         self.temperature = temperature
+        self.stopCondition = stopCondition
+        self.randomActivationConditionStopper = RandomActivationConditionStopper(hammingPercentageDifference)
 
     def training(self, dataSet):
         for x in dataSet:
@@ -59,8 +63,11 @@ class HopefieldStochastic:
         return 1.0 / (1.0 + (math.pow(math.e,exponent)))
 
     def shouldStop(self, s, previousS):
-        maxDifference = int(self.n * self.hammingPercentageDifference)
-        return Hamming.distance(s.flatten(), previousS.flatten()) <= maxDifference
+        if self.stopCondition == HopefieldStochastic.ACTIVATION_STOP_BY_HAMMING_CONDITION:
+            maxDifference = int(self.n * self.hammingPercentageDifference)
+            return Hamming.distance(s.flatten(), previousS.flatten()) <= maxDifference
+        else:
+            return self.randomActivationConditionStopper.shouldStop(s)
 
     def vectorSign(self, vector):
         print 'vector: ' + str(vector)
@@ -78,3 +85,35 @@ class HopefieldStochastic:
         #print "energyValue: " + str(energyValue)
         #print "s value: " + str(s)
         return None
+
+class RandomActivationConditionStopper:
+    def __init__(self, hammingPercentage):
+        self.timeCount = 0
+        self.timeCountLoops = 0
+        self.partialResults = []
+        self.hammingPercentage = hammingPercentage
+
+    def shouldStop(self, partialResult):
+        partialResult = partialResult.flatten()
+        if self.timeCount < 8:
+            self.timeCount += 1
+            return False
+
+        self.partialResults.append(partialResult)
+        self.timeCount = 0
+        self.timeCountLoops += 1
+
+        if self.timeCountLoops > 10:
+            hitPercentage = sum([1
+                                 for vector
+                                 in self.partialResults
+                                 if Hamming.distance(vector, partialResult)/100.0 < self.hammingPercentage
+                                ]) \
+                            / float(len(self.partialResults))
+            #print 'hit percentage: ' + str(hitPercentage)
+            itsAMatch = hitPercentage > 0.65
+            if itsAMatch:
+                self.partialResults = []
+            return itsAMatch
+        return False
+
