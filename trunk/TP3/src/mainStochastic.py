@@ -5,15 +5,16 @@ from DataSetCreator import *
 from Letter import Letter
 import Hamming
 from MemoryCheck import MemoryCheck
+import matplotlib.pyplot as plt
 from SpuriousChecker import SpuriousChecker
 
 def main():
     dim = 10
     n = dim * dim
-    temperature = 0.2
-    hammingPercentage = 0.1
+    temperature = 0.35
+    hammingPercentage = 0.05
     trainingSetCount = 10
-    activationSetCount = 1000
+    activationSetCount = 5000
     noiseFactor = 0.01
     MUST_BE_UNIQUE = True
     #hopfieldStochastic = HopefieldStochastic(n, temperature, hammingPercentage, HopefieldStochastic.ACTIVATION_STOP_BY_HAMMING_CONDITION)
@@ -25,6 +26,20 @@ def main():
     trainingSet = dataSetCreator.getRandomDataSetOfVectors(trainingSetCount, -1, 1, DataSetCreator.UNIFORM, MUST_BE_UNIQUE)
     print 'Ready!'
 
+    print 'Creating activation set'
+    linealCombinationOf3 = createLinealCombinationOf([trainingSet[0], trainingSet[1], trainingSet[2]])
+    linealCombinationOf5 = createLinealCombinationOf([trainingSet[0], trainingSet[1], trainingSet[2], trainingSet[3], trainingSet[4]])
+    linealCombinationOf7 = createLinealCombinationOf([trainingSet[0], trainingSet[1], trainingSet[2], trainingSet[3], trainingSet[4], trainingSet[5], trainingSet[6]])
+    print 'Ready!'
+
+    hopfieldStochastic.training(trainingSet)
+    hopfieldActivation = hopfieldStochastic.activate(linealCombinationOf3)
+    hopfieldActivation = hopfieldStochastic.activate(linealCombinationOf5)
+    hopfieldActivation = hopfieldStochastic.activate(linealCombinationOf7)
+
+    plt.show(block=True)
+
+    '''
     print 'Creating activation set'
     activationSet = dataSetCreator.getRandomDataSetOfVectors(activationSetCount, -1, 1, DataSetCreator.UNIFORM, MUST_BE_UNIQUE)
     print 'Ready!'
@@ -47,6 +62,7 @@ def main():
         spuriousChecker.showResults()
         spuriousChecker.clearActivations()
         temperature += 0.05
+    '''
 
     #----------------------------------------------
     #Learning and testing of memories
@@ -72,6 +88,21 @@ def main():
         noiseFactor = 0.01
         temperature += 0.05
     '''
+
+def createLinealCombinationOf(aSetOfVectors):
+    vectorsLength = len(aSetOfVectors[0].flatten())
+    linealCombination = [0 for i in range(0, vectorsLength)]
+
+    for vector in aSetOfVectors:
+        vector = vector.flatten()
+        for i in range(0, vectorsLength):
+            linealCombination[i] += vector[i]
+            if linealCombination[i] >= 0:
+                linealCombination[i] = 1
+            if linealCombination[i] < -1:
+                linealCombination[i] = -1
+
+    return np.matrix(linealCombination)
 
 def noiseUp(set, noiseFactor):
     noisedUpSet = []
