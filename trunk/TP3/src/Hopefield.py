@@ -39,17 +39,6 @@ class Hopefield:
         energyVector = []
         counter = 1
         while not (s == previousS).all() and not self.insideEnergyThreshhold(energyValue, previousEnergy):
-            #while not (s == previousS).all():
-            #previousS[:] = s
-
-
-            #print 'comparacion: ' + str(energyValue - previousEnergy)
-            #print 's: ' + str(s)
-            #print 'p ' + str(previousS)
-            #print 'dist:' + str(Hamming.distance(s[0],previousS[0]))
-
-
-            #print 'ciclando a lo loco'
             for i in range(0, len(s)):
                 previousS[i] = s[i]
 
@@ -59,22 +48,11 @@ class Hopefield:
                 permIndexes = np.random.permutation(self.n)
 
                 for i in permIndexes:
-                    #print 'permIndexes: ' + str(permIndexes)
-                    #print 'i: ' + str(i)
-                    #print 'self.matrix[:,' + str(i) + ']: ' + str(self.matrix[:,i])
-                    #print 'result: ' + str(np.dot(s,self.matrix[:,i]))
-                    #print 's lengh' + str(s.shape)
-                    #print 's:' + str(s)
-                    #print 'matrix lengh' + str(self.matrix.shape)
-                    #print 'matrix:' + str(self.matrix)
                     s[0, i] = self.sign( np.dot(s,self.matrix[:,i]))
 
             previousEnergy = energyValue
             energyValue = self.energy(s,self.matrix)[0][0]
             print str(counter) + " " + str(energyValue)
-            #print str(energyValue)
-            #print 'Energy: ' + str(energyValue)
-            #print 'PreviousEnergy: ' + str(previousEnergy)
 
             energyPoint = []
             energyPoint.append(counter)
@@ -82,13 +60,11 @@ class Hopefield:
             energyVector.append(energyPoint)
             counter += 1
 
-        #print str(counter) + " " + str(energyValue)
         self.visualizeEnergy(energyVector)
 
         return s
 
     def insideEnergyThreshhold(self, energyValue, previousEnergy):
-        ##return (round(energyValue,2) == round(previousEnergy,2))
         return (abs(energyValue) - abs(previousEnergy)) < 1
 
 
@@ -100,9 +76,6 @@ class Hopefield:
 
         for i in range(0, len(vector)):
             signVector[0][i] = (self.sign(vector[i]))
-
-        #print 'vector: ' + str(vector)
-        #print 'signVector: ' + str(signVector)
 
         return signVector
 

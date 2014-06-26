@@ -11,9 +11,6 @@ class SpuriousChecker:
         self.activations.append(activation.flatten())
 
     def showResults(self):
-        '''print self.trainingSet
-        print 'ACTIVEICHONS'
-        print self.activations'''
         exactMatches = [activation for activation in self.activations if self.isActivationIn(self.trainingSet, activation)]
         hammingMatches = [activation for activation in self.activations if self.matchesInHammingPercentage(activation)]
         spurious = [activation for activation in self.activations if not self.isActivationIn(exactMatches, activation)

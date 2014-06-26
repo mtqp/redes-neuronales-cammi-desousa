@@ -11,13 +11,11 @@ class Letter:
         reshapedBinary = []
         for rowI in range(0, rowCount):
             row = self.ithRow(rowI)
-            #print str(rowI) + ' row: ' + str(row)
             for dim in range(0, aDimension):
                 reshapedRow = []
                 for i in range(0, len(row)):
                     reshapedRow.extend(self.vectorOfValueAndLength(row[i], aDimension))
                 reshapedBinary.extend(reshapedRow)
-                #print str(reshapedRow)
 
         return reshapedBinary
 
