@@ -1,4 +1,5 @@
 import numpy as np
+import Hamming
 
 
 class Hopefield:
@@ -19,7 +20,7 @@ class Hopefield:
         return self.matrix
 
     def energy(self, s, matrix):
-        return -0.5 * ((s * matrix) * np.transpose(s))
+        return -0.5 * (np.dot(np.dot(s,matrix),np.transpose(s)))
 
     def activate(self, x, synch):
 
@@ -31,14 +32,29 @@ class Hopefield:
 
         previousS = np.zeros((1,self.n))
 
-        while not (s == previousS).all():
+        #Valores iniciales arbitrarios
+        energyValue = 1
+        previousEnergy = 0
+
+        energyVector = []
+        counter = 1
+        while not (s == previousS).all() and not self.insideEnergyThreshhold(energyValue, previousEnergy):
+            #while not (s == previousS).all():
             #previousS[:] = s
 
+
+            #print 'comparacion: ' + str(energyValue - previousEnergy)
+            #print 's: ' + str(s)
+            #print 'p ' + str(previousS)
+            #print 'dist:' + str(Hamming.distance(s[0],previousS[0]))
+
+
+            #print 'ciclando a lo loco'
             for i in range(0, len(s)):
                 previousS[i] = s[i]
 
             if synch:
-                s = self.vectorSign( np.dot(s, self.matrix))
+                s = self.vectorSign2(np.dot(s, self.matrix))
             else:
                 permIndexes = np.random.permutation(self.n)
 
@@ -53,10 +69,51 @@ class Hopefield:
                     #print 'matrix:' + str(self.matrix)
                     s[0, i] = self.sign( np.dot(s,self.matrix[:,i]))
 
-            energyValue = self.energy(s,self.matrix)
-            self.visualizeEnergy(energyValue,s)
+            previousEnergy = energyValue
+            energyValue = self.energy(s,self.matrix)[0][0]
+            print str(counter) + " " + str(energyValue)
+            #print str(energyValue)
+            #print 'Energy: ' + str(energyValue)
+            #print 'PreviousEnergy: ' + str(previousEnergy)
+
+            energyPoint = []
+            energyPoint.append(counter)
+            energyPoint.append(energyValue)
+            energyVector.append(energyPoint)
+            counter += 1
+
+        #print str(counter) + " " + str(energyValue)
+        self.visualizeEnergy(energyVector)
 
         return s
+
+    def insideEnergyThreshhold(self, energyValue, previousEnergy):
+        ##return (round(energyValue,2) == round(previousEnergy,2))
+        return (abs(energyValue) - abs(previousEnergy)) < 1
+
+
+    def vectorSign2(self, vector):
+
+        vector = vector.flatten()
+
+        signVector = np.zeros((1,len(vector)))
+
+        for i in range(0, len(vector)):
+            signVector[0][i] = (self.sign(vector[i]))
+
+        #print 'vector: ' + str(vector)
+        #print 'signVector: ' + str(signVector)
+
+        return signVector
+
+    def invertSign(self, vector):
+
+        invertedVector = []
+
+        for i in range(0, len(vector)):
+            invertedVector.append(vector[i] * -1)
+
+        return invertedVector
 
     def vectorSign(self, vector):
         print 'vector: ' + str(vector)
@@ -70,7 +127,10 @@ class Hopefield:
         else:
             return -1
 
-    def visualizeEnergy(self,energyValue, s):
+    def visualizeEnergy(self,energyVector):
+
+        #for i in range(0, len(energyVector)):
+        #print
         #print "energyValue: " + str(energyValue)
         #print "s value: " + str(s)
         return None
