@@ -106,8 +106,6 @@ class HopefieldStochastic:
         self.p1.set_title('Energia en funcion de las iteraciones')
         self.p1.set_xlabel('Iteraciones')
 
-        #self.p2.clear()
-        #self.p2.matshow(s.reshape((10,10))) #todo: esto esta fijo, deberia ser parametrico
         draw()
 
 class RandomActivationConditionStopper:
