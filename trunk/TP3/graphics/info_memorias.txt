@@ -1,0 +1,97 @@
+'compiled files cleared'
+'running main.py'
+Creating training set
+Ready!
+Temperature: 0
+Memory
+C:\Facultad\RedesNeuronales\TP3\src\HopefieldStochastic.py:58: RuntimeWarning: divide by zero encountered in divide
+  exponent = (-1.0) * value / self.temperature
+N: 0 MH: 0 mH: 0 A: 0 S: 1.0 F: 0.0 HImprove: M: 0 m: 0 A: 0
+Temperature: 0.05
+Memory
+N: 0 MH: 0 mH: 0 A: 0 S: 1.0 F: 0.0 HImprove: M: 0 m: 0 A: 0
+Memory with noise
+N: 0.01 MH: 3 mH: 0 A: 1 S: 1.0 F: 0.0 HImprove: M: 0 m: 3 A: 1
+N: 0.11 MH: 17 mH: 6 A: 10 S: 1.0 F: 0.0 HImprove: M: 6 m: 17 A: 10
+N: 0.21 MH: 28 mH: 17 A: 22 S: 0.7 F: 0.3 HImprove: M: 11 m: 27 A: 20
+N: 0.31 MH: 39 mH: 28 A: 32 S: 0.4 F: 0.6 HImprove: M: 0 m: 33 A: 19
+N: 0.41 MH: 48 mH: 37 A: 41 S: 0.2 F: 0.8 HImprove: M: 2 m: 42 A: 17
+N: 0.51 MH: 58 mH: 42 A: 51 S: 0.0 F: 1.0 HImprove: M: 3 m: 25 A: 10
+N: 0.61 MH: 71 mH: 56 A: 61 S: 0.0 F: 1.0 HImprove: M: 3 m: 39 A: 18
+Temperature: 0.1
+Memory
+N: 0 MH: 0 mH: 0 A: 0 S: 1.0 F: 0.0 HImprove: M: 0 m: 0 A: 0
+Memory with noise
+N: 0.01 MH: 3 mH: 0 A: 1 S: 0.9 F: 0.1 HImprove: M: 0 m: 4 A: 1
+N: 0.11 MH: 20 mH: 6 A: 12 S: 0.7 F: 0.3 HImprove: M: 6 m: 20 A: 11
+N: 0.21 MH: 26 mH: 15 A: 21 S: 0.5 F: 0.5 HImprove: M: 15 m: 26 A: 20
+N: 0.31 MH: 41 mH: 18 A: 29 S: 0.5 F: 0.5 HImprove: M: 14 m: 41 A: 23
+N: 0.41 MH: 50 mH: 32 A: 39 S: 0.2 F: 0.8 HImprove: M: 2 m: 38 A: 16
+N: 0.51 MH: 63 mH: 46 A: 50 S: 0.0 F: 1.0 HImprove: M: 1 m: 35 A: 12
+N: 0.61 MH: 71 mH: 47 A: 61 S: 0.0 F: 1.0 HImprove: M: 7 m: 39 A: 19
+Temperature: 0.15
+Memory
+N: 0 MH: 0 mH: 0 A: 0 S: 0.2 F: 0.8 HImprove: M: 0 m: 3 A: 1
+Memory with noise
+N: 0.01 MH: 5 mH: 0 A: 1 S: 0.4 F: 0.6 HImprove: M: 0 m: 4 A: 1
+N: 0.11 MH: 19 mH: 6 A: 11 S: 0.4 F: 0.6 HImprove: M: 4 m: 16 A: 9
+N: 0.21 MH: 26 mH: 15 A: 19 S: 0.5 F: 0.5 HImprove: M: 4 m: 21 A: 15
+N: 0.31 MH: 39 mH: 24 A: 29 S: 0.0 F: 1.0 HImprove: M: 12 m: 28 A: 21
+N: 0.41 MH: 45 mH: 35 A: 40 S: 0.0 F: 1.0 HImprove: M: 0 m: 26 A: 10
+N: 0.51 MH: 57 mH: 48 A: 51 S: 0.0 F: 1.0 HImprove: M: 1 m: 41 A: 8
+N: 0.61 MH: 65 mH: 51 A: 59 S: 0.0 F: 1.0 HImprove: M: 1 m: 24 A: 8
+Temperature: 0.2
+Memory
+N: 0 MH: 0 mH: 0 A: 0 S: 0.3 F: 0.7 HImprove: M: 0 m: 5 A: 2
+Memory with noise
+N: 0.01 MH: 5 mH: 0 A: 1 S: 0.1 F: 0.9 HImprove: M: 1 m: 4 A: 2
+N: 0.11 MH: 16 mH: 8 A: 11 S: 0.1 F: 0.9 HImprove: M: 4 m: 11 A: 8
+N: 0.21 MH: 33 mH: 12 A: 21 S: 0.1 F: 0.9 HImprove: M: 7 m: 27 A: 17
+N: 0.31 MH: 36 mH: 24 A: 30 S: 0.0 F: 1.0 HImprove: M: 1 m: 28 A: 15
+N: 0.41 MH: 50 mH: 35 A: 41 S: 0.0 F: 1.0 HImprove: M: 1 m: 32 A: 12
+N: 0.51 MH: 57 mH: 40 A: 49 S: 0.0 F: 1.0 HImprove: M: 1 m: 19 A: 8
+N: 0.61 MH: 65 mH: 57 A: 60 S: 0.0 F: 1.0 HImprove: M: 0 m: 21 A: 8
+Temperature: 0.25
+Memory
+N: 0 MH: 0 mH: 0 A: 0 S: 0.0 F: 1.0 HImprove: M: 1 m: 7 A: 4
+Memory with noise
+N: 0.01 MH: 2 mH: 0 A: 0 S: 0.1 F: 0.9 HImprove: M: 0 m: 8 A: 4
+N: 0.11 MH: 13 mH: 8 A: 10 S: 0.0 F: 1.0 HImprove: M: 1 m: 21 A: 6
+N: 0.21 MH: 25 mH: 15 A: 20 S: 0.0 F: 1.0 HImprove: M: 8 m: 29 A: 17
+N: 0.31 MH: 43 mH: 25 A: 32 S: 0.0 F: 1.0 HImprove: M: 2 m: 26 A: 11
+N: 0.41 MH: 47 mH: 33 A: 38 S: 0.0 F: 1.0 HImprove: M: 2 m: 32 A: 17
+N: 0.51 MH: 56 mH: 46 A: 51 S: 0.0 F: 1.0 HImprove: M: 1 m: 23 A: 5
+N: 0.61 MH: 69 mH: 55 A: 61 S: 0.0 F: 1.0 HImprove: M: 2 m: 29 A: 11
+Temperature: 0.3
+Memory
+N: 0 MH: 0 mH: 0 A: 0 S: 0.1 F: 0.9 HImprove: M: 0 m: 10 A: 4
+Memory with noise
+N: 0.01 MH: 3 mH: 0 A: 1 S: 0.0 F: 1.0 HImprove: M: 1 m: 10 A: 4
+N: 0.11 MH: 19 mH: 8 A: 11 S: 0.0 F: 1.0 HImprove: M: 0 m: 25 A: 8
+N: 0.21 MH: 24 mH: 17 A: 20 S: 0.0 F: 1.0 HImprove: M: 0 m: 31 A: 14
+N: 0.31 MH: 43 mH: 18 A: 33 S: 0.0 F: 1.0 HImprove: M: 8 m: 35 A: 18
+N: 0.41 MH: 45 mH: 32 A: 38 S: 0.0 F: 1.0 HImprove: M: 1 m: 39 A: 9
+N: 0.51 MH: 60 mH: 35 A: 47 S: 0.0 F: 1.0 HImprove: M: 1 m: 29 A: 12
+N: 0.61 MH: 65 mH: 53 A: 60 S: 0.0 F: 1.0 HImprove: M: 1 m: 34 A: 12
+Temperature: 0.35
+Memory
+N: 0 MH: 0 mH: 0 A: 0 S: 0.0 F: 1.0 HImprove: M: 4 m: 53 A: 20
+Memory with noise
+N: 0.01 MH: 3 mH: 0 A: 1 S: 0.0 F: 1.0 HImprove: M: 1 m: 52 A: 20
+N: 0.11 MH: 17 mH: 8 A: 12 S: 0.0 F: 1.0 HImprove: M: 6 m: 61 A: 30
+N: 0.21 MH: 25 mH: 13 A: 20 S: 0.0 F: 1.0 HImprove: M: 5 m: 73 A: 30
+N: 0.31 MH: 39 mH: 19 A: 31 S: 0.0 F: 1.0 HImprove: M: 2 m: 31 A: 15
+N: 0.41 MH: 53 mH: 32 A: 38 S: 0.0 F: 1.0 HImprove: M: 2 m: 30 A: 14
+N: 0.51 MH: 65 mH: 45 A: 53 S: 0.0 F: 1.0 HImprove: M: 6 m: 30 A: 14
+N: 0.61 MH: 67 mH: 57 A: 61 S: 0.0 F: 1.0 HImprove: M: 0 m: 19 A: 10
+Temperature: 0.4
+Memory
+N: 0 MH: 0 mH: 0 A: 0 S: 0.0 F: 1.0 HImprove: M: 5 m: 64 A: 42
+Memory with noise
+N: 0.01 MH: 3 mH: 0 A: 1 S: 0.0 F: 1.0 HImprove: M: 3 m: 63 A: 33
+N: 0.11 MH: 13 mH: 6 A: 10 S: 0.0 F: 1.0 HImprove: M: 13 m: 65 A: 44
+N: 0.21 MH: 26 mH: 15 A: 21 S: 0.0 F: 1.0 HImprove: M: 10 m: 49 A: 23
+N: 0.31 MH: 36 mH: 24 A: 30 S: 0.0 F: 1.0 HImprove: M: 4 m: 50 A: 18
+N: 0.41 MH: 50 mH: 35 A: 42 S: 0.0 F: 1.0 HImprove: M: 1 m: 27 A: 12
+N: 0.51 MH: 62 mH: 47 A: 54 S: 0.0 F: 1.0 HImprove: M: 0 m: 26 A: 12
+N: 0.61 MH: 69 mH: 54 A: 61 S: 0.0 F: 1.0 HImprove: M: 2 m: 41 A: 16

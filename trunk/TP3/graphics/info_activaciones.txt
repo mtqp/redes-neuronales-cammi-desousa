@@ -1,0 +1,80 @@
+C:\Facultad\RedesNeuronales\TP3\src>run_stochastic.bat
+'compiled files cleared'
+'running main.py'
+Creating training set
+Ready!
+Creating activation set
+Traceback (most recent call last):
+  File "C:\Facultad\RedesNeuronales\TP3\src\mainStochastic.py", line 110, in <module>
+    main()
+  File "C:\Facultad\RedesNeuronales\TP3\src\mainStochastic.py", line 29, in main
+    activationSet = dataSetCreator.getRandomDataSetOfVectors(activationSetCount, -1, 1, DataSetCreator.UNIFORM, MUST_BE_UNIQUE)
+  File "C:\Facultad\RedesNeuronales\TP3\src\DataSetCreator.py", line 71, in getRandomDataSetOfVectors
+    if mustBeUnique and not self.alreadyInDataset(randomVector, randomDataSet):
+  File "C:\Facultad\RedesNeuronales\TP3\src\DataSetCreator.py", line 80, in alreadyInDataset
+    if (vector == setItem).all():
+  File "C:\Python27\lib\site-packages\numpy\core\_methods.py", line 37, in _all
+    keepdims=keepdims)
+KeyboardInterrupt
+¿Desea terminar el trabajo por lotes (S/N)? s
+
+C:\Facultad\RedesNeuronales\TP3\src>run_stochastic.bat
+'compiled files cleared'
+'running main.py'
+Creating training set
+Ready!
+Creating activation set
+Ready!
+Temperature: 0.01
+exact: 1065
+hamming matches: 1065
+spurious: 3935
+Temperature: 0.06
+exact: 1191
+hamming matches: 1191
+spurious: 3809
+Temperature: 0.11
+exact: 895
+hamming matches: 895
+spurious: 4105
+Temperature: 0.16
+exact: 433
+hamming matches: 433
+spurious: 4567
+Temperature: 0.21
+exact: 61
+hamming matches: 61
+spurious: 4939
+Temperature: 0.26
+exact: 4
+hamming matches: 4
+spurious: 4996
+Temperature: 0.31
+exact: 0
+hamming matches: 0
+spurious: 5000
+Temperature: 0.36
+exact: 0
+hamming matches: 0
+spurious: 5000
+Temperature: 0.41
+exact: 0
+hamming matches: 0
+spurious: 5000
+Temperature: 0.46
+exact: 0
+hamming matches: 0
+spurious: 5000
+Temperature: 0.51
+exact: 0
+hamming matches: 0
+spurious: 5000
+Temperature: 0.56
+exact: 0
+hamming matches: 0
+spurious: 5000
+Temperature: 0.61
+exact: 0
+hamming matches: 0
+spurious: 5000
+Temperature: 0.66
