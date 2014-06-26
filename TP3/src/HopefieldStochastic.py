@@ -1,8 +1,10 @@
 import numpy as np
 import math
 import Hamming
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+from pylab import *
 
-#todo: make it work!!
 class HopefieldStochastic:
     #s vector de activacion
     #x vectores de aprendizaje (1 sola iteracion) son los patrones que se quieren memorizar
@@ -18,6 +20,13 @@ class HopefieldStochastic:
         self.temperature = temperature
         self.stopCondition = stopCondition
         self.randomActivationConditionStopper = RandomActivationConditionStopper(hammingPercentageDifference)
+        self.energies = []
+        self.iEnergy = 0
+        ion()
+        self.f = None
+        self.p1 = None
+        self.p2 = None
+        self.plots = []
 
     def training(self, dataSet):
         for x in dataSet:
@@ -27,10 +36,17 @@ class HopefieldStochastic:
         self.matrix -= np.diag(np.diag(self.matrix))
         return self.matrix
 
-    def energy(self, s, matrix):
-        return -0.5 * ((s * matrix) * np.transpose(s))
+    def addEnergy(self, s, matrix):
+        energy = -0.5 * (np.dot(np.dot(s,matrix),np.transpose(s)))
+        self.energies.append( energy[0][0])
+        self.iEnergy += 1
 
     def activate(self, x):
+        #self.f, (self.p1, self.p2) = plt.subplots(nrows = 2)
+        self.f, self.p1 = plt.subplots()
+        self.iEnergy = 0
+        self.energies = []
+
         #s = x
         s = np.zeros((1,self.n))
         for i in range(0, len(x)):
@@ -47,9 +63,10 @@ class HopefieldStochastic:
             for i in permIndexes:
                 s[0, i] = self.stochasticActivation(s, self.matrix[:,i])
 
-            energyValue = self.energy(s,self.matrix)
-            self.visualizeEnergy(energyValue,s)
+            self.addEnergy(s,self.matrix)
+            self.visualizeEnergy(s)
 
+        self.plots.append((self.f,self.p1,self.p2))
         return s
 
     def stochasticActivation(self, s, matrix_i):
@@ -67,7 +84,7 @@ class HopefieldStochastic:
             maxDifference = int(self.n * self.hammingPercentageDifference)
             return Hamming.distance(s.flatten(), previousS.flatten()) <= maxDifference
         else:
-            return self.randomActivationConditionStopper.shouldStop(s)
+            return self.randomActivationConditionStopper.shouldStop(s, self.iEnergy)
 
     def vectorSign(self, vector):
         print 'vector: ' + str(vector)
@@ -81,10 +98,17 @@ class HopefieldStochastic:
         else:
             return -1
 
-    def visualizeEnergy(self,energyValue, s):
-        #print "energyValue: " + str(energyValue)
-        #print "s value: " + str(s)
-        return None
+    def visualizeEnergy(self, s):
+        self.p1.clear()
+        x = [i for i in range(0, self.iEnergy)]
+        self.p1.plot(x, self.energies)
+        self.p1.set_ylabel('Energia')
+        self.p1.set_title('Energia en funcion de las iteraciones')
+        self.p1.set_xlabel('Iteraciones')
+
+        #self.p2.clear()
+        #self.p2.matshow(s.reshape((10,10))) #todo: esto esta fijo, deberia ser parametrico
+        draw()
 
 class RandomActivationConditionStopper:
     def __init__(self, hammingPercentage):
@@ -93,8 +117,10 @@ class RandomActivationConditionStopper:
         self.partialResults = []
         self.hammingPercentage = hammingPercentage
 
-    def shouldStop(self, partialResult):
+    def shouldStop(self, partialResult, iterationCount):
         partialResult = partialResult.flatten()
+        if iterationCount > 250:
+            return True
         if self.timeCount < 8:
             self.timeCount += 1
             return False
@@ -111,7 +137,7 @@ class RandomActivationConditionStopper:
                                 ]) \
                             / float(len(self.partialResults))
             #print 'hit percentage: ' + str(hitPercentage)
-            itsAMatch = hitPercentage > 0.65
+            itsAMatch = hitPercentage > 0.7
             if itsAMatch:
                 self.partialResults = []
             return itsAMatch

@@ -28,7 +28,7 @@ class SpuriousChecker:
     def matchesInHammingPercentage(self, vector):
         return sum([1 for trainingVector
                     in self.trainingSet
-                    if Hamming.distance(trainingVector, vector) < self.hammingPercentage ]) \
+                    if (Hamming.distance(trainingVector, vector) /100.0) < self.hammingPercentage ]) \
                > 0
 
     def clearActivations(self):
